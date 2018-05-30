@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "mgba-0.6.3"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"ios": "c"
+		}
+	}
+}
