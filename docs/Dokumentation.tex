@@ -261,9 +261,9 @@ Der Offset im Folgenden bezieht sich auf die Basisadresse $0x04000000$ und wird 
         \hline
         $0x07C$ & 4 & DMG Noise parameters, reset and loop control & \verb|SOUND4CNT_H| \\
         \hline
-        $0x080$ & & DMG Sound Output Control & \verb|SOUNDCNT_L| \\
+        $0x080$ & & DMG Master Control & \verb|SOUNDCNT_L| \\
         \hline
-        $0x082$ & & Direct Sound Output Control & \verb|SOUNDCNT_H| \\
+        $0x082$ & & Direct Sound Master Control & \verb|SOUNDCNT_H| \\
         \hline
         $0x084$ & & Master Sound Output Control / Status & \verb|SOUNDCNT_X| \\
         \hline
@@ -278,9 +278,151 @@ Der Offset im Folgenden bezieht sich auf die Basisadresse $0x04000000$ und wird 
     \caption{\"Ubersicht der Sound-Register}
     \label{table:SoundRegister}
 \end{table}
-
+\newpage
 
 \subsection{\"Ubersicht der Register des Sound Masters}
+
+Die Register DMG Master Control, Direct Sound Master Control und Master Sound Output Control / Status bilden die Sound Master Register.\\
+
+\subsubsection{DMG Master Control} \label{dmgmastercontrol}
+
+	Hier m\"ussen zun\"achst einige Bits gesetzt werden, bevor eine generelle Verwendung des Sound-Systems m\"oglich ist.\\
+
+	\begin{table}[h]
+	\centering
+	\begin{tabular}{| c | c | c | c | c | c | c | c | c | c | c | c |}
+	\hline
+	F & E & D & C & B & A & 9 & 8 & 7 & 6 5 4 & 3 & 2 1 0 \\
+	\hline
+	\textcolor{blue}{R4} & \textcolor{blue}{R3} & \textcolor{blue}{R2} & \textcolor{blue}{R1} & \textcolor{red}{L4} & \textcolor{red}{L3}
+	& \textcolor{red}{L2} & \textcolor{red}{L1} & - & \textcolor{magenta}{RV} & - & \textcolor{green}{LV} \\
+	\hline
+	
+	\end{tabular}
+	\caption{Register DMG Master Control}
+	\label{table: DMGMasterControl}
+	\end{table}
+	
+	\begin{table}[h]
+	\centering
+	\begin{tabular}{| c | c | c | c |}
+	\hline
+	\textbf{Bits} & \textbf{Name} & \textbf{Definition} & \textbf{Beschreibung} \\
+	\hline
+	0-2 & \textcolor{green}{LV} & & Left volume \\
+	\hline
+	4-6 & \textcolor{magenta}{RV} & & Right volume \\
+	\hline
+	8-B & \textcolor{red}{L1-L4} & SDMG\_LSQR1,  & Channels 1-4 on left \\
+	& & SDMG\_LSQR2, & \\
+	& & SDMG\_LWAVE, & \\
+	& & SDMG\_LNOISE & \\
+  \hline
+	C-F & \textcolor{blue}{R1-R4} & SDMG\_RSQR1, & Channels 1-4 on right \\
+	& & SDMG\_RSQR2, & \\
+	& & SDMG\_RWAVE, & \\
+	& & SDMG\_RNOISE & \\
+	\hline
+	
+	\end{tabular}
+	\caption{Registerinhalt DMG Master Control}
+	\label{table: DMGMasterControlContent}
+	\end{table}
+
+\newpage
+
+\subsubsection{Direct Sound Master Control}
+
+	Dieses Register kontrolliert die Lautst\"arke der DMG Kan\"ale und aktiviert diese. Die Einstellungen k\"onnen separiert voneinander f\"ur den linken und rechten Lautsprecher vorgenommen werden. 
+
+	\begin{table}[h]
+	\centering
+	\begin{tabular}{| c | c | c | c | c | c | c | c | c | c | c | c |}
+	\hline
+	F & E & D & C & B & A & 9 & 8 & 7 6 5 4 & 3 & 2 & 1 0 \\
+	\hline
+	\textcolor{brown}{BF} & \textcolor{magenta}{BT} & \textcolor{green}{BL} & \textcolor{green}{BR} & \textcolor{brown}{AF} & \textcolor{magenta}{AT}
+	& \textcolor{green}{AL} & \textcolor{green}{AR} & - & \textcolor{blue}{BV} & \textcolor{blue}{AV} & \textcolor{red}{DMGV} \\
+	\hline
+	
+	\end{tabular}
+	\caption{Register Direct Sound Master Control}
+	\label{table: DirectSoundMasterControl}
+	\end{table}
+	
+	\begin{table}[h]
+	\centering
+	\begin{tabular}{| c | l | l | l |}
+	\hline
+	\textbf{Bits} & \textbf{Name} & \textbf{Definition} & \textbf{Beschreibung} \\
+	\hline
+	0-1 & \textcolor{red}{DMGV} & SDS\_DMG25, & DMG Volume ratio \\
+	& & SDS\_DMG50, & 00: 25\% \\
+	& & SDS\_DMG100 & 01: 50\% \\
+	& & & 10: 100\% \\
+  & & & 11: forbidden \\
+	\hline
+	2 & \textcolor{blue}{AV} & SDS\_A50, SDS\_A100 & DSound A volume ratio. 50\% if clear; 100\% of set  \\
+	\hline
+	3 & \textcolor{blue}{BV} & SDS\_B50, SDS\_B100 & DSound B volume ratio. 50\% if clear; 100\% of set  \\
+	\hline
+	8-9 & \textcolor{green}{AR,AL} & SDS\_AR, SDS\_AL & DSound A enable Enable DS A on right and left speakers \\
+	\hline
+	A & \textcolor{magenta}{AT} & SDS\_ATMR0, & Dsound A timer. Use timer 0 (if clear) or 1 (if set) for DS A \\
+	& & SDS\_ATMR1 & \\
+	\hline
+	B & \textcolor{brown}{AF} & SDS\_ARESET &  FIFO reset for Dsound A. When using DMA for Direct sound,  \\
+	& & & this will cause DMA to reset the FIFO buffer after it's used.\\
+	\hline
+	C-F & \textcolor{green}{BR, BL},  &  SDS\_BR, SDS\_BL, & As bits 8-B, but for DSound B \\
+	& \textcolor{magenta}{BT}, \textcolor{brown}{BF} & SDS\_BTMR0,  & \\
+	& & SDS\_BTMR1, & \\
+	& &  SDS\_BRESET & \\
+	\hline
+	\end{tabular}
+	\caption{Registerinhalt Direct Sound Master Control}
+	\label{table: DirectSoundMasterControlContent}
+	\end{table}
+	
+	\newpage
+	
+	\subsubsection{Master Sound Output Control / Status}
+	
+	Aus diesem Register kann zu einem der Status der einzelnen DMG Kan\"ale ausgelesen werden und zum Anderen die generelle Soundausgabe aktiviert werden. Dazu muss das Bit 7 gesetzt werden.
+	
+	\begin{table}[h]
+	\centering
+	\begin{tabular}{| c | c | c | c | c | c | c |}
+	\hline
+	F E D C B A 9 8 & 7 & 6 5 4 & \textcolor{red}{3} & \textcolor{red}{2} & \textcolor{red}{1} & \textcolor{red}{0} \\
+	\hline
+	- & \textcolor{red}{MSE} & - & \textcolor{blue}{4A} & \textcolor{blue}{3A} & \textcolor{blue}{2A} & \textcolor{blue}{1A} \\
+	\hline
+	
+	\end{tabular}
+	\caption{Register Master Sound Output / Status}
+	\label{table: MasterSoundOutputStatus}
+	\end{table}
+	
+	\begin{table}[h]
+	\centering
+	\begin{tabular}{| c | l | l | l |}
+	\hline
+	\textbf{Bits} & \textbf{Name} & \textbf{Definition} & \textbf{Beschreibung} \\
+	\hline
+	\textcolor{red}{0-3} & \textcolor{blue}{1A-4A} & SSTAT\_SQR1, & Active channels. Indicates which DMA channels are currently playing.   \\
+	& & SSTAT\_SQR2, & They do not enable the channels;\\
+	& & SSTAT\_WAVE, & that's what DMG Master Control \ref{dmgmastercontrol} is for.\\
+	& & SSTAT\_NOISE & \\
+	\hline
+	7 & \textcolor{red}{MSE} & SSTAT\_DISABLE, & Master Sound Enable. Must be set if any sound is to be heard at all.   \\
+	& & SSTAT\_ENABLE & Set this before you do anything else: \\
+	& & & the other registers can't be accessed otherwise, see GBATek for details. \\ 
+	\hline
+	\end{tabular}
+	\caption{Registerinhalt Master Sound Output / Status}
+	\label{table: MasterSoundOutputStatusContent}
+	\end{table}
 
 \clearpage
 \addtocontents{toc}{\protect\setcounter{tocdepth}{-1}}
