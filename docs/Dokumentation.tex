@@ -231,6 +231,7 @@ Der Game Boy Advance verf\"ugt \"uber sechs Soundkan\"ale. Vier davon wurden, vo
 
 Intern besitzt der Game Boy Advance drei Sound-Master-Register. Dort m\"ussen, je nach Einstellungswunsch, ein paar Bits gesetzt werden. Erst dann ist eine Soundwiedergabe oder die generelle Funktionsf\"ahigkeit des Soundsystems m\"oglich.\cite{GameBoySoundsystem}
 
+% ========== Chapter 2.1 ==========
 
 \subsection{\"Ubersicht der Register}
 
@@ -280,9 +281,13 @@ Der Offset im Folgenden bezieht sich auf die Basisadresse $0x04000000$ und wird 
 \end{table}
 \newpage
 
+% ========== Chapter 2.2 ==========
+
 \subsection{\"Ubersicht der Register des Sound Masters}
 
 Die Register DMG Master Control, Direct Sound Master Control und Master Sound Output Control / Status bilden die Sound Master Register.\\
+
+% ========== Chapter 2.2.1 ==========
 
 \subsubsection{DMG Master Control} \label{dmgmastercontrol}
 
@@ -330,6 +335,8 @@ Die Register DMG Master Control, Direct Sound Master Control und Master Sound Ou
 	\end{table}
 
 \newpage
+
+% ========== Chapter 2.2.2 ==========
 
 \subsubsection{Direct Sound Master Control}
 
@@ -386,7 +393,9 @@ Die Register DMG Master Control, Direct Sound Master Control und Master Sound Ou
 	
 	\newpage
 	
-	\subsubsection{Master Sound Output Control / Status}
+	% ========== Chapter 2.2.3 ==========
+	
+\subsubsection{Master Sound Output Control / Status}
 	
 	Aus diesem Register kann zu einem der Status der einzelnen DMG Kan\"ale ausgelesen werden und zum Anderen die generelle Soundausgabe aktiviert werden. Dazu muss das Bit 7 gesetzt werden.
 	
