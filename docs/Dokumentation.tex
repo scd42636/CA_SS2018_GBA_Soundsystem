@@ -269,16 +269,46 @@ Der Offset im Folgenden bezieht sich auf die Basisadresse $0x04000000$ und wird 
         $0x084$ & & Master Sound Output Control / Status & \verb|SOUNDCNT_X| \\
         \hline
         $0x088$ & & Sound Bias & \verb|SOUNDBIAS| \\
-        \hline
-        $0x090 - 0x09F$ & 3 & DMG Wave RAM Register & \verb|WAVERAM0-3| \\
-        \hline
-        $0x0A0 - 0x0A2$ & A & Direct Sound FIFO & \verb|FIFO_A| \\
-        \hline
-        $0x0A4 - 0x0A6$ & B & Direct Sound FIFO & \verb|FIFO_B| \\
     \end{tabular}
-    \caption{\"Ubersicht der Sound-Register}
-    \label{table:SoundRegister}
+    \caption{\"Ubersicht der Sound-Register - Teil 1}
+    \label{table:SoundRegister1}
 \end{table}
+
+Die in Tabelle \ref{table:SoundRegister1} und in Tabelle \ref{table:SoundRegister2} gelisteten Register sind im MGBA als Felder der Enumeration \textit{GBAIORegisters} (Datei: \textit{\$/include/mgba/internal/gba/io.h}) gelistet und entsprechend ihrer Registeradressen belegt. Sie werden unter anderen zur Adressierung des emulierten Speichers verwendet. Als Quelle f\"ur die beiden Tabellen diente neben der \textit{io.h} auch die Webseite \url{http://belogic.com/gba/}, Stand Juni 2018.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{ c | c | p{10cm} | l }
+        \textbf{Offset} & \textbf{Kanal} & \textbf{Funktion} & \textbf{Bezeichnung} \\
+        \hline
+        $0x090$ & 3 & DMG Wave RAM Register & \verb|WAVE_RAM0_L| \\
+        \hline
+        $0x092$ & 3 & DMG Wave RAM Register & \verb|WAVE_RAM0_H| \\
+        \hline
+        $0x094$ & 3 & DMG Wave RAM Register & \verb|WAVE_RAM1_L| \\
+        \hline
+        $0x096$ & 3 & DMG Wave RAM Register & \verb|WAVE_RAM1_H| \\
+        \hline
+        $0x098$ & 3 & DMG Wave RAM Register & \verb|WAVE_RAM2_L| \\
+        \hline
+        $0x09A$ & 3 & DMG Wave RAM Register & \verb|WAVE_RAM2_H| \\
+        \hline
+        $0x09C$ & 3 & DMG Wave RAM Register & \verb|WAVE_RAM3_L| \\
+        \hline
+        $0x09E$ & 3 & DMG Wave RAM Register & \verb|WAVE_RAM3_H| \\
+        \hline
+        $0x0A0$ & A & Direct Sound FIFO & \verb|FIFO_A_L| \\
+        \hline
+        $0x0A2$ & A & Direct Sound FIFO & \verb|FIFO_A_H| \\
+        \hline
+        $0x0A4$ & B & Direct Sound FIFO & \verb|FIFO_B_L| \\
+        \hline
+        $0x0A6$ & B & Direct Sound FIFO & \verb|FIFO_B_H| \\
+    \end{tabular}
+    \caption{\"Ubersicht der Sound-Register - Teil 2}
+    \label{table:SoundRegister2}
+\end{table}
+
 \newpage
 
 % ========== Chapter 2.2 ==========
@@ -469,6 +499,8 @@ F\"ur die Untersuchung, wie der Emulator mit dem Betriebssystem interagiert, wir
     \url{http://de.nintendo.wikia.com/wiki/Game_Boy_Advance}, Mai 2018
     \bibitem{GameBoySoundsystem}Coranac: \textit{18. Beep! GBA sound introduction}\newline
     \url{https://www.coranac.com/tonc/text/sndsqr.htm#sec-intro}, Mai 2018
+    \bibitem{SoundRegisters}BELOGIC: \textit{The Audio ADVANCE}\newline
+    \url{http://belogic.com/gba/}, Juni 2018
 \end{thebibliography}
 
 \vspace{1cm}
