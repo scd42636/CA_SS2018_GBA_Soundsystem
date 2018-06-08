@@ -437,6 +437,19 @@ Die Register DMG Master Control, Direct Sound Master Control und Master Sound Ou
 
 \subsection{Interaktion mit dem Betriebssystem}
 
+Die Anwendung \enquote{mgba} wurde von den Entwicklern mit dem GUI-Toolkit Qt realisiert. Qt bietet grunds\"atzlich eine plattformunabh\"angige Entwicklung von
+GUI-Anwendungen und basiert auf der Sprache C++. Damit ist es den Entwicklern auch m\"oglich, die bereits realisierte Basis-Software problemlos zu integrieren.
+
+\subsubsection{Abgrenzung der Untersuchung}
+
+F\"ur die Untersuchung, wie der Emulator mit dem Betriebssystem interagiert, wird im Folgenden nur auf die daf\"ur ben\"otigten Klassen und Konzepte eingegangen.
+
+\subsubsection{Start der Anwendung}
+
+ 
+
+\newpage
+
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.7\textwidth]{QT_Klassendiagramm}
@@ -467,6 +480,11 @@ Die Register DMG Master Control, Direct Sound Master Control und Master Sound Ou
     \item Abbildung \ref{fig:gba}: \textit{Game Boy Advance - Blue Edition}\newline
     \url{https://d3nevzfk7ii3be.cloudfront.net/igi/L3WryntCMswfDks1.large}, Mai 2018
 \end{itemize}
+
+\begin{itemize}
+    \item Abbildung \ref{fig:qtclassdiagramm}: \textit{\"Ubersicht der Audioklassen in der Qt Applikation}
+\end{itemize}
+
 \end{document}
 
 
