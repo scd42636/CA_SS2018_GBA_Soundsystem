@@ -180,7 +180,7 @@ Emulatoren geh\"oren zu einem beliebten Werkzeug der Informatik. Sie bilden ein 
 
 \subsection{Untersuchungsgegenstand}
 
-In dieser Studienarbeit wird die Fragestellung, wie wird das Soundsystem des Game Boy Advance in einem beliebigen Emulator emuliert, thematisiert. Ein konkreter Emulator wurde nicht vorgegeben. Wir einigten uns demnach auf den Game Boy Advance Emulator \enquote{mgba}. Dieser stellt im Folgenden unseren zentralen Untersuchungsgegenstand dar.
+In dieser Studienarbeit wird die Fragestellung, wie wird das Soundsystem des Game Boy Advance in einem beliebigen Emulator emuliert, thematisiert. Ein konkreter Emulator wurde nicht vorgegeben. Wir einigten uns demnach auf den Game Boy Advance Emulator \enquote{mGBA}. Dieser stellt im Folgenden unseren zentralen Untersuchungsgegenstand dar.
 
 Die Untersuchung wird in vier Unterthemen gegliedert:
 
@@ -274,7 +274,7 @@ Der Offset im Folgenden bezieht sich auf die Basisadresse $0x04000000$ und wird 
     \label{table:SoundRegister1}
 \end{table}
 
-Die in Tabelle \ref{table:SoundRegister1} und in Tabelle \ref{table:SoundRegister2} gelisteten Register sind im MGBA als Felder der Enumeration \textit{GBAIORegisters} (Datei: \textit{\$/include/mgba/internal/gba/io.h}) gelistet und entsprechend ihrer Registeradressen belegt. Sie werden unter anderen zur Adressierung des emulierten Speichers verwendet. Als Quelle f\"ur die beiden Tabellen diente neben der \textit{io.h} auch die Webseite \url{http://belogic.com/gba/}, Stand Juni 2018.
+Die in Tabelle \ref{table:SoundRegister1} und in Tabelle \ref{table:SoundRegister2} gelisteten Register sind im mGBA als Felder der Enumeration \textit{GBAIORegisters} (Datei: \textit{\$/include/mgba/internal/gba/io.h}) gelistet und entsprechend ihrer Registeradressen belegt. Sie werden unter anderen zur Adressierung des emulierten Speichers verwendet. Als Quelle f\"ur die beiden Tabellen diente neben der \textit{io.h} auch die Webseite \url{http://belogic.com/gba/}, Stand Juni 2018.
 
 \begin{table}[h]
     \centering
@@ -321,48 +321,46 @@ Die Register DMG Master Control, Direct Sound Master Control und Master Sound Ou
 
 \subsubsection{DMG Master Control} \label{dmgmastercontrol}
 
-	Hier m\"ussen zun\"achst einige Bits gesetzt werden, bevor eine generelle Verwendung des Sound-Systems m\"oglich ist.\\
+Hier m\"ussen zun\"achst einige Bits gesetzt werden, bevor eine generelle Verwendung des Sound-Systems m\"oglich ist.\\
 
-	\begin{table}[h]
+\begin{table}[h]
 	\centering
 	\begin{tabular}{| c | c | c | c | c | c | c | c | c | c | c | c |}
-	\hline
-	F & E & D & C & B & A & 9 & 8 & 7 & 6 5 4 & 3 & 2 1 0 \\
-	\hline
-	\textcolor{blue}{R4} & \textcolor{blue}{R3} & \textcolor{blue}{R2} & \textcolor{blue}{R1} & \textcolor{red}{L4} & \textcolor{red}{L3}
+	    \hline
+	    F & E & D & C & B & A & 9 & 8 & 7 & 6 5 4 & 3 & 2 1 0 \\
+	    \hline
+	    \textcolor{blue}{R4} & \textcolor{blue}{R3} & \textcolor{blue}{R2} & \textcolor{blue}{R1} & \textcolor{red}{L4} & \textcolor{red}{L3}
 	& \textcolor{red}{L2} & \textcolor{red}{L1} & - & \textcolor{magenta}{RV} & - & \textcolor{green}{LV} \\
-	\hline
-	
+	    \hline
 	\end{tabular}
 	\caption{Register DMG Master Control}
 	\label{table: DMGMasterControl}
-	\end{table}
+\end{table}
 	
-	\begin{table}[h]
+\begin{table}[h]
 	\centering
 	\begin{tabular}{| c | c | c | c |}
-	\hline
-	\textbf{Bits} & \textbf{Name} & \textbf{Definition} & \textbf{Beschreibung} \\
-	\hline
-	0-2 & \textcolor{green}{LV} & & Left volume \\
-	\hline
-	4-6 & \textcolor{magenta}{RV} & & Right volume \\
-	\hline
-	8-B & \textcolor{red}{L1-L4} & SDMG\_LSQR1,  & Channels 1-4 on left \\
-	& & SDMG\_LSQR2, & \\
-	& & SDMG\_LWAVE, & \\
-	& & SDMG\_LNOISE & \\
-  \hline
-	C-F & \textcolor{blue}{R1-R4} & SDMG\_RSQR1, & Channels 1-4 on right \\
-	& & SDMG\_RSQR2, & \\
-	& & SDMG\_RWAVE, & \\
-	& & SDMG\_RNOISE & \\
-	\hline
-	
+	    \hline
+	    \textbf{Bits} & \textbf{Name} & \textbf{Definition} & \textbf{Beschreibung} \\
+	    \hline
+	    0-2 & \textcolor{green}{LV} & & Left volume \\
+	    \hline
+	    4-6 & \textcolor{magenta}{RV} & & Right volume \\
+	    \hline
+	    8-B & \textcolor{red}{L1-L4} & SDMG\_LSQR1,  & Channels 1-4 on left \\
+	    & & SDMG\_LSQR2, & \\
+	    & & SDMG\_LWAVE, & \\
+	    & & SDMG\_LNOISE & \\
+	    \hline
+	    C-F & \textcolor{blue}{R1-R4} & SDMG\_RSQR1, & Channels 1-4 on right \\
+	    & & SDMG\_RSQR2, & \\
+	    & & SDMG\_RWAVE, & \\
+	    & & SDMG\_RNOISE & \\
+	    \hline
 	\end{tabular}
 	\caption{Registerinhalt DMG Master Control}
 	\label{table: DMGMasterControlContent}
-	\end{table}
+\end{table}
 
 \newpage
 
@@ -370,113 +368,125 @@ Die Register DMG Master Control, Direct Sound Master Control und Master Sound Ou
 
 \subsubsection{Direct Sound Master Control}
 
-	Dieses Register kontrolliert die Lautst\"arke der DMG Kan\"ale und aktiviert diese. Die Einstellungen k\"onnen separiert voneinander f\"ur den linken und rechten Lautsprecher vorgenommen werden. 
+Dieses Register kontrolliert die Lautst\"arke der DMG Kan\"ale und aktiviert diese. Die Einstellungen k\"onnen separiert voneinander f\"ur den linken und rechten Lautsprecher vorgenommen werden. 
 
-	\begin{table}[h]
+\begin{table}[h]
 	\centering
 	\begin{tabular}{| c | c | c | c | c | c | c | c | c | c | c | c |}
-	\hline
-	F & E & D & C & B & A & 9 & 8 & 7 6 5 4 & 3 & 2 & 1 0 \\
-	\hline
-	\textcolor{brown}{BF} & \textcolor{magenta}{BT} & \textcolor{green}{BL} & \textcolor{green}{BR} & \textcolor{brown}{AF} & \textcolor{magenta}{AT}
+	    \hline
+	    F & E & D & C & B & A & 9 & 8 & 7 6 5 4 & 3 & 2 & 1 0 \\
+	    \hline
+	    \textcolor{brown}{BF} & \textcolor{magenta}{BT} & \textcolor{green}{BL} & \textcolor{green}{BR} & \textcolor{brown}{AF} & \textcolor{magenta}{AT}
 	& \textcolor{green}{AL} & \textcolor{green}{AR} & - & \textcolor{blue}{BV} & \textcolor{blue}{AV} & \textcolor{red}{DMGV} \\
-	\hline
-	
+	    \hline
 	\end{tabular}
 	\caption{Register Direct Sound Master Control}
 	\label{table: DirectSoundMasterControl}
-	\end{table}
+\end{table}
 	
-	\begin{table}[h]
+\begin{table}[h]
 	\centering
 	\begin{tabular}{| c | l | l | l |}
-	\hline
-	\textbf{Bits} & \textbf{Name} & \textbf{Definition} & \textbf{Beschreibung} \\
-	\hline
-	0-1 & \textcolor{red}{DMGV} & SDS\_DMG25, & DMG Volume ratio \\
-	& & SDS\_DMG50, & 00: 25\% \\
-	& & SDS\_DMG100 & 01: 50\% \\
-	& & & 10: 100\% \\
-  & & & 11: forbidden \\
-	\hline
-	2 & \textcolor{blue}{AV} & SDS\_A50, SDS\_A100 & DSound A volume ratio. 50\% if clear; 100\% of set  \\
-	\hline
-	3 & \textcolor{blue}{BV} & SDS\_B50, SDS\_B100 & DSound B volume ratio. 50\% if clear; 100\% of set  \\
-	\hline
-	8-9 & \textcolor{green}{AR,AL} & SDS\_AR, SDS\_AL & DSound A enable Enable DS A on right and left speakers \\
-	\hline
-	A & \textcolor{magenta}{AT} & SDS\_ATMR0, & Dsound A timer. Use timer 0 (if clear) or 1 (if set) for DS A \\
-	& & SDS\_ATMR1 & \\
-	\hline
-	B & \textcolor{brown}{AF} & SDS\_ARESET &  FIFO reset for Dsound A. When using DMA for Direct sound,  \\
-	& & & this will cause DMA to reset the FIFO buffer after it's used.\\
-	\hline
-	C-F & \textcolor{green}{BR, BL},  &  SDS\_BR, SDS\_BL, & As bits 8-B, but for DSound B \\
-	& \textcolor{magenta}{BT}, \textcolor{brown}{BF} & SDS\_BTMR0,  & \\
-	& & SDS\_BTMR1, & \\
-	& &  SDS\_BRESET & \\
-	\hline
+	    \hline
+	    \textbf{Bits} & \textbf{Name} & \textbf{Definition} & \textbf{Beschreibung} \\
+	    \hline
+	    0-1 & \textcolor{red}{DMGV} & SDS\_DMG25, & DMG Volume ratio \\
+	    & & SDS\_DMG50, & 00: 25\% \\
+	    & & SDS\_DMG100 & 01: 50\% \\
+	    & & & 10: 100\% \\
+        & & & 11: forbidden \\
+	    \hline
+	    2 & \textcolor{blue}{AV} & SDS\_A50, SDS\_A100 & DSound A volume ratio. 50\% if clear; 100\% of set  \\
+	    \hline
+	    3 & \textcolor{blue}{BV} & SDS\_B50, SDS\_B100 & DSound B volume ratio. 50\% if clear; 100\% of set  \\
+	    \hline
+	    8-9 & \textcolor{green}{AR,AL} & SDS\_AR, SDS\_AL & DSound A enable Enable DS A on right and left speakers \\
+	    \hline
+	    A & \textcolor{magenta}{AT} & SDS\_ATMR0, & Dsound A timer. Use timer 0 (if clear) or 1 (if set) for DS A \\
+	    & & SDS\_ATMR1 & \\
+	    \hline
+	    B & \textcolor{brown}{AF} & SDS\_ARESET &  FIFO reset for Dsound A. When using DMA for Direct sound,  \\
+	    & & & this will cause DMA to reset the FIFO buffer after it's used.\\
+	    \hline
+	    C-F & \textcolor{green}{BR, BL},  &  SDS\_BR, SDS\_BL, & As bits 8-B, but for DSound B \\
+	    & \textcolor{magenta}{BT}, \textcolor{brown}{BF} & SDS\_BTMR0,  & \\
+	    & & SDS\_BTMR1, & \\
+	    & &  SDS\_BRESET & \\
+	    \hline
 	\end{tabular}
 	\caption{Registerinhalt Direct Sound Master Control}
 	\label{table: DirectSoundMasterControlContent}
-	\end{table}
+\end{table}
 	
-	\newpage
+\newpage
 	
-	% ========== Chapter 2.2.3 ==========
+% ========== Chapter 2.2.3 ==========
 	
 \subsubsection{Master Sound Output Control / Status}
 	
-	Aus diesem Register kann zu einem der Status der einzelnen DMG Kan\"ale ausgelesen werden und zum Anderen die generelle Soundausgabe aktiviert werden. Dazu muss das Bit 7 gesetzt werden.
+Aus diesem Register kann zu einem der Status der einzelnen DMG Kan\"ale ausgelesen werden und zum Anderen die generelle Soundausgabe aktiviert werden. Dazu muss das Bit 7 gesetzt werden.
 	
-	\begin{table}[h]
+\begin{table}[h]
 	\centering
 	\begin{tabular}{| c | c | c | c | c | c | c |}
-	\hline
-	F E D C B A 9 8 & 7 & 6 5 4 & \textcolor{red}{3} & \textcolor{red}{2} & \textcolor{red}{1} & \textcolor{red}{0} \\
-	\hline
+	    \hline
+	    F E D C B A 9 8 & 7 & 6 5 4 & \textcolor{red}{3} & \textcolor{red}{2} & \textcolor{red}{1} & \textcolor{red}{0} \\
+	    \hline
 	- & \textcolor{red}{MSE} & - & \textcolor{blue}{4A} & \textcolor{blue}{3A} & \textcolor{blue}{2A} & \textcolor{blue}{1A} \\
-	\hline
-	
+	    \hline
 	\end{tabular}
 	\caption{Register Master Sound Output / Status}
 	\label{table: MasterSoundOutputStatus}
-	\end{table}
+\end{table}
 	
-	\begin{table}[h]
+\begin{table}[h]
 	\centering
 	\begin{tabular}{| c | l | l | l |}
-	\hline
-	\textbf{Bits} & \textbf{Name} & \textbf{Definition} & \textbf{Beschreibung} \\
-	\hline
-	\textcolor{red}{0-3} & \textcolor{blue}{1A-4A} & SSTAT\_SQR1, & Active channels. Indicates which DMA channels are currently playing.   \\
-	& & SSTAT\_SQR2, & They do not enable the channels;\\
-	& & SSTAT\_WAVE, & that's what DMG Master Control \ref{dmgmastercontrol} is for.\\
-	& & SSTAT\_NOISE & \\
-	\hline
-	7 & \textcolor{red}{MSE} & SSTAT\_DISABLE, & Master Sound Enable. Must be set if any sound is to be heard at all.   \\
-	& & SSTAT\_ENABLE & Set this before you do anything else: \\
-	& & & the other registers can't be accessed otherwise, see GBATek for details. \\ 
-	\hline
+	    \hline
+	    \textbf{Bits} & \textbf{Name} & \textbf{Definition} & \textbf{Beschreibung} \\
+	    \hline
+	    \textcolor{red}{0-3} & \textcolor{blue}{1A-4A} & SSTAT\_SQR1, & Active channels. Indicates which DMA channels are currently playing.   \\
+	    & & SSTAT\_SQR2, & They do not enable the channels;\\
+	    & & SSTAT\_WAVE, & that's what DMG Master Control \ref{dmgmastercontrol} is for.\\
+	    & & SSTAT\_NOISE & \\
+	    \hline
+	    7 & \textcolor{red}{MSE} & SSTAT\_DISABLE, & Master Sound Enable. Must be set if any sound is to be heard at all.   \\
+	    & & SSTAT\_ENABLE & Set this before you do anything else: \\
+	    & & & the other registers can't be accessed otherwise, see GBATek for details. \\ 
+	    \hline
 	\end{tabular}
 	\caption{Registerinhalt Master Sound Output / Status}
 	\label{table: MasterSoundOutputStatusContent}
-	\end{table}
+\end{table}
 
 \clearpage
 
 \subsection{Interaktion mit dem Betriebssystem}
 
-Die Anwendung \enquote{mgba} wurde von den Entwicklern mit dem GUI-Toolkit Qt realisiert. Qt bietet grunds\"atzlich eine plattformunabh\"angige Entwicklung von
-GUI-Anwendungen und basiert auf der Sprache C++. Damit ist es den Entwicklern auch m\"oglich, die bereits realisierte Basis-Software problemlos zu integrieren.
+Die Anwendung \enquote{mGBA} wurde von den Entwicklern mit dem GUI-Toolkit Qt realisiert. Qt erm\"oglicht die plattformunabh\"angige Entwicklung von Anwendungen mit grafischer Benutzeroberfl\"ache und basiert auf der Sprache C++. Damit ist es den Entwicklern auch m\"oglich, die bereits realisierte Basis-Software problemlos zu integrieren.
 
 \subsubsection{Abgrenzung der Untersuchung}
 
-F\"ur die Untersuchung, wie der Emulator mit dem Betriebssystem interagiert, wird im Folgenden nur auf die daf\"ur ben\"otigten Klassen und Konzepte eingegangen.
+F\"ur die Untersuchung, wie der Emulator mit dem Betriebssystem interagiert, wird im Folgenden nur auf die daf\"ur ben\"otigten Klassen, Methoden und Konzepte eingegangen. Dabei liegt der Fokus ausschlie{\ss}lich auf Abl\"aufe die zur Emulation des Soundsystem notwendig sind.
 
 \subsubsection{Start der Anwendung}
 
- 
+Wie \"ublich beginnt auch beim mGBA die Anwendung in der \verb|main|-Methode. Diese initialisiert den \textbf{ConfigController} mittels \verb|argc| und \verb|argv|. Anschlie{\ss}end wird eine neue Instanz der Klasse \textbf{GBAApp} ebenfalls mit \verb|argc| und \verb|argv|, sowie dem vorinitialisierten \verb|configController| initialisiert. Die weitere Logik der \verb|main|-Methode dient der Initialisierung und Lokalisierung einer \textbf{Window}-Instanz zur Anzeige der mGBA GUI.
+
+\vspace{5mm}
+\large GBAApp\normalsize
+\vspace{2mm}\newline
+Im Konstruktor der \textbf{GBAApp} Klasse wird der lokale \verb|m_configController| mit dem \"ubergebenen initialisiert und der Treiber der \textbf{AudioProcessor}-Klasse mittels \verb|AudioProcessor.setDriver(...)| festgelegt. Der \textbf{AudioProcessor.Driver} (eine Enumeration) legt dabei fest, ob entweder die \textbf{AudioProcessor}-Spezialisierung \textbf{AudioProcessorQt} oder \textbf{AudioProcessorSDL} mittels \verb|AudioProcessor.create()|-Aufruf erstellt wird. Der zu verwendende \textbf{AudioProcessor.Driver} wird dabei durch den \textbf{ConfigController} \"uber die Option \enquote{audioDriver} bereitgestellt.
+
+\vspace{5mm}
+\large Window\normalsize
+\vspace{2mm}\newline
+Im Konstruktor der \textbf{Window}-Klasse wird die lokale \verb|m_config| mit dem \"ubergebenen \textbf{ConfigController} (\verb|config|-Parameter) und der lokale \verb|m_inputController| initialisiert. Daraufhin wird eine neue Instanz der \textbf{GameController}-Klasse erzeugt, in der Membervariablen \verb|m_controller| gespeichert und abschlie{\ss}end der \verb|m_inputController| an die \textbf{GameController}-Instanz mittels \verb|m_controller.setInputController(...)| \"ubergeben.
+
+
+\subsubsection{Laden und Starten eines ROM}
+
+
 
 \newpage
 
