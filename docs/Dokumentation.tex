@@ -532,7 +532,7 @@ Im Konstruktor der \textbf{GameController}-Klasse wird die lokale \verb|m_audioP
 
 \subsubsection{Laden und Starten eines ROM}
 
-W\"ahlt der mGBA-Anwender im Men\"u den Punkt \enquote{Load ROM...}, wird hierf\"ur die Methode \verb|selectROM()| der \textbf{Window}-Klasse ausgef\"uhrt. Nach erfolgter Auswahl einer entsprechend unterst\"utzten Datei, wird die Methode \verb|loadGame(path)| (\textbf{1.}) der lokalen \textbf{GameController}-Instanz (\verb|m_controller|) mit dem Pfad zur ausgew\"ahlten ROM-Datei aufgerufen. Diese f\"uhrt nach einigen Vorabaktionen die Methode \verb|openGame()| (\textbf{2.}) der \textbf{GameController}-Instanz aus. Mittels globaler \textbf{mCoreFind}-Methode (\textit{\$/src/core/core.c}) wird der vom Format der ROM-Datei abh\"angige \enquote{Core} ermittelt und erstellt. Handelt es sich bei der ROM-Datei um ein Game Boy Advance (kurz \enquote{GBA}) Speicherabbild, wird die globale \textbf{GBACoreCreate}-Methode (\textit{\$/src/gba/core.c}) dazu verwendet den Speicher f\"ur die Struktur \textbf{GBACore} (\textit{\$/src/gba/core.c}) zu allokieren. Das dabei implizit allokierte \textbf{mCore}-Feld \verb|d| wird daraufhin mit diversen Funktionszeigern zu globalen Methoden mit dem Prefix \textbf{{\_}GBA} beziehungsweise \textbf{{\_}GBACore} initialisiert. Das auf diese Weise konfigurierte \verb|d|-Feld wird dann von der globalen \textbf{GBACoreCreate}-Methode zur\"uckgeliefert und im Feld \verb|mCoreThread.core| der lokalen Membervariable \verb|m_threadContext| der \textbf{GameController}-Instanz gespeichert.
+W\"ahlt der mGBA-Anwender im Men\"u den Punkt \enquote{Load ROM...}, wird hierf\"ur die Methode \verb|selectROM()| der \textbf{Window}-Klasse ausgef\"uhrt. Nach erfolgter Auswahl einer entsprechend unterst\"utzten Datei, wird die Methode \verb|loadGame(path)|  der lokalen \textbf{GameController}-Instanz (\verb|m_controller|) mit dem Pfad zur ausgew\"ahlten ROM-Datei aufgerufen. Diese f\"uhrt nach einigen Vorabaktionen die Methode \verb|openGame()| der \textbf{GameController}-Instanz aus. Mittels globaler \textbf{mCoreFind}-Methode (\textit{\$/src/core/core.c}) wird der vom Format der ROM-Datei abh\"angige \enquote{Core} ermittelt und erstellt. Handelt es sich bei der ROM-Datei um ein Game Boy Advance (kurz \enquote{GBA}) Speicherabbild, wird die globale \textbf{GBACoreCreate}-Methode (\textit{\$/src/gba/core.c}) dazu verwendet den Speicher f\"ur die Struktur \textbf{GBACore} (\textit{\$/src/gba/core.c}) zu allokieren. Das dabei implizit allokierte \textbf{mCore}-Feld \verb|d| wird daraufhin mit diversen Funktionszeigern zu globalen Methoden mit dem Prefix \textbf{{\_}GBA} beziehungsweise \textbf{{\_}GBACore} initialisiert. Das auf diese Weise konfigurierte \verb|d|-Feld wird dann von der globalen \textbf{GBACoreCreate}-Methode zur\"uckgeliefert und im Feld \verb|mCoreThread.core| der lokalen Membervariable \verb|m_threadContext| der \textbf{GameController}-Instanz gespeichert.
 
 \vspace{5mm}
 \large {\_}GBACoreInit \normalsize(\textit{\$/src/gba/core.c})
@@ -554,7 +554,51 @@ Nachdem die Funktion auf die im Feld \verb|setAudioBufferSize| verwiesen wird au
 \vspace{5mm}
 \large {\_}GBACoreLoadROM \normalsize(\textit{\$/src/gba/core.c})
 \vspace{2mm}\newline
-Auf die vorangegangene Konfiguration des \textbf{mCore} wir schlie{\ss}lich der ROM in den \enquote{Core} geladen. Hierzu verwendet die \textbf{GameController}-Instanz die Funktion auf die im Feld \verb|loadROM| verwiesen wird. Nach Durchlaufen der globalen \textbf{GBACoreCreate}-Methode ist das die globale Methode \textbf{{\_}GBACoreLoadROM}. Sie dient dem finalen Setup der virtuellen Hardwarekonfiguration des \textbf{mCore} sowie der Initialisierung des virtuellen Prozessspeichers im \verb|memory|-Feld der \textbf{mCore}-Spezialisierung \textbf{GBA}.
+Auf die vorangegangene Konfiguration des \textbf{mCore} wird schlie{\ss}lich der ROM in den \enquote{Core} geladen. Hierzu verwendet die \textbf{GameController}-Instanz die Funktion auf die im Feld \verb|loadROM| verwiesen wird. Nach Durchlaufen der globalen \textbf{GBACoreCreate}-Methode ist das die globale Methode \textbf{{\_}GBACoreLoadROM}. Sie dient dem finalen Setup der virtuellen Hardwarekonfiguration des \textbf{mCore} sowie der Initialisierung des virtuellen Prozessspeichers im \verb|memory|-Feld des \verb|board|-Feldes der \textbf{mCore}-Instanz.
+
+\vspace{5mm}
+\large {\_}GBACoreSetAVStream \normalsize(\textit{\$/src/gba/core.c})
+\vspace{2mm}\newline
+Bevor mit der eigentlichen Emulation begonnen wird, wird nun noch der Audio-/Videostream in Form der \textbf{mAVStream}-Struktur als \verb|m_stream|-Membervariable der \textbf{GameController}-Instanz an den \textbf{mCore} \"ubergeben. Diese geschieht durch Aufruf der Funktion auf die im Feld \verb|setAVStream| verwiesen wird. Nach Durchlaufen der globalen \textbf{GBACoreCreate}-Methode ist das die globale Methode \textbf{{\_}GBACoreSetAVStream}. Diese Methode geht hierbei lediglich dazu \"uber den \textbf{mAVStream}-Verweis im \verb|stream|-Feld des \verb|board|-Feldes der \textbf{mCore}-Instanz zu speichern.
+
+\vspace{5mm}
+\large {\_}GBACoreEnableAudioChannel \normalsize(\textit{\$/src/gba/core.c})
+\vspace{2mm}\newline
+Aufgabe dieser globalen Methode ist es dem \verb|board|-Feld des \textbf{mCore} mittels gegebener Parameter zu konfigurieren. Das hierbei vorgenommene Setup bezieht sich auschlie{\ss}lich auf das \verb|audio|-Feld des \verb|board|-Felds vom Typen der \textbf{GBA}-Struktur. Die dabei vorgenommenen \"Anderungen beziehen sich somit nur auf Felder der \textbf{GBAAudio}-Struktur.
+
+\vspace{5mm}
+\large mCoreThreadStart \normalsize(\textit{\$/src/core/thread.c})
+\vspace{2mm}\newline
+Nach Abschluss des vollst\"andigen Setups des \textbf{mCore} wird die im \verb|m_threadContext.core| gespeicherte Instanz samt \verb|m_threadContext| an die globale Methode \textbf{mCoreThreadStart} \"ubergeben. Welche mittels globaler \textbf{ThreadCreate}-Methode (\textit{\$/include/mgba-util/platform/\{os\}/threading.h}) einen neuen Thread anlegt. Als \textbf{ThreadEntry} wird dabei die globale Methode \textbf{{\_}mCoreThreadRun} und als \verb|context|-Parameter ein Verweis auf den \textbf{mCoreThread} alias \verb|threadContext| verwendet. Der Verweis auf den so erzeugten Thread wird schlie{\ss}lich noch im \verb|thread|-Feld des \verb|threadContext|-Parameters gespeichert.
+
+\vspace{5mm}
+\large {\_}mCoreThreadRun \normalsize(\textit{\$/src/core/thread.c})
+\vspace{2mm}\newline
+Bevor nun mit der eigentlichen Ausf\"uhrung des Prozesses begonnen wird, nimmt die globale \textbf{{\_}mCoreThreadRun} noch ein paar Vorkehrungen f\"ur die Threadinteraktion mittels Callback-Routinen vor. Darauf folgt der Aufruf der im Feld \verb|startCallback| des \verb|threadContext|-Parameters hinterlegten Methode. Dabei wird die durch die \textbf{GameContoller}-Klasse definierte anonyme Methode mit \verb|threadContext|-Parameter aufgerufen. W\"ahrend der Ausf\"uhrung des Start-Callbacks stellt der \textbf{GameController} sicher, dass im \textbf{mCore} (im \verb|core|-Feld des \verb|threadContext|-Parameters) die korrekten Audio-Kan\"ale ein- beziehungsweise ausgeschaltet sind. Hierzu verwendet der \textbf{GameController} die Funktion auf die im Feld \verb|enableAudioChannel| verwiesen wird. Nach Durchlaufen der globalen \textbf{GBACoreCreate}-Methode ist das die globale Methode \textbf{{\_}GBACoreEnableAudioChannel}.
+
+Abgeschlossen wird der Code der Callback-Routine mit dem dynamischen Ausl\"osen der Signale \textbf{gameStarted} und \textbf{startAudio} der \textbf{GameController}-Instanz die f\"ur den \"ubergebenen \verb|threadContext| zust\"andig ist. W\"ahrend \textbf{gameStarted} auf die \verb|setInput()|-Methode der \verb|m_audioProcessor|-Instanz im \textbf{GameController} weiterleitet, um den aktuellen \textbf{mCoreThread} der \textbf{AudioProcessor}-Instanz mitzuteilen, f\"uhrt der Aufruf des \textbf{startAudio}-Signals zum Aufruf der \verb|start()|-Methode der \verb|m_audioProcessor|-Instanz im \textbf{GameController}.
+
+Wurde auch alle weiteren Callback-Routinen durchlaufen, beginnt die Ausf\"uhrung des Prozesses durch stetigen Aufruf der Funktion auf die im Feld \verb|runLoop| verwiesen wird. Nach Durchlaufen der globalen \textbf{GBACoreCreate}-Methode ist das die globale Methode \textbf{{\_}GBACoreRunLoop}. Dies geschieht solange, wie sich der Thread im Zustand kleiner/gleich \verb|THREAD_MAX_RUNNING| befindet.
+
+\newpage
+
+\subsubsection{Ausf\"uhrung eines ROM}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -566,6 +610,9 @@ Auf die vorangegangene Konfiguration des \textbf{mCore} wir schlie{\ss}lich der 
     \caption{Audioklassen in der QT-Anwendung}
     \label{fig:qtclassdiagramm}
 \end{figure}
+
+
+\newpage
 
 
 \addtocontents{toc}{\protect\setcounter{tocdepth}{-1}}
@@ -594,7 +641,7 @@ Auf die vorangegangene Konfiguration des \textbf{mCore} wir schlie{\ss}lich der 
 \end{itemize}
 
 \begin{itemize}
-    \item Abbildung \ref{fig:qtclassdiagramm}: \textit{\"Ubersicht der Audioklassen in der Qt Applikation}
+    \item Abbildung \ref{fig:qtclassdiagramm}: \textit{\"Ubersicht der Audioklassen in der Qt Anwendung}
 \end{itemize}
 
 \end{document}
