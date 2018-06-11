@@ -463,7 +463,7 @@ Aus diesem Register kann zu einem der Status der einzelnen DMG Kan\"ale ausgeles
 
 \subsection{Interaktion mit dem Betriebssystem}
 
-Die Anwendung \enquote{mGBA} wurde von den Entwicklern mit dem GUI-Toolkit Qt realisiert. Qt erm\"oglicht die plattformunabh\"angige Entwicklung von Anwendungen mit grafischer Benutzeroberfl\"ache und basiert auf der Sprache C++. Damit ist es den Entwicklern auch m\"oglich, die bereits realisierte Basis-Software problemlos zu integrieren.
+Die Anwendung \enquote{mGBA} wurde von den Entwicklern mit dem GUI-Toolkit Qt realisiert. Qt erm\"oglicht die plattformunabh\"angige Entwicklung von Anwendungen mit grafischer Benutzeroberfl\"ache und basiert auf der Sprache C++. Damit ist es Entwicklern auch m\"oglich, bereits realisierte Basis-Software problemlos zu integrieren.
 
 \subsubsection{Abgrenzung der Untersuchung}
 
@@ -471,20 +471,90 @@ F\"ur die Untersuchung, wie der Emulator mit dem Betriebssystem interagiert, wir
 
 \subsubsection{Start der Anwendung}
 
-Wie \"ublich beginnt auch beim mGBA die Anwendung in der \verb|main|-Methode. Diese initialisiert den \textbf{ConfigController} mittels \verb|argc| und \verb|argv|. Anschlie{\ss}end wird eine neue Instanz der Klasse \textbf{GBAApp} ebenfalls mit \verb|argc| und \verb|argv|, sowie dem vorinitialisierten \verb|configController| initialisiert. Die weitere Logik der \verb|main|-Methode dient der Initialisierung und Lokalisierung einer \textbf{Window}-Instanz zur Anzeige der mGBA GUI.
+Wie \"ublich beginnt auch beim mGBA die Anwendung in der globalen \verb|main|-Methode (\textit{\$/src/platform/qt/main.cpp}). Diese initialisiert den \textbf{ConfigController} mittels \verb|argc| und \verb|argv|. Anschlie{\ss}end wird eine neue Instanz der Klasse \textbf{GBAApp} ebenfalls mit \verb|argc| und \verb|argv|, sowie dem vorinitialisierten \verb|configController| initialisiert. Die weitere Logik der \verb|main|-Methode dient der Initialisierung und Lokalisierung einer \textbf{Window}-Instanz zur Anzeige der mGBA GUI. Die dabei erzeugte \textbf{Window}-Instanz wird w\"ahrenddessen dazu aufgefordert die Einstellungen aus dem bereits initialisierten \verb|configController| zu laden. Hierzu wird die Methode \verb|loadConfig()| der \textbf{Window}-Klasse verwendet.
 
 \vspace{5mm}
-\large GBAApp\normalsize
+\large ConfigController \normalsize(\textit{\$/src/platform/qt/ConfigController.h \& .cpp})
 \vspace{2mm}\newline
-Im Konstruktor der \textbf{GBAApp} Klasse wird der lokale \verb|m_configController| mit dem \"ubergebenen initialisiert und der Treiber der \textbf{AudioProcessor}-Klasse mittels \verb|AudioProcessor.setDriver(...)| festgelegt. Der \textbf{AudioProcessor.Driver} (eine Enumeration) legt dabei fest, ob entweder die \textbf{AudioProcessor}-Spezialisierung \textbf{AudioProcessorQt} oder \textbf{AudioProcessorSDL} mittels \verb|AudioProcessor.create()|-Aufruf erstellt wird. Der zu verwendende \textbf{AudioProcessor.Driver} wird dabei durch den \textbf{ConfigController} \"uber die Option \enquote{audioDriver} bereitgestellt.
+Im Konstruktor der \textbf{ConfigController}-Klasse werden eventuell vorhandene Einstellungen aus einer \enquote{qt.ini} oder \enquote{config.ini} geladen und Standard-Werte der Membervariable \verb|m_opts| vom Typen der \textbf{mCoreOptions}-Struktur (\textit{\$/include/mgba/core/config.h}) festgelegt, siehe Snippet \ref{list:ConfigController_ctor}.
 
 \vspace{5mm}
-\large Window\normalsize
+\begin{lstlisting}[language=C++, caption={Ausschnitt aus dem Konstruktor der ConfigController-Klasse}, label={list:ConfigController_ctor}]
+    ...	m_opts.audioSync = GameController::AUDIO_SYNC;
+	m_opts.audioBuffers = 1536;
+	m_opts.sampleRate = 44100;
+	m_opts.volume = 0x100;
+	...
+\end{lstlisting}
+
+Alle im \textbf{ConfigController} enthaltenen Einstellungen werden im Laufe der Anwendung je nach Bedarf entweder \"uber die \verb|options()|-Methode oder \"uber die \verb|config()|-Methode abgerufen. Dabei wird bei der ersten Methode eine \textbf{mCoreOptions}-Struktur (\textit{\$/include/mgba/core/config.h}) und bei der zweiten Methode eine \textbf{mCoreConfig}-Struktur (\textit{\$/include/mgba/core/config.h}) bereitgestellt. W\"ahrend die \textbf{mCoreConfig}-Struktur auschlie{\ss}lich eine Abstraktion der konfigurierten Werte, der Standardwerte und der \"uberschriebenen Werte bietet, stellt die \textbf{mCoreOptions}-Struktur alle verf\"ugbaren Einstellungen direkt als typisierte Felder bereit.
+
+\vspace{5mm}
+\large GBAApp \normalsize(\textit{\$/src/platform/qt/GBAApp.h \& .cpp})
 \vspace{2mm}\newline
-Im Konstruktor der \textbf{Window}-Klasse wird die lokale \verb|m_config| mit dem \"ubergebenen \textbf{ConfigController} (\verb|config|-Parameter) und der lokale \verb|m_inputController| initialisiert. Daraufhin wird eine neue Instanz der \textbf{GameController}-Klasse erzeugt, in der Membervariablen \verb|m_controller| gespeichert und abschlie{\ss}end der \verb|m_inputController| an die \textbf{GameController}-Instanz mittels \verb|m_controller.setInputController(...)| \"ubergeben.
+Im Konstruktor der \textbf{GBAApp}-Klasse wird der lokale \verb|m_configController| mit dem \"ubergebenen initialisiert und der Treiber der \textbf{AudioProcessor}-Klasse mittels \verb|AudioProcessor.setDriver(...)| festgelegt. Der \textbf{AudioProcessor.Driver} (eine Enumeration) legt dabei fest, ob entweder die \textbf{AudioProcessor}-Spezialisierung \textbf{AudioProcessorQt} oder \textbf{AudioProcessorSDL} mittels \verb|AudioProcessor.create()|-Aufruf erstellt wird. Der zu verwendende \textbf{AudioProcessor.Driver} wird dabei durch den \textbf{ConfigController} \"uber die Option \enquote{audioDriver} bereitgestellt.
+
+\vspace{5mm}
+\large Window \normalsize(\textit{\$/src/platform/qt/Window.h \& .cpp})
+\vspace{2mm}\newline
+Im Konstruktor der \textbf{Window}-Klasse wird die lokale \verb|m_config| mit dem \"ubergebenen \textbf{ConfigController} (\verb|config|-Parameter) und der lokale \verb|m_inputController| initialisiert. Daraufhin wird eine neue Instanz der \textbf{GameController}-Klasse erzeugt, in der Membervariablen \verb|m_controller| gespeichert und der \verb|m_inputController| an die \textbf{GameController}-Instanz mittels \verb|m_controller.setInputController(...)| \"ubergeben. Weiter stellt der Konstruktor der \textbf{Window}-Klasse Verbindungen mittels Qt Signals \& Slots zwischen den folgenden Methoden her:
+
+\begin{itemize}
+    \item \verb|Window.audioBufferSamplesChanged| $\rightarrow$ \verb|m_controller::setAudioBufferSamples|
+    \item \verb|Window.sampleRateChanged| $\rightarrow$ \verb|m_controller.setAudioSampleRate|
+\end{itemize}
+
+Als letzte Anweisung des Konstruktors wird die lokale \verb|setupMenu()|-Methode der \textbf{Window}-Klasse aufgerufen. Neben diversen Men\"ueintr\"agen erzeugt diese Methode auch Men\"upunkte zur Interaktion mit dem emulierten Soundsystem. Besonders interessant ist dabei auch der Men\"upunkt \enquote{Record output...}, welcher mittels Qt Signals \& Slots mit der Methode \verb|openVideoWindow()| der \textbf{Window}-Klasse verbunden wird. Bei Ausf\"uhrung der \verb|openVideoWindow()|-Methode wird eine neue Instanz der \textbf{VideoView}-Klasse erzeugt (falls nicht bereits geschehen) und die folgenden Methoden mittels Qt Signals \& Slots mit Methoden der \textbf{GameController}-Klasse verbunden. Zum Ende der Methode wird das \textit{QWidget} \textbf{VideoView} noch zur Anzeige gebracht.
+
+\begin{itemize}
+    \item \verb|VideoView.recordingStarted| $\rightarrow$ \verb|m_controller.setAVStream|
+    \item \verb|VideoView.recordingStopped| $\rightarrow$ \verb|m_controller.clearAVStream|
+\end{itemize}
+
+
+Durch den Aufruf der \verb|loadConfig()|-Methode wird wiederum die Methode \verb|reloadConfig()| der \textbf{Window}-Klasse aufgerufen. Diese vermittelt unter anderen die aktuelle \textbf{mCoreConfig}-Struktur der \verb|m_config| (vom Typen \textbf{ConfigController}) an den \verb|m_controller| (vom Typen \textbf{GameController}) mittels \verb|setConfig()|-Methode der \textbf{GameController}-Klasse.
+
+\vspace{5mm}
+\large VideoView \normalsize(\textit{\$/src/platform/qt/VideoView.h \& .cpp})
+\vspace{2mm}\newline
+Bei der Instanziierung der \textbf{VideoView}-Klasse verwendet der Konstruktor die globale Methode \textbf{FFmpegEncoderInit} (\$/src/feature/ffmpeg/ffmpeg-encoder.c) zur Initialisierung der Membervariablen \verb|m_encoder|. Die f\"ur die Audio-/Videoausgabe verwendete Struktur vom Typen \textbf{FFmpegEncoder} (\$/src/feature/ffmpeg/ffmpeg-encoder.c) wird beim Aufruf der Instanzmethode \verb|startRecording()| der \textbf{VideoView}-Klasse mttels globaler \textbf{FFmpegEncoderOpen} Methode so final konfiguriert, dass der Encoder die bei der Emulation anfallenden Audio-/Videodaten aufzeichnet. Zum Abschluss der \textbf{startRecording()}-Methode wird das Qt Signal \verb|recordingStarted| mit dem Feld \verb|d| vom Typen der Struktur \textbf{mAVStream} der \verb|m_encoder| Membervariablen als Parameter gesendet. Dieses Signal endet schlie{\ss}lich in einen Aufruf der \verb|setAVStream|-Methode der \textbf{GameController}-Instanz \verb|m_controller| der \textbf{Window}-Klasse.
+
+\vspace{5mm}
+\large GameController \normalsize(\textit{\$/src/platform/qt/GameController.h \& .cpp})
+\vspace{2mm}\newline
+Im Konstruktor der \textbf{GameController}-Klasse wird die lokale \verb|m_audioProcessor| Membervariable mit dem Ergebnis des \verb|AudioProcessor.create()|-Aufrufs initialisiert. Daraufhin erfolgt das Setup der Membervariable \verb|m_threadContext| vom Typen der \textbf{mCoreThread}-Struktur. Hierbei wird unter anderen das \verb|startCallback|, \verb|cleanCallback| und das \verb|userData| Feld der Kontextvariablen entsprechend belegt. Abschlie{\ss}end werden die folgenden Methoden mittels Qt Signals \& Slots miteinander verbunden:
+
+\begin{itemize}
+    \item \verb|GameController.gamePaused| $\rightarrow$ \verb|m_audioProcessor.pause|
+    \item \verb|GameController.gameStarted| $\rightarrow$ \verb|m_audioProcessor.setInput|
+\end{itemize}
 
 
 \subsubsection{Laden und Starten eines ROM}
+
+W\"ahlt der mGBA-Anwender im Men\"u den Punkt \enquote{Load ROM...}, wird hierf\"ur die Methode \verb|selectROM()| der \textbf{Window}-Klasse ausgef\"uhrt. Nach erfolgter Auswahl einer entsprechend unterst\"utzten Datei, wird die Methode \verb|loadGame(path)| (\textbf{1.}) der lokalen \textbf{GameController}-Instanz (\verb|m_controller|) mit dem Pfad zur ausgew\"ahlten ROM-Datei aufgerufen. Diese f\"uhrt nach einigen Vorabaktionen die Methode \verb|openGame()| (\textbf{2.}) der \textbf{GameController}-Instanz aus. Mittels globaler \textbf{mCoreFind}-Methode (\textit{\$/src/core/core.c}) wird der vom Format der ROM-Datei abh\"angige \enquote{Core} ermittelt und erstellt. Handelt es sich bei der ROM-Datei um ein Game Boy Advance (kurz \enquote{GBA}) Speicherabbild, wird die globale \textbf{GBACoreCreate}-Methode (\textit{\$/src/gba/core.c}) dazu verwendet den Speicher f\"ur die Struktur \textbf{GBACore} (\textit{\$/src/gba/core.c}) zu allokieren. Das dabei implizit allokierte \textbf{mCore}-Feld \verb|d| wird daraufhin mit diversen Funktionszeigern zu globalen Methoden mit dem Prefix \textbf{{\_}GBA} beziehungsweise \textbf{{\_}GBACore} initialisiert. Das auf diese Weise konfigurierte \verb|d|-Feld wird dann von der globalen \textbf{GBACoreCreate}-Methode zur\"uckgeliefert und im Feld \verb|mCoreThread.core| der lokalen Membervariable \verb|m_threadContext| der \textbf{GameController}-Instanz gespeichert.
+
+\vspace{5mm}
+\large {\_}GBACoreInit \normalsize(\textit{\$/src/gba/core.c})
+\vspace{2mm}\newline
+Der erste der zuvor festgelegten Funktionszeiger der daraufhin verwendet wird ist der der Funktion auf die im Feld \verb|init| verwiesen wird. Nach Durchlaufen der globalen \textbf{GBACoreCreate}-Methode ist das die globale Methode \textbf{{\_}GBACoreInit}. Die globale Methode initialisiert die Felder \verb|cpu| und \verb|board| des \textbf{mCore}. Hierzu wird f\"ur das Feld \verb|cpu| die Struktur \textbf{ARMCore} (\textit{\$/include/mgba/internal/arm/arm.h}) und f\"ur das Feld \verb|board| die Struktur \textbf{GBA} (\textit{\$/include/mgba/internal/gba/gba.h}) verwendet. Nach der Initialisierung einzelner weiterer Felder wird dann die globale Methode \textbf{GBACreate} (\textit{\$/src/gba/gba.c}) mit den Verweis auf die zuvor initialisierte \verb|board|-Variable vom Typen der \textbf{GBA}-Struktur aufgerufen. Diese legt unter anderen als Wert f\"ur das \verb|init|-Feld des \verb|d|-Feldes vom Typen der \textbf{mCPUComponent}-Struktur der \verb|board|-Variablen die globale Methode \textbf{GBAInit} (\textit{\$/src/gba/gba.c}) fest. \sout{Im weiteren Verlauf der \textbf{{\_}GBACoreInit}-Methode wird schlie{\ss}lich noch die globale Methode \textbf{ARMInit} aufgerufen und ihr dabei die zuvor initialisierte cpu-Variable vom Typen der \textbf{ARMCore}-Struktur \"ubergeben.}
+
+\vspace{5mm}
+\large {\_}GBACoreSetAudioBufferSize \normalsize(\textit{\$/src/gba/core.c})
+\vspace{2mm}\newline
+Anschlie{\ss}end wird mit Hilfe der globalen Methode \textbf{mCoreLoadForeignConfig} (\textit{\$/src/core/core.c}) die Konfiguration der \textbf{ConfigController}-Instanz, die durch die \textbf{Window}-Klasse an den \textbf{GameController} \"ubertragen wurde, auf den \textbf{mCore} des \verb|core|-Feldes der Membervariablen \verb|m_threadContext| angewendet. Hierbei wird unter anderen die Funktion auf die im Feld \verb|setAudioBufferSize| verwiesen wird aufgerufen. Nach Durchlaufen der globalen \textbf{GBACoreCreate}-Methode ist das die globale Methode \textbf{{\_}GBACoreSetAudioBufferSize}. Sie leitet den Aufruf direkt weiter an die globale Methode \textbf{GBAAudioResizeBuffer} unter Verwendung des \verb|audio|-Feldes der \textbf{GBAAudio}-Struktur des \verb|board|-Felds der \textbf{mCore}-Struktur.
+
+\vspace{5mm}
+\large {\_}GBACoreLoadConfig \normalsize(\textit{\$/src/gba/core.c})
+\vspace{2mm}\newline
+Nachdem die Funktion auf die im Feld \verb|setAudioBufferSize| verwiesen wird aufgerufen wurde, wird von der globalen Methode \textbf{mCoreLoadForeignConfig} die allgemeine Funktion auf die im Feld \verb|loadConfig| verwiesen wird aufgerufen. Nach Durchlaufen der globalen \textbf{GBACoreCreate}-Methode ist das die globale Methode \textbf{{\_}GBACoreLoadConfig}. Sie \"ubernimmt im Wesentlichen die Konfiguration f\"ur das Mastervolume des \verb|audio|-Feldes der \textbf{GBAAudio}-Struktur des \verb|board|-Felds der \textbf{mCore}-Struktur.
+
+\newpage
+
+\vspace{5mm}
+\large {\_}GBACoreLoadROM \normalsize(\textit{\$/src/gba/core.c})
+\vspace{2mm}\newline
+Auf die vorangegangene Konfiguration des \textbf{mCore} wir schlie{\ss}lich der ROM in den \enquote{Core} geladen. Hierzu verwendet die \textbf{GameController}-Instanz die Funktion auf die im Feld \verb|loadROM| verwiesen wird. Nach Durchlaufen der globalen \textbf{GBACoreCreate}-Methode ist das die globale Methode \textbf{{\_}GBACoreLoadROM}. Sie dient dem finalen Setup der virtuellen Hardwarekonfiguration des \textbf{mCore} sowie der Initialisierung des virtuellen Prozessspeichers im \verb|memory|-Feld der \textbf{mCore}-Spezialisierung \textbf{GBA}.
 
 
 
