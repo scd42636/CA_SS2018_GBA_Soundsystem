@@ -730,6 +730,8 @@ Ebenso wie das \textbf{AudioDevice} den Zugriff auf die Audiodaten blockiert, w\
 
 \newpage
 
+\subsection{Audioklassen}
+
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.7\textwidth]{QT_Klassendiagramm}
@@ -737,6 +739,75 @@ Ebenso wie das \textbf{AudioDevice} den Zugriff auf die Audiodaten blockiert, w\
     \label{fig:qtclassdiagramm}
 \end{figure}
 
+Wie in Abildung \ref{fig:qtclassdiagramm} dargestellt, besteht die Audioverarbeitung auf Seitens der Qt-Anwendung aus drei wesentlichen Klassen. Die Klasse \textbf{AudioDevice}, \textbf{QAudioOutput} und \textbf{AudioProcessorQt}.
+Dabei leitet \textbf{AudioDevice} von QIODevice und \textbf{AudioProcessorQt} von AudioProcessor ab.
+
+\newpage
+
+\vspace{5mm}
+\large AudioProcessor \normalsize(\textit{\$/src/platform/qt/AudioProcessor.cpp})
+\vspace{2mm}\newline
+
+Die Klasse \textbf{AudioProcessor} erbt von QObject. QObject ist die Basisklasse aller Qt Objekte und im Bezug auf die Objektmodellierung somit das Herzst\"uck von Qt. \textbf{AudioProcessor} ist eine abstrakte Klasse und definiert
+ein Interface f\"ur die Klassen AudioProcessorQt und AudioProcessorSDL.
+
+Der Konstruktor verf\"ugt \"uber keine Logik und ist somit leer. Abh\"angig von dem im Makefile angegebenen Treiber kann \"uber die Methode \textbf{AudiProcessor::Driver} der Treiber in die Member-Variable s\_driver gesetzt werden. mGBA nutzt standardm\"a{\ss}ig den Treiber QT\_MULTIMEDIA. Aus diesem Grund, wird auf eine genauere Betrachtung
+der Klasse AudioProcessorSDL verzichtet. 
+
+\"Uber die Methode \textbf{AudiProcessor::create()} wird abh\"angig vom gesetzten Treiber eine neue Instanz von AudioProcessorQt oder AudioProcessorSDL erzeugt und liefert diese als R\"uckgabewert zur\"uck.
+
+\textbf{AudiProcessor::getBufferSamples const()} liefert die Anzahl der Samples zur\"uck. Diese ist initial vorgegeben in der Variablen m\_samples und betr\"agt 2048. m\_samples kann mit dem Aufruf von \textbf{AudiProcessor::setBufferSamples} ge\"andert werden. Es folgen abstrakte Methoden und Slots. Diese werden in der Klasse 
+\textbf{AudioProcessorQt} \"uberschrieben.
+
+Weiterhin beinhaltet die Klasse eine Variable m\_context. Diese stellt einen Zeiger auf den mCoreThread dar und kann mit der Methode \textbf{AudioProcessor::setInput(mCoreThread* input)} gesetzt werden. 
+
+\vspace{5mm}
+\large AudioProcessorQt \normalsize(\textit{\$/src/platform/qt/AudioProcessorQt.cpp})
+\vspace{2mm}\newline
+
+Auch hier beinhaltet der Konstruktor keine Logik. Aktiv wird der \textbf{AudioProcessorQt} durch den Aufruf der "`start"' Methode \textbf{TODO: ref auf Abschnitt von Dominik}.
+
+\vspace{5mm}
+\large AudioProcessorQt::start() \normalsize(\textit{\$/src/platform/qt/AudioProcessorQt.cpp})
+\vspace{2mm}\newline
+
+Zun\"achst wird \"uberpr\"uft, ob der mCoreThread bereits \"ubergeben und gesetzt wurde. Ist dies nicht der Fall, terminiert die Methode mit dem R\"uckgabewert \textbf{false}. Anschlie{\ss}end wird, falls dies noch nicht geschehen ist, ein
+\textbf{AudioDevice} erzeugt und in die Zeiger-Variable \textbf{m\_device} geschrieben.
+
+\vspace{5mm}
+\large AudioDevice::AudioDevice(QObject* parent) \normalsize(\textit{\$/src/platform/qt/AudioDevice.cpp})
+\vspace{2mm}\newline
+
+Die Klasse \textbf{AudioDevice} stellt das Bindeglied zwischen AudioProcessorQt und dem mCoreThread dar. Wie schon erw\"ahnt, erbt diese von QIODevice. QIODevice ist ein Interface f\"ur alle I/O Ger\"ate und kann deshalb nicht direkt instanziiert werden.
+Wird von dieser Basisklasse abgeleitet, m\"ussen die Methoden readData() und writeData() \"uberschrieben werden. Zus\"atzlich muss die Methode \textbf{setOpenMode()} mit dem gew\"unschten Modus im Konstruktor aufgerufen werden. In diesem Fall wird der Parameter "`ReadOnly"' \"ubergeben. Daraus resultiert ein nur lesbares QIODevice. Weiterhin wird auch hier der mCoreThread \"ubergeben und gesetzt. Die bereits erw\"ahnte Methode \textbf{writeData} spielt hier keine Rolle, da nicht auf das Ger\"at geschrieben werden darf. Sie muss jedoch \"uberschrieben werden aber beinhaltet nur eine Warnung. Eine genauere Betrachtung der Funktionsweise der Klasse folgt. 
+
+
+
+\vspace{5mm}
+\large AudioProcessorQt::start() \normalsize(\textit{\$/src/platform/qt/AudioProcessorQt.cpp})
+\vspace{2mm}\newline
+
+Nach dem erfolgreichen Anlegen eines AudioDevices, wird im n\"achsten Schritt, falls dies noch nicht vorhanden ist, ein \textbf{QAudioFormat} erzeugt. Die Klasse \textbf{QAudioFormat} speichert Informationen \"uber Audio-Stream Parameter.
+
+\vspace{5mm}
+\begin{lstlisting}[language=C++, caption={Ausschnitt aus AudioProcessorQt::start()}, label={list:FormatAudioProcessorQt}]
+    QAudioFormat format;
+		format.setSampleRate(m_sampleRate); // m_sampleRate = 44100
+		format.setChannelCount(2);			// 2 bedeutet Stereo 1 Mono
+		format.setSampleSize(16);			// Typischerweise 8 oder 16
+		format.setCodec("audio/pcm");		// Linear PCM
+		format.setByteOrder(QAudioFormat::Endian(QSysInfo::ByteOrder));
+		// Little- oder Big-Endian
+		format.setSampleType(QAudioFormat::SignedInt);	// Sample Typ
+		m_audioOutput = new QAudioOutput(format, this);
+		m_audioOutput->setCategory("game");
+\end{lstlisting}
+  
+Wie bereits am Ende von Snippet \ref{list:FormatAudioProcessorQt} zu sehen, wird eine neue Instanz der Klasse \textbf{QAudioOutput} angelegt. \textbf{QAudioOutput} stellt ein Interface zur Verf\"ugung mit dem Audio-Daten zu einem Audio-Ger\"at
+gesendet werden k\"onnen(z.B. Lautsprecher, Kopfh\"orher usw.) Die \textbf{setCatecory} Methode setzt den Modus auf "`Game"'. Diese Methode wird nicht von allen Plattformen unterst\"utzt. 
+
+Am Ende der "`start"' Methode wird dem Aufruf \textbf{m\_audioOutput$\rightarrow$start(m\_device)} das QAudioOutput gestartet. Dieses transferiert nun kontinuierlich Audio-Daten vom \textbf{AudioDevice} zum Audioausgang des Systems. 
+Schlie{\ss}lich wird der Status der QAudioOutput Instanz auf Aktiv gesetzt.
 
 \newpage
 
