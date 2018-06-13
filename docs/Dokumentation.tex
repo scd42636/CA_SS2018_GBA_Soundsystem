@@ -928,7 +928,7 @@ Nach dem erfolgreichen Anlegen eines AudioDevices, wird im n\"achsten Schritt, f
 \end{lstlisting}
   
 Wie bereits am Ende von Snippet \ref{list:FormatAudioProcessorQt} zu sehen, wird eine neue Instanz der Klasse \textbf{QAudioOutput} angelegt. \textbf{QAudioOutput} stellt ein Interface zur Verf\"ugung mit dem Audio-Daten zu einem Audio-Ger\"at
-gesendet werden k\"onnen(z.B. Lautsprecher, Kopfh\"orher usw.) Die \textbf{setCatecory} Methode setzt den Modus auf "`Game"'. Diese Methode wird nicht von allen Plattformen unterst\"utzt. 
+gesendet werden k\"onnen(z.B. Lautsprecher, Kopfh\"orher usw.) Die \textbf{setCatecory()} Methode setzt den Modus auf "`Game"'. Diese Methode wird nicht von allen Plattformen unterst\"utzt. 
 
 Am Ende der "`start"' Methode wird dem Aufruf \textbf{m\_audioOutput$\rightarrow$start(m\_device)} das QAudioOutput gestartet. Dieses transferiert nun kontinuierlich Audio-Daten vom \textbf{AudioDevice} zum Audioausgang des Systems. 
 Schlie{\ss}lich wird der Status der QAudioOutput Instanz auf Aktiv gesetzt.
