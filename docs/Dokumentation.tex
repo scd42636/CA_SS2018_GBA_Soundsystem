@@ -66,6 +66,37 @@
 
 % ------------------------------------------------------------
 
+\newcommand{\AutorDominik} {
+    \vspace{-4mm}
+    \large \textbf{Autor:} Dominik Scharnagl \normalsize
+    \vspace{2mm}
+}
+
+
+\newcommand{\AutorDominikFlorian} {
+    \vspace{-4mm}
+    \large \textbf{Autoren:} Dominik Scharnagl, Florian Boemmel \normalsize
+    \vspace{2mm}
+}
+
+\newcommand{\AutorFlorian} {
+    \vspace{-4mm}
+    \large \textbf{Autor:} Florian Boemmel \normalsize
+    \vspace{2mm}
+}
+
+\newcommand{\AutorFlorianNgoc} {
+    \vspace{-4mm}
+    \large \textbf{Autoren:} Florian Boemmel, Ngoc Luu Tran \normalsize
+    \vspace{2mm}
+}
+
+\newcommand{\AutorNgoc} {
+    \vspace{-4mm}
+    \large \textbf{Autor:} Ngoc Luu Tran \normalsize
+    \vspace{2mm}
+}
+
 % Document Settings
 %% Metadata
 \title{\vspace{5cm}\huge Computer Architektur \\ \Large Studienarbeit \vspace{1cm}}
@@ -143,70 +174,12 @@
 \printindex
 \clearpage
 
-
-\begin{enumerate}
-    \item Einleitung
-    \begin{enumerate}
-        \item Untersuchungsgegenstand (Florian)
-        \item Verwendete Software (Florian)
-    \end{enumerate}
-    
-    \item Game Boy Advance
-    \begin{enumerate}
-        \item Hardwareumgebung
-        \begin{enumerate}
-            \item \"Ubersicht der Audio-Register (Florian)
-            \item \"Ubersicht der Sound-Master-Register (Florian)
-        \end{enumerate}
-        
-        \item Plattformen
-        \begin{enumerate}
-            \item DevkitPro (Ngoc)
-            \item BeLogic (Ngoc)
-            \item MaxMod (Ngoc)
-            \item Snappy (Ngoc)
-        \end{enumerate}
-        
-        \item Softwareentwicklung
-        \begin{enumerate}
-            \item API zur Audioverarbeitung (Ngoc)
-            \item Audiodaten im Speicher (Ngoc)
-            \item Snappy - \enquote{Audio-Reflektor} (Ngoc)
-            \item Untersuchung des Assemblers (Ngoc)
-        \end{enumerate}
-    \end{enumerate}
-    
-    \item Emulation mittels mGBA
-    \begin{enumerate}
-        \item Was ist der mGBA? (Dominik)
-        \item Emulation des Game Boy Advance
-        \begin{enumerate}
-            \item Abgrenzung der Untersuchung (Florian)
-            \item Start des Emulators (Dominik)
-            \item Initialisierung des \enquote{mCore} (Dominik)
-            \item Laden des ROM (Dominik)
-            \item Starten des ROM (Dominik)
-            \item Ausf\"uhrung des ROM (Dominik)
-        \end{enumerate}
-        
-        \item Emulation des Soundsystems
-        \begin{enumerate}
-            \item Audioverarbeitung im Assembler (Dominik)
-            \item Weiterverarbeitung im Emulator (Dominik)
-            \item Interaktion mit dem Betriebssystem (Florian)
-            \item ...
-        \end{enumerate}
-    \end{enumerate}
-\end{enumerate}
-
-
-\newpage
-
 % ========== Chapter 1 ==========
 
-\section{Einleitung}
+\section{Einleitung} \label{Einleitung}
+\AutorFlorian
 
-Der Game Boy Advance z\"ahlt zu einer der erfolgreichsten Spielekonsolen der Welt. Der 2001 von Nintendo\cite{NintendoGeschichte} ver\"offentlichte Nachfolger des Game Boy Classic findet sich heute noch in den Schubl\"aden der damalilgen Jugend. Deshalb \"uberrascht es auch nicht, dass die Fans der Konsole den Erinnerungen aus ihrer Kindheit neues Leben einhauchen und sogar Emulatoren f\"ur diverse Spiele-Klassiker der Plattform entwickeln.
+Der Game Boy Advance z\"ahlt zu einer der erfolgreichsten Spielekonsolen der Welt. Der 2001 von Nintendo \cite{NintendoGeschichte} ver\"offentlichte Nachfolger des Game Boy Classic findet sich heute noch in den Schubl\"aden der damalilgen Jugend. Deshalb \"uberrascht es auch nicht, dass die Fans der Konsole den Erinnerungen aus ihrer Kindheit neues Leben einhauchen und sogar Emulatoren f\"ur diverse Spiele-Klassiker der Plattform entwickeln.
 
 \begin{figure}[h]
     \centering
@@ -217,7 +190,7 @@ Der Game Boy Advance z\"ahlt zu einer der erfolgreichsten Spielekonsolen der Wel
 
 Der zentrale Inhalt der Studienarbeit, ist das Reverse Engineering eines solchen Game Boy Advance Emulators. Der genaue Inhalt dieser wird in den n\"achsten Kapiteln zun\"achst eingeschr\"ankt und sp\"ater weiter konkretisiert.
 
-Emulatoren geh\"oren zu einem beliebten Werkzeug der Informatik. Sie bilden ein System oder ein Teilsystem ab. Dabei ist zu beachten, dass diese nur bekanntes Verhalten nur \enquote{nachahmen}. Genauer ausgef\"uhrt bedeutet dies, dass zum Beispiel bei einem Game Boy Advance Emulator die Software intern anders als auf dem originalen Ger\"at arbeitet. Jedoch kommt es beim Emulieren nicht auf die gleiche Arbeitsweise an, sondern auf das Ergebnis. In diesem konkreten Fall, einen voll funktionsf\"ahigen Nachbau des Game Boys in Software. Mit dem es m\"oglich ist digitalisierte Versionen eines Spieles spielen zu k\"onnen.\newline
+Emulatoren geh\"oren zu einem beliebten Werkzeug der Informatik. Sie bilden ein System oder ein Teilsystem ab. Dabei ist zu beachten, dass diese bekanntes Verhalten nur \enquote{nachahmen}. Genauer ausgef\"uhrt bedeutet dies, dass zum Beispiel bei einem Game Boy Advance Emulator die Software intern anders als auf dem originalen Ger\"at arbeitet. Jedoch kommt es beim Emulieren nicht auf die gleiche Arbeitsweise an, sondern auf das Ergebnis. In diesem konkreten Fall, einen voll funktionsf\"ahigen Nachbau des Game Boys in Software. Mit dem es m\"oglich ist digitalisierte Versionen eines Spieles spielen zu k\"onnen.\newline
 
 \begin{table}[h]
     \centering
@@ -231,26 +204,28 @@ Emulatoren geh\"oren zu einem beliebten Werkzeug der Informatik. Sie bilden ein 
         \hline
         \textbf{Lautsprecher} & Lautsprecher (Mono), Kopfh\"orer (Stereo) \\
     \end{tabular}
-    \caption{Technische Daten des Game Boy Advance\cite{GameBoyTechnischeDaten}}
+    \caption{Technische Daten des Game Boy Advance \cite{GameBoyTechnischeDaten}}
     \label{table:TechnischeDaten}
 \end{table}
 
 \newpage
 
 \subsection{Untersuchungsgegenstand}
+\AutorFlorian
 
 In dieser Studienarbeit wird die Fragestellung, wie wird das Soundsystem des Game Boy Advance in einem beliebigen Emulator emuliert, thematisiert. Ein konkreter Emulator wurde nicht vorgegeben. Wir einigten uns demnach auf den Game Boy Advance Emulator \enquote{mGBA}. Dieser stellt im Folgenden unseren zentralen Untersuchungsgegenstand dar.
 
 Die Untersuchung wird in vier Unterthemen gegliedert:
 
 \begin{itemize}
-    \item Erstellung eines Beispielprogramms
-    \item Untersuchung der Fragestellung mit Hilfe eines Beispielprogrammes
-    \item Untersuchung der Interaktion des Beispielprogrammes mit dem Emulator
-    \item Untersuchung der Interaktion von Emulator und Betriebssystem
+    \item Erstellung eines Beispielprogramms (siehe Abschnitt \ref{Plattformen} und Abschnitt \ref{Softwareentwicklung})
+    \item Untersuchung der Fragestellung mit Hilfe eines Beispielprogrammes (siehe Abschnitt \ref{Softwareentwicklung})
+    \item Untersuchung der Interaktion des Beispielprogrammes mit dem Emulator (siehe Abschnitt \ref{EmulationGameBoyAdvance})
+    \item Untersuchung der Interaktion von Emulator und Betriebssystem (siehe Abschnitt \ref{EmulationSoundsystem})
 \end{itemize}
 
 \subsection{Verwendete Software}
+\AutorFlorian
 
 \begin{itemize}
     \item \textbf{Betriebssysteme}: Ubuntu 16.0 x64, Windows 10 x64, macOS 10.13.4
@@ -260,12 +235,15 @@ Die Untersuchung wird in vier Unterthemen gegliedert:
     \item \textbf{IDE's}: Programmer's Notepad, Visual Studio Code, Eclipse, Qt Creator
 \end{itemize}
 
+\newpage
 
 % ========== Chapter 2 ==========
 
-\section{Game Boy Advance}
+\section{Game Boy Advance} \label{GameBoyAdvance}
+\AutorFlorianNgoc
 
 \subsection{Hardwareumgebung}
+\AutorFlorian
 
 Der Game Boy Advance verf\"ugt \"uber sechs Soundkan\"ale. Vier davon wurden, vor allem aus Gr\"unden der Abw\"artskompatibilit\"at, aus dem Vorg\"anger \enquote{Game Boy Classic} \"ubernommen.
 
@@ -292,9 +270,10 @@ Der Game Boy Advance verf\"ugt \"uber sechs Soundkan\"ale. Vier davon wurden, vo
 
 % ========== Chapter 2.1.1 ==========
 
-\subsubsection{\"Ubersicht der Audio-Register}
+\subsubsection{\"Ubersicht der Audio Register}
+\AutorFlorian
 
-Intern besitzt der Game Boy Advance drei Sound-Master-Register. Dort m\"ussen, je nach Einstellungswunsch, ein paar Bits gesetzt werden. Erst dann ist eine Soundwiedergabe oder die generelle Funktionsf\"ahigkeit des Soundsystems m\"oglich.\cite{GameBoySoundsystem}
+Intern besitzt der Game Boy Advance drei Sound-Master-Register. Dort m\"ussen, je nach Einstellungswunsch, ein paar Bits gesetzt werden. Erst dann ist eine Soundwiedergabe oder die generelle Funktionsf\"ahigkeit des Soundsystems m\"oglich. \cite{GameBoySoundsystem}
 
 Der Offset im Folgenden bezieht sich auf die Basisadresse $0x04000000$ und wird in hexadezimaler Schreibweise angegeben. An dieser Stelle muss darauf hingewiesen werden, dass die Bezeichnungen der Register nicht eindeutig sind und sich je nach verwendeter Quelle unterscheiden.
 
@@ -312,6 +291,17 @@ Der Offset im Folgenden bezieht sich auf die Basisadresse $0x04000000$ und wird 
         $0x068$ & 2 & DMG Length, wave and evelope control & \verb|SOUND2CNT_L| \\
         \hline
         $0x06C$ & 2 & DMG Frequency, reset and loop control & \verb|SOUND2CNT_H| \\
+    \end{tabular}
+    \caption{\"Ubersicht der Sound-Register - Teil 1}
+    \label{table:SoundRegister1}
+\end{table}
+
+\newpage
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{ c | c | p{10cm} | l }    
+        \textbf{Offset} & \textbf{Kanal} & \textbf{Funktion} & \textbf{Bezeichnung} \\
         \hline
         $0x070$ & 3 & DMG Enable and wave ram bank control & \verb|SOUND3CNT_L| \\
         \hline
@@ -330,17 +320,6 @@ Der Offset im Folgenden bezieht sich auf die Basisadresse $0x04000000$ und wird 
         $0x084$ & & Master Sound Output Control / Status & \verb|SOUNDCNT_X| \\
         \hline
         $0x088$ & & Sound Bias & \verb|SOUNDBIAS| \\
-    \end{tabular}
-    \caption{\"Ubersicht der Sound-Register - Teil 1}
-    \label{table:SoundRegister1}
-\end{table}
-
-Die in Tabelle \ref{table:SoundRegister1} und in Tabelle \ref{table:SoundRegister2} gelisteten Register sind im mGBA als Felder der Enumeration \textit{GBAIORegisters} (Datei: \textit{\$/include/mgba/internal/gba/io.h}) gelistet und entsprechend ihrer Registeradressen belegt. Sie werden unter anderen zur Adressierung des emulierten Speichers verwendet. Als Quelle f\"ur die beiden Tabellen diente neben der \textit{io.h} auch die Webseite \url{http://belogic.com/gba/}, Stand Juni 2018.
-
-\begin{table}[h]
-    \centering
-    \begin{tabular}{ c | c | p{10cm} | l }
-        \textbf{Offset} & \textbf{Kanal} & \textbf{Funktion} & \textbf{Bezeichnung} \\
         \hline
         $0x090$ & 3 & DMG Wave RAM Register & \verb|WAVE_RAM0_L| \\
         \hline
@@ -370,51 +349,61 @@ Die in Tabelle \ref{table:SoundRegister1} und in Tabelle \ref{table:SoundRegiste
     \label{table:SoundRegister2}
 \end{table}
 
+Die in Tabelle \ref{table:SoundRegister1} und in Tabelle \ref{table:SoundRegister2} gelisteten Register sind im mGBA als Felder der Enumeration \textit{GBAIORegisters} (\textit{\$/include/mgba/internal/gba/io.h}) gelistet und entsprechend ihrer Registeradressen belegt. Sie werden unter anderen zur Adressierung des emulierten Speichers verwendet. Als Quelle f\"ur die beiden Tabellen diente neben der \textit{io.h} auch die Webseite \url{http://belogic.com/gba/}, Stand Juni 2018.
+
 \newpage
 
 % ========== Chapter 2.1.2 ==========
 
-\subsubsection{\"Ubersicht der Sound-Master-Register}
+\subsubsection{\"Ubersicht der Sound Master Register}
+\AutorFlorian
 
-Die Register DMG Master Control, Direct Sound Master Control und Master Sound Output Control / Status bilden die Sound Master Register.\\
+Die Register DMG Master Control, Direct Sound Master Control und Master Sound Output Control / Status bilden die Sound Master Register.
 
 \vspace{5mm}
 \large DMG Master Control \label{dmgmastercontrol}
 \vspace{2mm}\newline
-
-Hier m\"ussen zun\"achst einige Bits gesetzt werden, bevor eine generelle Verwendung des Sound-Systems m\"oglich ist.\\
+Hier m\"ussen zun\"achst einige Bits gesetzt werden, bevor eine generelle Verwendung des Soundsystems m\"oglich ist.
 
 \begin{table}[h]
 	\centering
-	\begin{tabular}{| c | c | c | c | c | c | c | c | c | c | c | c |}
+    \begin{tabular}{ c | c | p{10cm} | l } 
+	    \textbf{Bit} & \textbf{Kanal} & \textbf{Funktion} & \textbf{Bezeichnung} \\
 	    \hline
-	    F & E & D & C & B & A & 9 & 8 & 7 & 6 5 4 & 3 & 2 1 0 \\
+	    0 & 1-4 & Left Volume & \\
 	    \hline
-	    \textcolor{blue}{R4} & \textcolor{blue}{R3} & \textcolor{blue}{R2} & \textcolor{blue}{R1} & \textcolor{red}{L4} & \textcolor{red}{L3}
-	& \textcolor{red}{L2} & \textcolor{red}{L1} & - & \textcolor{magenta}{RV} & - & \textcolor{green}{LV} \\
+	    1 & 1-4 & Left Volume & \\
 	    \hline
+	    2 & 1-4 & Left Volume & \\
+	    \hline
+	    3 & & & \\
+	    \hline
+	    4 & 1-4 & Right Volume & \\
+	    \hline
+	    5 & 1-4 & Right Volume & \\
+	    \hline
+	    6 & 1-4 & Right Volume & \\
+	    \hline
+	    7 & & & \\
+	    \hline
+	    8 & 1 & Channel 1 Left & \verb|SDMG_LSQR1| \\
+	    \hline
+	    9 & 2 & Channel 2 Left & \verb|SDMG_LSQR2| \\
+	    \hline
+	    A & 3 & Channel 3 Left & \verb|SDMG_LWAVE| \\
+	    \hline
+	    B & 4 & Channel 4 Left & \verb|SDMG_LNOISE| \\
+	    \hline
+	    C & 1 & Channel 1 Right & \verb|SDMG_RSQR1| \\
+	    \hline
+	    D & 2 & Channel 2 Right & \verb|SDMG_RSQR2| \\
+	    \hline
+	    E & 3 & Channel 3 Right & \verb|SDMG_RWAVE| \\
+	    \hline
+	    F & 4 & Channel 4 Right & \verb|SDMG_RNOISE| \\
 	\end{tabular}
-	\caption{Register DMG Master Control}
-	\label{table: DMGMasterControl}
-\end{table}
-	
-\begin{table}[h]
-	\centering
-	\begin{tabular}{| c | c | c | c |}
-	    \hline
-	    \textbf{Bits} & \textbf{Name} & \textbf{Definition} & \textbf{Beschreibung} \\
-	    \hline
-	    0-2 & \textcolor{green}{LV} & & Left volume \\
-	    \hline
-	    4-6 & \textcolor{magenta}{RV} & & Right volume \\
-	    \hline
-	    8-B & \textcolor{red}{L1-L4} & SDMG\_LSQR1, SDMG\_LSQR2, SDMG\_LWAVE, SDMG\_LNOISE  & Channels 1-4 on left \\
-	    \hline
-	    C-F & \textcolor{blue}{R1-R4} & SDMG\_RSQR1, SDMG\_RSQR2, SDMG\_RWAVE, SDMG\_RNOISE  & Channels 1-4 on right \\
-	    \hline
-	\end{tabular}
-	\caption{Registerinhalt DMG Master Control}
-	\label{table: DMGMasterControlContent}
+	\caption{DMG Master Control Register}
+	\label{table:DmgMasterControlRegister}
 \end{table}
 
 \newpage
@@ -422,164 +411,202 @@ Hier m\"ussen zun\"achst einige Bits gesetzt werden, bevor eine generelle Verwen
 \vspace{5mm}
 \large Direct Sound Master Control \label{directsoundmastercontrol}
 \vspace{2mm}\newline
-
-Dieses Register kontrolliert die Lautst\"arke der DMG Kan\"ale und aktiviert diese. Die Einstellungen k\"onnen separiert voneinander f\"ur den linken und rechten Lautsprecher vorgenommen werden. 
+Dieses Register kontrolliert die Lautst\"arke der DMG Kan\"ale und aktiviert diese. Die Einstellungen k\"onnen separiert voneinander f\"ur den linken und rechten Lautsprecher vorgenommen werden.
 
 \begin{table}[h]
 	\centering
-	\begin{tabular}{| c | c | c | c | c | c | c | c | c | c | c | c |}
+    \begin{tabular}{ c | c | p{10cm} | l } 
+	    \textbf{Bits} & \textbf{Name} & \textbf{Funktion} & \textbf{Bezeichnung} \\
 	    \hline
-	    F & E & D & C & B & A & 9 & 8 & 7 6 5 4 & 3 & 2 & 1 0 \\
+	    0-1 & DMGV & DMG Volume Ratio & \\
+	        &      & 00: 25\% & \verb|SDS_DMG25| \\
+	        &      & 01: 50\% & \verb|SDS_DMG50| \\
+	        &      & 10: 100\% & \verb|SDS_DMG100| \\
+	        &      & 11: forbidden \\
 	    \hline
-	    \textcolor{brown}{BF} & \textcolor{magenta}{BT} & \textcolor{green}{BL} & \textcolor{green}{BR} & \textcolor{brown}{AF} & \textcolor{magenta}{AT}
-	& \textcolor{green}{AL} & \textcolor{green}{AR} & - & \textcolor{blue}{BV} & \textcolor{blue}{AV} & \textcolor{red}{DMGV} \\
+	    2 & AV & Direct Sound A Volume Ratio & \\
+	      &    & 50\% if clear & \verb|SDSA50| \\
+	      &    & 100\% if set  & \verb|SDSA100| \\
+        \hline
+	    3 & BV & Direct Sound B Volume Ratio & \\
+	      &    & 50\% if clear & \verb|SDSB50| \\
+	      &    & 100\% if set  & \verb|SDSB100| \\
 	    \hline
+	    4-7 & & & \\
+	    \hline
+	    8 & AR & Direct Sound A enable Direct Sound on Right speaker & \verb|SDS_AR| \\
+	    \hline
+	    9 & AL & Direct Sound A enable Direct Sound on Left speaker & \verb|SDS_AL| \\
+	    \hline
+	    A & AT & Direct Sound A Timer. & \\
+	       &   & Use timer 0 (if clear) for Direct Sound A & \verb|SDS_ATMR0| \\
+	       &   & Use timer 1 (if set) for Direct Sound A & \verb|SDS_ATMR1| \\
+	    \hline
+	    B & AF & FIFO reset for Direct Sound A & \verb|SDS_ARESET| \\
+	    \hline
+	    C & BR & Direct Sound B enable Direct Sound on Right speaker & \verb|SDS_BR| \\
+	    \hline
+	    D & BL & Direct Sound B enable Direct Sound on Left speaker & \verb|SDS_BL| \\
+	    \hline
+	    E & BT & Direct Sound B Timer. & \\
+	       &   & Use timer 0 (if clear) for Direct Sound B & \verb|SDS_BTMR0| \\
+	       &   & Use timer 1 (if set) for Direct Sound B & \verb|SDS_BTMR1| \\
+	    \hline
+	    F & BF & FIFO reset for Direct Sound B & \verb|SDS_BRESET| \\
 	\end{tabular}
-	\caption{Register Direct Sound Master Control}
-	\label{table: DirectSoundMasterControl}
+	\caption{Direct Sound Master Control Register}
+	\label{table:DirectSoundMasterControlRegister}
 \end{table}
-	
-\begin{table}[h]
-	\centering
-	\begin{tabular}{| c | l | l | l |}
-	    \hline
-	    \textbf{Bits} & \textbf{Name} & \textbf{Definition} & \textbf{Beschreibung} \\
-	    \hline
-	    0-1 & \textcolor{red}{DMGV} & SDS\_DMG25, & DMG Volume ratio \\
-	    & & SDS\_DMG50, & 00: 25\% \\
-	    & & SDS\_DMG100 & 01: 50\% \\
-	    & & & 10: 100\% \\
-        & & & 11: forbidden \\
-	    \hline
-	    2 & \textcolor{blue}{AV} & SDS\_A50, SDS\_A100 & DSound A volume ratio. 50\% if clear; 100\% of set  \\
-	    \hline
-	    3 & \textcolor{blue}{BV} & SDS\_B50, SDS\_B100 & DSound B volume ratio. 50\% if clear; 100\% of set  \\
-	    \hline
-	    8-9 & \textcolor{green}{AR,AL} & SDS\_AR, SDS\_AL & DSound A enable Enable DS A on right and left speakers \\
-	    \hline
-	    A & \textcolor{magenta}{AT} & SDS\_ATMR0, & Dsound A timer. Use timer 0 (if clear) or 1 (if set) for DS A \\
-	    & & SDS\_ATMR1 & \\
-	    \hline
-	    B & \textcolor{brown}{AF} & SDS\_ARESET &  FIFO reset for Dsound A. When using DMA for Direct sound,  \\
-	    & & & this will cause DMA to reset the FIFO buffer after it's used.\\
-	    \hline
-	    C-F & \textcolor{green}{BR, BL},  &  SDS\_BR, SDS\_BL, & As bits 8-B, but for DSound B \\
-	    & \textcolor{magenta}{BT}, \textcolor{brown}{BF} & SDS\_BTMR0,  & \\
-	    & & SDS\_BTMR1, & \\
-	    & &  SDS\_BRESET & \\
-	    \hline
-	\end{tabular}
-	\caption{Registerinhalt Direct Sound Master Control}
-	\label{table: DirectSoundMasterControlContent}
-\end{table}
+
+Wenn DMA f\"ur Direct Sound verwendet wird, dann wird DMA den FIFO-Puffer zur\"ucksetzen, nachdem er verwendet wurde.
+
+
+
+
+
+
 	
 \newpage
 	
 \vspace{5mm}
 \large Master Sound Output Control / Status \label{mastersoundoutputcontrol}
 \vspace{2mm}\newline
-	
 Aus diesem Register kann zu einem der Status der einzelnen DMG Kan\"ale ausgelesen werden und zum Anderen die generelle Soundausgabe aktiviert werden. Dazu muss das Bit 7 gesetzt werden.
-	
+
 \begin{table}[h]
 	\centering
-	\begin{tabular}{| c | c | c | c | c | c | c |}
+    \begin{tabular}{ c | c | p{10cm} | l } 
+	    \textbf{Bits} & \textbf{Name} & \textbf{Funktion} & \textbf{Bezeichnung} \\
 	    \hline
-	    F E D C B A 9 8 & 7 & 6 5 4 & \textcolor{red}{3} & \textcolor{red}{2} & \textcolor{red}{1} & \textcolor{red}{0} \\
+	    0 & 1A & Channel 1 is active and currently playing. & \verb|SSTAT_SQR1| \\
 	    \hline
-	- & \textcolor{red}{MSE} & - & \textcolor{blue}{4A} & \textcolor{blue}{3A} & \textcolor{blue}{2A} & \textcolor{blue}{1A} \\
+	    1 & 2A & Channel 2 is active and currently playing. & \verb|SSTAT_SQR2| \\
 	    \hline
+	    2 & 3A & Channel 3 is active and currently playing. & \verb|SSTAT_WAVE| \\
+	    \hline
+	    3 & 4A & Channel 4 is active and currently playing. & \verb|SSTAT_NOISE| \\
+	    \hline
+	    4-6 & & & \\
+	    \hline
+	    7 & MSE & Master Sound Enable & \verb|SSTAT_DISABLE| \\
+	      &     & Must be set if any sound is to be heard at all. Set this before you do anything; otherwise other sound registers can't be accessed (see GBATek for more details). & \verb|SSTAT_ENABLE| \\
+	    \hline
+	    8-F & & & \\
 	\end{tabular}
-	\caption{Register Master Sound Output / Status}
-	\label{table: MasterSoundOutputStatus}
-\end{table}
-	
-\begin{table}[h]
-	\centering
-	\begin{tabular}{| c | l | l | l |}
-	    \hline
-	    \textbf{Bits} & \textbf{Name} & \textbf{Definition} & \textbf{Beschreibung} \\
-	    \hline
-	    \textcolor{red}{0-3} & \textcolor{blue}{1A-4A} & SSTAT\_SQR1, & Active channels. Indicates which DMA channels are currently playing.   \\
-	    & & SSTAT\_SQR2, & They do not enable the channels;\\
-	    & & SSTAT\_WAVE, & that's what DMG Master Control \ref{dmgmastercontrol} is for.\\
-	    & & SSTAT\_NOISE & \\
-	    \hline
-	    7 & \textcolor{red}{MSE} & SSTAT\_DISABLE, & Master Sound Enable. Must be set if any sound is to be heard at all.   \\
-	    & & SSTAT\_ENABLE & Set this before you do anything else: \\
-	    & & & the other registers can't be accessed otherwise, see GBATek for details. \\ 
-	    \hline
-	\end{tabular}
-	\caption{Registerinhalt Master Sound Output / Status}
-	\label{table: MasterSoundOutputStatusContent}
+	\caption{Master Sound Output / Status Register}
+	\label{table:MasterSoundOutputControlStatusRegister}
 \end{table}
 
-\clearpage
+Die Bits 0-3 geben ausschlie{\ss}lich dar\"uber Auskunft, welcher Kanal aktuelle bespielt wird und nicht ob dieser eingeschaltet ist. Zum Ein- und Ausschalten eines Kanals dient das DMG Master Control Register (siehe Abschnitt \ref{dmgmastercontrol}).
+
+
+
+
+\newpage
 
 % ========== Chapter 2.2 ==========
 
-\subsection{Plattformen}
+\subsection{Plattformen} \label{Plattformen}
+\AutorNgoc
 
 % ========== Chapter 2.2.1 ==========
 
 \subsubsection{DevkitPro}
+\AutorNgoc
 
 % ========== Chapter 2.2.2 ==========
 
 \subsubsection{BeLogic}
+\AutorNgoc
 
 % ========== Chapter 2.2.3 ==========
 
 \subsubsection{MaxMod}
+\AutorNgoc
 
 % ========== Chapter 2.2.4 ==========
 
 \subsubsection{Snappy}
+\AutorNgoc
 
 % ========== Chapter 2.3 ==========
 
-\subsection{Softwareentwicklung}
+\subsection{Softwareentwicklung} \label{Softwareentwicklung}
+\AutorNgoc
 
 % ========== Chapter 2.3.1 ==========
 
 \subsubsection{API zur Audioverarbeitung}
+\AutorNgoc
 
 % ========== Chapter 2.3.2 ==========
 
 \subsubsection{Audiodaten im Speicher}
+\AutorNgoc
 
 % ========== Chapter 2.3.3 ==========
 
-\subsubsection{Snappy - "`Audio-Reflektor"'}
-
+\subsubsection{Snappy - \enquote{Audio-Reflektor}}
+\AutorNgoc
 
 % ========== Chapter 2.3.4 ==========
 
 \subsubsection{Untersuchung des Assemblers}
+\AutorNgoc
 
+
+\newpage
 
 % ========== Chapter 3 ==========
 
-\section{Emulation mittels mGBA}
-
+\section{Emulation mittels mGBA} \label{EmulationMittelsMGBA}
+\AutorDominikFlorian
 
 % ========== Chapter 3.1 ==========
 
 \subsection{Was ist der mGBA?}
+\AutorDominik
 
 % ========== Chapter 3.2 ==========
 
-\subsection{Emulation des Game Boy Advance}
+\subsection{Emulation des Game Boy Advance} \label{EmulationGameBoyAdvance}
+\AutorDominikFlorian
 
 Die Anwendung \enquote{mGBA} wurde von den Entwicklern mit dem GUI-Toolkit Qt realisiert. Qt erm\"oglicht die plattformunabh\"angige Entwicklung von Anwendungen mit grafischer Benutzeroberfl\"ache und basiert auf der Sprache C++. Damit ist es Entwicklern auch m\"oglich, bereits realisierte Basis-Software problemlos zu integrieren.
 
 % ========== Chapter 3.2.1 ==========
 
 \subsubsection{Abgrenzung der Untersuchung}
+\AutorFlorian
 
-F\"ur die Untersuchung, wie der Emulator mit dem Betriebssystem interagiert, wird im Folgenden nur auf die daf\"ur ben\"otigten Klassen, Methoden und Konzepte eingegangen. Dabei liegt der Fokus ausschlie{\ss}lich auf Abl\"aufe die zur Emulation des Soundsystem notwendig sind.
+F\"ur die Untersuchung, wie der Emulator mit dem Betriebssystem interagiert, wird im Folgenden nur auf die daf\"ur ben\"otigten Klassen, Methoden und Konzepte eingegangen. Dabei liegt der Fokus ausschlie{\ss}lich auf Abl\"aufe die zur Emulation des Soundsystems notwendig sind.
 
-\subsubsection{Start der Anwendung}
+\subsubsection{Start des Emulators}
+\AutorDominik
+
+\subsubsection{Initialisierung des \enquote{mCore}}
+\AutorDominik
+
+\subsubsection{Laden des ROM}
+\AutorDominik
+
+\subsubsection{Starten des ROM}
+\AutorDominik
+
+\subsubsection{Ausf\"uhrung des ROM}
+\AutorDominik
+
+
+
+
+
+
+
+
+
+
+%\subsubitem{Start der Anwendung}
+%\AutorDominik
 
 Wie \"ublich beginnt auch beim mGBA die Anwendung in der globalen \verb|main|-Methode (\textit{\$/src/platform/qt/main.cpp}). Diese initialisiert den \textbf{ConfigController} mittels \verb|argc| und \verb|argv|. Anschlie{\ss}end wird eine neue Instanz der Klasse \textbf{GBAApp} ebenfalls mit \verb|argc| und \verb|argv|, sowie dem vorinitialisierten \verb|configController| initialisiert. Die weitere Logik der \verb|main|-Methode dient der Initialisierung und Lokalisierung einer \textbf{Window}-Instanz zur Anzeige der mGBA GUI. Die dabei erzeugte \textbf{Window}-Instanz wird w\"ahrenddessen dazu aufgefordert die Einstellungen aus dem bereits initialisierten \verb|configController| zu laden. Hierzu wird die Methode \verb|loadConfig()| der \textbf{Window}-Klasse verwendet.
 
@@ -640,7 +667,8 @@ Im Konstruktor der \textbf{GameController}-Klasse wird die lokale \verb|m_audioP
 \end{itemize}
 
 
-\subsubsection{Laden und Starten eines ROM}
+%\subsubsection{Laden und Starten eines ROM}
+%\AutorDominik
 
 W\"ahlt der mGBA-Anwender im Men\"u den Punkt \enquote{Load ROM...}, wird hierf\"ur die Methode \verb|selectROM()| der \textbf{Window}-Klasse ausgef\"uhrt. Nach erfolgter Auswahl einer entsprechend unterst\"utzten Datei, wird die Methode \verb|loadGame(path)|  der lokalen \textbf{GameController}-Instanz (\verb|m_controller|) mit dem Pfad zur ausgew\"ahlten ROM-Datei aufgerufen. Diese f\"uhrt nach einigen Vorabaktionen die Methode \verb|openGame()| der \textbf{GameController}-Instanz aus. Mittels globaler \textbf{mCoreFind}-Methode (\textit{\$/src/core/core.c}) wird der vom Format der ROM-Datei abh\"angige \enquote{Core} ermittelt und erstellt. Handelt es sich bei der ROM-Datei um ein Game Boy Advance (kurz \enquote{GBA}) Speicherabbild, wird die globale \textbf{GBACoreCreate}-Methode (\textit{\$/src/gba/core.c}) dazu verwendet den Speicher f\"ur die Struktur \textbf{GBACore} (\textit{\$/src/gba/core.c}) zu allokieren. Das dabei implizit allokierte \textbf{mCore}-Feld \verb|d| wird daraufhin mit diversen Funktionszeigern zu globalen Methoden mit dem Prefix \textbf{{\_}GBA} beziehungsweise \textbf{{\_}GBACore} initialisiert. Das auf diese Weise konfigurierte \verb|d|-Feld wird dann von der globalen \textbf{GBACoreCreate}-Methode zur\"uckgeliefert und im Feld \verb|mCoreThread.core| der lokalen Membervariable \verb|m_threadContext| der \textbf{GameController}-Instanz gespeichert.
 
@@ -759,7 +787,8 @@ Abgeschlossen wird der Code der Callback-Routine mit dem dynamischen Ausl\"osen 
 Wurde auch alle weiteren Callback-Routinen durchlaufen, beginnt die Ausf\"uhrung des Prozesses durch stetigen Aufruf der Funktion auf die im Feld \verb|runLoop| verwiesen wird. Nach Durchlaufen der globalen \textbf{GBACoreCreate}-Methode ist das die globale Methode \textbf{{\_}GBACoreRunLoop}. Dies geschieht solange, wie sich der Thread im Zustand kleiner/gleich \verb|THREAD_MAX_RUNNING| befindet.
 
 
-\subsubsection{Ausf\"uhrung eines ROM}
+%\subsubsection{Ausf\"uhrung eines ROM}
+%\AutorDominik
 
 Nach Durchlaufen der Setup-Phase bestehend aus dem Einrichten der notwendigen Strukturen und dem Laden des Prozessspeichers, kann der Inhalt des ROMs gem\"a{\ss} dem bekannten Instruction-Set eines ARM-Prozessors abgerarbeitet werden. Hierbei wird jede Anweisung im ROM sequentiell eine nach der anderen ausgewertet und ausgef\"uhrt. Die dabei im ROM beschriebenen Assembler Befehle f\"ur die ARM-Architektur, werden durch entsprechende Methoden abgearbeitet, welche das Verhalten der Plattform so emulieren, als ob der Prozess auf einem physikalichen ARM ausgef\"uhrt werden w\"urde.
 
@@ -826,7 +855,8 @@ Der Aufruf der gloablen \textbf{GBAStore32} (\textit{\$/src/gba/memory.c}) Metho
 \newpage
 
 
-\subsubsection{Interaktion mit dem Soundsystem}
+%\subsubsection{Interaktion mit dem Soundsystem}
+%\AutorDominik
 
 Damit die vom ROM beziehungsweise vom Prozess generierten Audiodaten auch mittels \textbf{mAVStream} in der \textbf{VideoView} sowie durch das \textbf{AudioDevice} verarbeitet werden bedient sich mGBA verschiedener Methoden.
 
@@ -842,19 +872,23 @@ Ebenso wie das \textbf{AudioDevice} den Zugriff auf die Audiodaten blockiert, w\
 
 % ========== Chapter 3.3 ==========
 
-\subsection{Emulation des Soundsystems}
+\subsection{Emulation des Soundsystems} \label{EmulationSoundsystem}
+\AutorDominik
 
 % ========== Chapter 3.3.1 ==========
 
 \subsubsection{Audioverarbeitung im Assembler}
+\AutorDominik
 
 % ========== Chapter 3.3.2 ==========
 
 \subsubsection{Weiterverarbeitung im Emulator}
+\AutorDominik
 
 % ========== Chapter 3.3.3 ==========
 
 \subsubsection{Interaktion mit dem Betriebssystem}
+\AutorFlorian
 
 \begin{figure}[h]
     \centering
@@ -863,7 +897,7 @@ Ebenso wie das \textbf{AudioDevice} den Zugriff auf die Audiodaten blockiert, w\
     \label{fig:qtclassdiagramm}
 \end{figure}
 
-Wie in Abildung \ref{fig:qtclassdiagramm} dargestellt, besteht die Audioverarbeitung auf Seitens der Qt-Anwendung aus drei wesentlichen Klassen. Die Klasse \textbf{AudioDevice}, \textbf{QAudioOutput} und \textbf{AudioProcessorQt}.
+Wie in Abbildung \ref{fig:qtclassdiagramm} dargestellt, besteht die Audioverarbeitung auf Seitens der Qt-Anwendung aus drei wesentlichen Klassen. Die Klasse \textbf{AudioDevice}, \textbf{QAudioOutput} und \textbf{AudioProcessorQt}.
 Dabei leitet \textbf{AudioDevice} von QIODevice und \textbf{AudioProcessorQt} von AudioProcessor ab.
 
 \newpage
@@ -871,7 +905,6 @@ Dabei leitet \textbf{AudioDevice} von QIODevice und \textbf{AudioProcessorQt} vo
 \vspace{5mm}
 \large AudioProcessor \normalsize(\textit{\$/src/platform/qt/AudioProcessor.cpp})
 \vspace{2mm}\newline
-
 Die Klasse \textbf{AudioProcessor} erbt von QObject. QObject ist die Basisklasse aller Qt Objekte und im Bezug auf die Objektmodellierung somit das Herzst\"uck von Qt. \textbf{AudioProcessor} ist eine abstrakte Klasse und definiert
 ein Interface f\"ur die Klassen AudioProcessorQt und AudioProcessorSDL.
 
@@ -888,20 +921,17 @@ Weiterhin beinhaltet die Klasse eine Variable m\_context. Diese stellt einen Zei
 \vspace{5mm}
 \large AudioProcessorQt \normalsize(\textit{\$/src/platform/qt/AudioProcessorQt.cpp})
 \vspace{2mm}\newline
-
 Auch hier beinhaltet der Konstruktor keine Logik. Aktiv wird der \textbf{AudioProcessorQt} durch den Aufruf der "`start"' Methode \textbf{TODO: ref auf Abschnitt von Dominik}.
 
 \vspace{5mm}
 \large AudioProcessorQt::start() \normalsize(\textit{\$/src/platform/qt/AudioProcessorQt.cpp})
 \vspace{2mm}\newline
-
 Zun\"achst wird \"uberpr\"uft, ob der mCoreThread bereits \"ubergeben und gesetzt wurde. Ist dies nicht der Fall, terminiert die Methode mit dem R\"uckgabewert \textbf{false}. Anschlie{\ss}end wird, falls dies noch nicht geschehen ist, ein
 \textbf{AudioDevice} erzeugt und in die Zeiger-Variable \textbf{m\_device} geschrieben.
 
 \vspace{5mm}
 \large AudioDevice::AudioDevice(QObject* parent) \normalsize(\textit{\$/src/platform/qt/AudioDevice.cpp})
 \vspace{2mm}\newline
-
 Die Klasse \textbf{AudioDevice} stellt das Bindeglied zwischen AudioProcessorQt und dem mCoreThread dar. Wie schon erw\"ahnt, erbt diese von QIODevice. QIODevice ist ein Interface f\"ur alle I/O Ger\"ate und kann deshalb nicht direkt instanziiert werden.
 Wird von dieser Basisklasse abgeleitet, m\"ussen die Methoden readData() und writeData() \"uberschrieben werden. Zus\"atzlich muss die Methode \textbf{setOpenMode()} mit dem gew\"unschten Modus im Konstruktor aufgerufen werden. In diesem Fall wird der Parameter "`ReadOnly"' \"ubergeben. Daraus resultiert ein nur lesbares QIODevice. Weiterhin wird auch hier der mCoreThread \"ubergeben und gesetzt. Die bereits erw\"ahnte Methode \textbf{writeData} spielt hier keine Rolle, da nicht auf das Ger\"at geschrieben werden darf. Sie muss jedoch \"uberschrieben werden aber beinhaltet nur eine Warnung. Eine genauere Betrachtung der Funktionsweise der Klasse folgt. 
 
@@ -935,7 +965,34 @@ Schlie{\ss}lich wird der Status der QAudioOutput Instanz auf Aktiv gesetzt.
 
 \newpage
 
+% ========== Chapter 4 ==========
 
+\section{Zusammenfassung} \label{Zusammenfassung}
+
+% ========== Chapter 4.1 ==========
+
+\subsection{Inhalt des Dokumentes}
+\AutorDominik
+
+% ========== Chapter 4.2 ==========
+\subsection{Fazit zur Studienarbeit}
+
+\large Dominik Scharnagl
+\vspace{2mm}\newline
+Hello World by Dominik.
+
+\vspace{5mm}
+\large Florian Boemmel
+\vspace{2mm}\newline
+Hello World by Florian.
+
+\vspace{5mm}
+\large Ngoc Luu Tran
+\vspace{2mm}\newline
+Hello World by Ngoc.
+
+
+\newpage
 \addtocontents{toc}{\protect\setcounter{tocdepth}{-1}}
 
 \begin{thebibliography}{tiefe}
