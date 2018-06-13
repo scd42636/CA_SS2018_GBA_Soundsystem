@@ -263,7 +263,9 @@ Die Untersuchung wird in vier Unterthemen gegliedert:
 
 % ========== Chapter 2 ==========
 
-\section{Emulation des Soundsystems}
+\section{Game Boy Advance}
+
+\subsection{Hardwareumgebung}
 
 Der Game Boy Advance verf\"ugt \"uber sechs Soundkan\"ale. Vier davon wurden, vor allem aus Gr\"unden der Abw\"artskompatibilit\"at, aus dem Vorg\"anger \enquote{Game Boy Classic} \"ubernommen.
 
@@ -288,11 +290,11 @@ Der Game Boy Advance verf\"ugt \"uber sechs Soundkan\"ale. Vier davon wurden, vo
     \label{table:TechnischeDaten}
 \end{table}
 
+% ========== Chapter 2.1.1 ==========
+
+\subsubsection{\"Ubersicht der Audio-Register}
+
 Intern besitzt der Game Boy Advance drei Sound-Master-Register. Dort m\"ussen, je nach Einstellungswunsch, ein paar Bits gesetzt werden. Erst dann ist eine Soundwiedergabe oder die generelle Funktionsf\"ahigkeit des Soundsystems m\"oglich.\cite{GameBoySoundsystem}
-
-% ========== Chapter 2.1 ==========
-
-\subsection{\"Ubersicht der Register}
 
 Der Offset im Folgenden bezieht sich auf die Basisadresse $0x04000000$ und wird in hexadezimaler Schreibweise angegeben. An dieser Stelle muss darauf hingewiesen werden, dass die Bezeichnungen der Register nicht eindeutig sind und sich je nach verwendeter Quelle unterscheiden.
 
@@ -370,15 +372,15 @@ Die in Tabelle \ref{table:SoundRegister1} und in Tabelle \ref{table:SoundRegiste
 
 \newpage
 
-% ========== Chapter 2.2 ==========
+% ========== Chapter 2.1.2 ==========
 
-\subsection{\"Ubersicht der Register des Sound Masters}
+\subsubsection{\"Ubersicht der Sound-Master-Register}
 
 Die Register DMG Master Control, Direct Sound Master Control und Master Sound Output Control / Status bilden die Sound Master Register.\\
 
-% ========== Chapter 2.2.1 ==========
-
-\subsubsection{DMG Master Control} \label{dmgmastercontrol}
+\vspace{5mm}
+\large DMG Master Control \label{dmgmastercontrol}
+\vspace{2mm}\newline
 
 Hier m\"ussen zun\"achst einige Bits gesetzt werden, bevor eine generelle Verwendung des Sound-Systems m\"oglich ist.\\
 
@@ -417,9 +419,9 @@ Hier m\"ussen zun\"achst einige Bits gesetzt werden, bevor eine generelle Verwen
 
 \newpage
 
-% ========== Chapter 2.2.2 ==========
-
-\subsubsection{Direct Sound Master Control}
+\vspace{5mm}
+\large Direct Sound Master Control \label{directsoundmastercontrol}
+\vspace{2mm}\newline
 
 Dieses Register kontrolliert die Lautst\"arke der DMG Kan\"ale und aktiviert diese. Die Einstellungen k\"onnen separiert voneinander f\"ur den linken und rechten Lautsprecher vorgenommen werden. 
 
@@ -473,9 +475,9 @@ Dieses Register kontrolliert die Lautst\"arke der DMG Kan\"ale und aktiviert die
 	
 \newpage
 	
-% ========== Chapter 2.2.3 ==========
-	
-\subsubsection{Master Sound Output Control / Status}
+\vspace{5mm}
+\large Master Sound Output Control / Status \label{mastersoundoutputcontrol}
+\vspace{2mm}\newline
 	
 Aus diesem Register kann zu einem der Status der einzelnen DMG Kan\"ale ausgelesen werden und zum Anderen die generelle Soundausgabe aktiviert werden. Dazu muss das Bit 7 gesetzt werden.
 	
@@ -514,9 +516,64 @@ Aus diesem Register kann zu einem der Status der einzelnen DMG Kan\"ale ausgeles
 
 \clearpage
 
-\subsection{Interaktion mit dem Betriebssystem}
+% ========== Chapter 2.2 ==========
+
+\subsection{Plattformen}
+
+% ========== Chapter 2.2.1 ==========
+
+\subsubsection{DevkitPro}
+
+% ========== Chapter 2.2.2 ==========
+
+\subsubsection{BeLogic}
+
+% ========== Chapter 2.2.3 ==========
+
+\subsubsection{MaxMod}
+
+% ========== Chapter 2.2.4 ==========
+
+\subsubsection{Snappy}
+
+% ========== Chapter 2.3 ==========
+
+\subsection{Softwareentwicklung}
+
+% ========== Chapter 2.3.1 ==========
+
+\subsubsection{API zur Audioverarbeitung}
+
+% ========== Chapter 2.3.2 ==========
+
+\subsubsection{Audiodaten im Speicher}
+
+% ========== Chapter 2.3.3 ==========
+
+\subsubsection{Snappy - "`Audio-Reflektor"'}
+
+
+% ========== Chapter 2.3.4 ==========
+
+\subsubsection{Untersuchung des Assemblers}
+
+
+% ========== Chapter 3 ==========
+
+\section{Emulation mittels mGBA}
+
+
+% ========== Chapter 3.1 ==========
+
+\subsection{Was ist der mGBA?}
+
+% ========== Chapter 3.2 ==========
+
+\subsection{Emulation des Game Boy Advance}
 
 Die Anwendung \enquote{mGBA} wurde von den Entwicklern mit dem GUI-Toolkit Qt realisiert. Qt erm\"oglicht die plattformunabh\"angige Entwicklung von Anwendungen mit grafischer Benutzeroberfl\"ache und basiert auf der Sprache C++. Damit ist es Entwicklern auch m\"oglich, bereits realisierte Basis-Software problemlos zu integrieren.
+
+% ========== Chapter 3.2.1 ==========
 
 \subsubsection{Abgrenzung der Untersuchung}
 
@@ -783,7 +840,21 @@ Ebenso wie das \textbf{AudioDevice} den Zugriff auf die Audiodaten blockiert, w\
 
 \newpage
 
-\subsection{Audioklassen}
+% ========== Chapter 3.3 ==========
+
+\subsection{Emulation des Soundsystems}
+
+% ========== Chapter 3.3.1 ==========
+
+\subsubsection{Audioverarbeitung im Assembler}
+
+% ========== Chapter 3.3.2 ==========
+
+\subsubsection{Weiterverarbeitung im Emulator}
+
+% ========== Chapter 3.3.3 ==========
+
+\subsubsection{Interaktion mit dem Betriebssystem}
 
 \begin{figure}[h]
     \centering
