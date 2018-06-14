@@ -944,6 +944,7 @@ Anlie{\ss}end wird die Methode \textbf{AudioProcessor::setBufferSamples} aufgeru
 
 
 \subsubsection{Starten des ROM}
+\AutorFlorian
 
 W\"ahlt der Benutzer eine neue ROM aus und startet diese, wird zun\"achst die \textbf{AudioProcessor::setInput} Methode aufgerufen. Diese setzt den Zeiger auf den m\_coreThread zur internen Variablen m\_context. Es folgt der Aufruf der
 \textbf{AudioProcessorQt::start} Methode.
@@ -975,6 +976,7 @@ Es folgt das Erzeugen einer neuen Instanz von QAudioFormat. Die Klasse \textbf{Q
   
 Wie bereits am Ende von Snippet \ref{list:FormatAudioProcessorQt} zu sehen, wird eine neue Instanz der Klasse \textbf{QAudioOutput} erzeugt und in die interne Variable \textbf{m\_audioOutput} geschrieben. 
 Dem Konstruktor der Klasse \textbf{QAudioOutput} wird das zuvor erstellte Format \"ubergeben.
+
 \textbf{QAudioOutput} stellt ein Interface zur Verf\"ugung mit dem Audiodaten zu einem Audio-Ger\"at
 gesendet werden k\"onnen(z.B. Lautsprecher, Kopfh\"orher usw.) Die \textbf{setCatecory} Methode setzt den Modus auf "`game"'. Einige Plattfomren k\"onnen Audio-Streams in Kategorien gruppieren.
 N\"utzlich ist dieser Methodenaufruf, da unter Windows der mGBA nun im Lautst\"arken Mixer angezeigt wird.
@@ -982,15 +984,40 @@ N\"utzlich ist dieser Methodenaufruf, da unter Windows der mGBA nun im Lautst\"a
 Durch den Methodenaufruf \textbf{m\_device$\rightarrow$setInput} wird der Klasse \textbf{AudioDevice} der \textbf{mCoreThread} \"ubergeben. Daraufhin wird die \textbf{m\_device$\rightarrow$setFormat} Methode, mit einer Referenz auf
 das Format von \textbf{m\_audioOutput} als \"Ubergabeparameter, aufgerufen.
 
+\newpage
+
 \vspace{5mm}
 \large AudioDevice::setFormat(const QAudioFormat\& format) \normalsize(\textit{\$/src/platform/qt/AudioDevice.cpp})
 \vspace{2mm}\newline
  
-Wie gewohnt wird zun\"achst \"uberpr\"uft, ob der \textbf{mCoreThread} vorhanden ist. 
+Wie gewohnt wird zun\"achst \"uberpr\"uft, ob der \textbf{mCoreThread} vorhanden ist. Im n\"achsten Schritt wird ein Multiplikator errechnet. Dieser wird abh\"angig von der eingestellten FPS berechnet. Bei 60 FPS betr\"agt dieser
+0,995458. Anschli{\ss}end werden die im \textbf{mCoreThread} befindlichen Audio-Speicherbereiche gesperrt. Nun werden die Frequenzen der beiden Audiokan\"ale im \textbf{mCoreThread} mit den Frequenzen, multipliziert mit dem zuvor errechneten
+Multiplikator, des \textbf{m\_audioOutput} synchronisiert. Mit dem entsperren der Speicherbereiche endet die Methode.
 
-\newpage
-Am Ende der "`start"' Methode wird dem Aufruf \textbf{m\_audioOutput$\rightarrow$start(m\_device)} das QAudioOutput gestartet. Dieses transferiert nun kontinuierlich Audio-Daten vom \textbf{AudioDevice} zum Audioausgang des Systems. 
-Schlie{\ss}lich wird der Status der QAudioOutput Instanz auf Aktiv gesetzt.
+Zur\"uck in der \textbf{AudioProcessorQt::start} Methode wird mit dem Aufruf von \textbf{m\_audioOutput$\rightarrow$start(m\_device)} die Audioausgabe gestartet. Schlie{\ss}lich wird der Status des \textbf{m\_audioOutput} auf aktive gesetzt.
+Konnte der Status erfolgreich auf aktiv gesetzt werden, liefert \textbf{AudioProcessorQt::start} "`true"' zur\"uck.
+ 
+\subsubsection{Transferirrung der Audiodaten}
+\AutorFlorian
+
+Wie bereits im vorangegangenen Kapitel erw\"ahnt, wird der \textbf{m\_audioOutput$\rightarrow$start} Methode das \textbf{AudioDevice} \"ubergeben. Dies bewirkt, dass die Klasse \textbf{QAudioOutput} jetzt von der Klasse \textbf{AudioDevice} 
+Daten f\"ur die Audioausgabe liest und diese an die Systemausgabe weiterleitet. Einmal gestartet, l\"auft die Audioausgabe kontinuierlich weiter. Nur ein Aufruf der Methode \textbf{AudioProcessorQt::pause} stoppt die Ausgabe.
+
+Die Klasse \textbf{QAudioOutput} ruft nun selbstst\"andig  in gewissen Zeitabst\"anden die \textbf{AudioDevice::readData} Methode auf und \"ubergibt einen Zeiger in dem die Daten zur Ausgabe eingelesen werden sollen und dessen Gr\"o{\ss}e.
+
+\vspace{5mm}
+\large AudioDevice::readData(char* data, qint64 maxSize) \normalsize(\textit{\$/src/platform/qt/AudioDevice.cpp})
+\vspace{2mm}\newline
+
+Wie bereits erw\"ahnt, muss diese Methode \"uberschrieben werden. Zu Beginn wird \"uberpr\"uft ob die maximal zul\"assige Gr\"o{\ss}e des \"ubergebenen Puffers nicht \"uberschritten ist und der \textbf{m\_coreThread} vorhanden ist.
+Nun wird, wie auch in der \textbf{AudioDevice::setFormat} Methode, der Speicherbereich im \textbf{m\_coreThread} in dem die Audiodaten gespeichert sind gesperrt.
+Mit dem Methodenaufruf \textbf{blip\_samples\_avail} wird die Anzahl der verf\"ugbahren Samples im \textbf{m\_coreThread} abgefragt. \"Uberschreitet die Anzahl der Samples die Gr\"o{\ss}e des Puffers, geteilt durch die 
+Strukturgr\"o{\ss}e \textbf{GBAStereoSample}, wird die Anzahl der verf\"ugbahren Samples auf die Puffergr\"o{\ss}e, geteilt durch die Strukturgr\"o{\ss}e \textbf{GBAStereoSample}, reduziert.
+
+Jetzt k\"onnen die Samples aus dem \textbf{m\_coreThread} gelesen werden. Dies geschieht durch den Methodenaufruf von \textbf{blip\_read\_samples} f\"ur den linken und den rechten Kanal. 
+Dazu wird der \"ubergebene Puffer auf die Struktur \textbf{GBAStereoSample} gecastet und \"ubergeben. Ein Entsperren des zuvor gesperrten Speicherbereichs und das Zur\"uckgeben der Anzahl gelesener Daten beendet die Methode
+\textbf{AudioDevice::readData}. Die im Puffer befindlichen Daten werden nun in der Klasse \textbf{QAudioOutput} verarbeitet und zum Systemausgang weitergeleitet.
+
 
 \newpage
 
