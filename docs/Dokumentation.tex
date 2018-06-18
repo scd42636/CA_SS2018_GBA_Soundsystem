@@ -7,6 +7,7 @@
 \usepackage{amssymb}
 \usepackage{tikz-qtree}
 \usepackage[hidelinks]{hyperref}
+\usepackage[all]{hypcap}
 \usepackage{titlesec}
 \usepackage{tocloft}
 \usepackage[cm]{fullpage}
@@ -514,6 +515,14 @@ Die Bits 0-3 geben ausschlie{\ss}lich dar\"uber Auskunft, welcher Kanal aktuelle
 \subsubsection{DevkitPro}
 \AutorNgoc
 
+DevkitPro ist eine Organisation welche sich auf Cross-Compiler f\"{u}r beliebte Videospielkonsolen spezialisiert hat.
+
+Das Ziel dabei ist es Hobby und Amateur Videospielentwicklern eine Plattform zu bieten, in welcher sie wertvolle Erfahrungen im Programmieren f\"{u}r Ressourcen limitierte Ger\"{a}te sammeln k\"{o}nnen. Im Idealfall k\"{o}nnen sie die gesammelten Erfahrungen dann auf eine Karriere in der Videospielentwicklung \"{u}bertragen.
+
+Angefangen hat alles im Jahre 2003 mit dem Cross-Compiler namens devkitARM, welcher es erm\"{o}glichte Spiele f\"{u}r den Gambe Boy Advance zu entwickeln. Mittlerweile umfasst das Angebot nicht nur den Gambe Boy Advance, sondern auch den Nintendo GameCube, Nintendo Wii, GP32, Nintendo DS, GP2X und die Nintendo Switch. 
+
+DevkitARM ist dabei nicht nur die erste Toolchain f\"{u}r Videospielkonsolen, sondern sie ist bis dato auch die beliebteste unter den Toolchains. So kammen \"{u}ber die Jahre immer weitere ARM basierende Konsolen hinzu und entwickelte sich somit allgemein zu einen der besten Windows basierenden Entwicklertools f\"{u}r ARM-Ger\"{a}te. 
+
 % ========== Chapter 2.2.2 ==========
 
 \subsubsection{BeLogic}
@@ -524,35 +533,462 @@ Die Bits 0-3 geben ausschlie{\ss}lich dar\"uber Auskunft, welcher Kanal aktuelle
 \subsubsection{MaxMod}
 \AutorNgoc
 
+
+\newpage
 % ========== Chapter 2.2.4 ==========
 
-\subsubsection{Snappy}
+\subsubsection{\enquote{Sappy}}
 \AutorNgoc
+
+Die von Nintendo bereitgestellte Sound-Engine, welche von der Mehrheit der kommerziellen Game Boy Advance Spielen genutzt wird, wird in der Rom-Hacking-Szene Sappy genannt. 
+Der Name der Engine stammt von einem Programm namens Sappy, welches Musik aus den Game Boy Advance Spielen extrahiert und diese in MIDI-Dateien konvertiert.
+
+
+Videospielentwickler komponieren ihre Musik als Standard MIDI-Datei oder als Trackermodul und konvertieren diese dann mithilfe eines Programms in das "`Sappy-Format"'. Dieses Format ist sehr \"{a}hnlich zu der MIDI-Datei und besteht unter anderem aus Key-On, Key-Off und Delta-T Werten. Jedoch wird das Sappy-Format effizienter gespeichert und wurde speziell f\"{u}r Videospiele entwickelt um zus\"{a}tzlich noch sowas wie Soundeffekte abzuspielen.
+
+Die Daten werden normalerweise in folgender Reihenfolge auf dem GBA-ROM gespeichert:
+\begin{itemize}
+\item Definitionen der Instrument Banks
+\begin{itemize}
+\item Sampled Instrument, Programmable-Sound-Generator (PSG) Instrument
+\end{itemize}
+\item Key-split Instrument Daten
+\begin{itemize}
+\item Key Split, Every Key-Split
+\end{itemize}
+\item Gameboy Channel 3 Waveform Daten
+\item Track-Group RAM Zeiger
+\item Musik/SFX Zeiger
+\item Samples
+\item Daten f\"{u}r jeden Track
+\item Zeiger auf jeden Track
+\end{itemize}
+
+
+\newpage
+
+\textbf{{\large Definition der Generischen Instrumenten Daten}}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{ c | p{15cm} }
+        \textbf{HEX-Zahl} & \textbf{Instrumenten-Typ} \\
+        \hline
+        0x00 & Sample (GBA Direct Sound channel) \\
+        \hline
+        0x01 & Rechteckwellengenerator (Game Boy channel 1) \\
+        \hline
+        0x02 & Rechteckwellengenerator (Game Boy channel 2) \\
+        \hline
+        0x03 & PSG Programmable Waveform (Game Boy channel 3) \\
+        \hline
+        0x04 & Rauschgenerator (Game Boy channel 4) \\
+        \hline
+        0x08 & Sample (GBA Direct Sound channel) that is never resampled (always playing at the engine's rate) \\
+				\hline
+        0x09-0x0C & selbige wie 0x01-0x04\\
+				\hline
+        0x40 & Key split instrument  : Points to different sub-instruments depending on MIDI key \\
+				\hline
+        0x80 & Every Key split instrument / percussion : Each MIDI key points to its own sub-instrument anything else = invalid (the engine crashes) \\
+    \end{tabular}
+    \caption{\"{U}bersicht des Instrumententypes}
+    \label{table:InstrumentenTyp}
+\end{table}
+
+Jede Definition von einem Instrument oder Sub-Instruments besteht aus 12 Bytes, dabei gibt das erste Byte an um welchen Typen von Instrument es sich handelt.
+
+\vspace{15pt}
+\textbf{{\large Sampled Instrument / Sub-Instrument Format}}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{ c | p{15cm} }
+        \textbf{Byte-Gr\"{o}{\ss}e} & \textbf{Definition} \\
+        \hline
+				1 & 0x00 (normal) oder 0x08 (nicht resampled) \\
+				\hline
+        1 & MIDI key (only used as percussion sub-instrument) \\
+				\hline
+        1 & nicht genutzt (immer 0) \\
+				\hline
+        1 & panning (only used as percussion sub-instrument).
+         If bit 7 is set, the lower 7 bits forces the panning value for this key. Otherwise, the channel's panning is used \\
+				\hline
+        4 & Pointer zu Sample Dateien \\
+				\hline
+				1 & Attack-Wert (8-bit : 0x01 = l\"{a}ngster Attack, 0xFF = kein Attack) \\
+        \hline
+        1 & Decay-Wert (8-bit : 0x00 = kein Decay, 0xFF = l\"{a}ngster Decay) \\ 
+        \hline
+				1 & Sustain-Level (8-bit : 0x00 = Sustain zu Stumm, 0xFF = Sustain zur vollen Lautstl\"{a}rke) \\
+        \hline
+        1 & Release-Wert (8-bit : 0x00 = sofortiger Release, 0xFF = l\"{a}ngster Release) \\
+    \end{tabular}
+    \caption{Sampled Instrument / Sub-Instrument Format}
+    \label{table:SampleInstrument}
+\end{table}
+
+Um ein Sampled Instrument unver\"{a}ndert, also ohne Anwendung von Attack, Decay, Sustain und Release abzuspielen, werden die Werte0xFF, 0x00, 0xFF, 0x00 verwendet.
+\newpage
+
+\textbf{{\large PSG Instrument / Sub-Instrument Format}}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{ c | p{15cm} }
+        \textbf{Byte-Gr\"{o}{\ss}e} & \textbf{Definition} \\
+				\hline
+				1 & PSG Channel (0x01 = square 1, 0x02 = square 2, 0x03 = programmierbare waveform, 0x04 = noise) \\
+				\hline
+        1 & MIDI Key (wird nur als Percussion Sub-Instrument verwendet)\\
+				\hline
+        1 & Hardware Time length Control (0x00 um Time length zu deaktivieren)\\
+				\hline
+        1 & Sweep Control (nur Square 1 Channel, 0x08 um Sweep zu deaktivieren) \\
+				\hline
+        4 & Square Channel:\newline
+					1 Byte = Duty Cycle (0=12,5\%, 1=25\%, 2=50\%, 3=75\%)\newline
+					3 Bytes = 0x0000\newline		
+					Noise Channel:\newline	
+					1 Byte = Steuert Noise's Periode (0 = Normal (32767 Samples), 1 = Metallic (127 Samples)) \newline
+					3 bytes = 0x0000
+					\newline
+					Programmierbarer Channel:\newline
+                4 bytes = Zeiger auf 16-Byte Waveform-Datei \\
+				\hline
+        1 & Attack-Wert (8-bit : 0x01 = l\"{a}ngster Attack, 0xFF = kein Attack)\\
+				\hline
+        1 & Decay-Wert (8-bit : 0x00 = kein Decay, 0xFF = l\"{a}ngster Decay) \\
+				\hline
+        1 & Sustain-Level (8-bit : 0x00 = Sustain zu Stumm, 0xFF = Sustain zur vollen Lautstl\"{a}rke) \\
+				\hline
+        1 & Release-Wert (8-bit : 0x00 = sofortiger Release, 0xFF = l\"{a}ngster Release) \\
+				
+    \end{tabular}
+    \caption{PSG Instrument / Sub-instrument Format}
+    \label{table:PSGInstrument}
+\end{table}
+
+Um ein PSG Instrument unver\"{a}ndert, also ohne Anwendung von Attack, Decay, Sustain und Release abzuspielen, werden die Werte0xFF, 0x00, 0xFF, 0x00 verwendet.
+
+Square \& Noise Channels:\newline
+Da die H\"{u}llkurve durch das ansteigen bzw. verringern des Hardware Volume Registers bestimmt wird, unterscheidet die sich grunds\"{a}tzlich von den  Software emulierten Attack, Decay, Sustain und Release des Sampled Instrument.
+
+Ein Beispiel hierf\"{u}r w\"{a}hre wenn Volume auf 6 ist, wird ein Attack von "`3"' doppelt so schnell ausgef\"{u}hrt wie der Attack von "`3"' wenn Volume 12 ist. Dies geschieht, weil Volume unabh\"{a}ngig vom Volume Wert, in der gleichen Rate ansteigt.
+
+Zus\"{a}tzlich kommt zu diesem Problem hinzu, dass bei jeder \"{A}nderung von Volume in den Tracks sich Attack, Decay, Sustain und Release zur\"{u}cksetzen. Dies wiederum setzt den Sound zur\"{u}ck, welches in ein "`klick"' Sound resultiert. Das kann auch in Spiele, welche Musik Volume ein und aus blenden, geh\"{o}hrt werden. Aus diesem Grund sollten Volume-\"{A}nderungen vermieden werden und stattdessen falls m\"{o}glich Attack, Decay, Sustain und Release verwendet werden.
+
+Programmierbarer Waveform Channel:\newline
+Die H\"{u}llkurve wird mit den vier Level welche f\"{u}r Volume zuverf\"{u}gung steht (25\%, 50\%, 75\% and 100\%) von der Software simuliert. Deswegen kann die H\"{u}llkurve sehr abgehackt und grob klingen, da nur sowenig Level zuverf\"{u}gung stehen. Jedoch leidet dieser Channel nicht unter dem Problem des Klickens bei Volume-\"{A}nderung, wie bei den Square \& Noise Channels.
+
+
+
+\newpage
+
+\textbf{{\large Every/Key-Split Instrumente}}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{ c | p{7,5cm} | p{7,5cm}}
+        \textbf{Byte-Gr\"{o}{\ss}e} & \textbf{Key Split Definition} & \textbf{Every Key-Split Definition}\\
+        \hline
+        1 & 0x40 & 0x80\\
+				\hline
+        3 & 0x00 & 0x00\\
+				\hline
+        4 & Zeiger auf ersten Sub-Instrument & Zeiger auf Percussion Tabelle \\
+				\hline
+        4 & Zeiger auf Key Split Tabelle & 0x00\\
+    \end{tabular}
+    \caption{Every/Key-Split Instrumente}
+    \label{table:EveryKey-SplitInstrument}
+\end{table}
+
+
+Key-Split:\newline
+Die Key-Split Tabelle hat eine L\"{a}nge von 128 Bytes und gibt Informationen dar\"{u}ber welches Sub-Instrument bei welchem MIDI-Key (1 Byte) genutzt wird. 
+Die Position des benutzten Sub-Instrumentes ist:\newline 12 * KeySplitTable[MidiKey] + Zeiger auf ersten Sub-Instrument
+
+Every Key-Split:\newline
+Die Position des benutzten Sub-Instrumentes ist:\newline 12 * MidiKey + Zeiger auf Percussion Tabelle.\newline
+Der MIDI-Key und das Panning des spezifizierten Instruments wird nur hier benutzt.
+
+\vspace{15pt}
+\textbf{{\large Ungenutztes Instrumente}}
+
+HEX-Folge von einem ungenutzten Instrument
+
+0x01, 0x3c, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0f, 0x00
+		
+\vspace{15pt}
+\textbf{{\large 16-Byte programmaierbare Waveform format}}
+
+Die Waveform besteht aus 32 4-Bit Puls-Code-Modulation (PCM) Samples, Big Endian, Unsigned (0 = niedriges Level, F = H\"{o}heres Level) f\"{u}r Insgesamt 16-bytes pro Waveform.
+
+Zum Beispiel:
+
+0x01, 0x23, 0x45, 0x67, 0x89, 0xab, 0xcd, 0xef, 0xfe, 0xdc, 0xba, 0x98, 0x76, 0x54, 0x32, 0x10
+
+Produziert ein Triangle Wave.
+
+Der Game Boy Advance hat ein 64 Sample-Modus, jedoch keine m\"{o}glichkeit diesen auszul\"{o}sen.
+
+\newpage
+\textbf{{\large Track-Gruppen RAM Zeiger Format}}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{ c | p{15cm} }
+        \textbf{Byte-Gr\"{o}{\ss}e} & \textbf{Definition}\\
+        \hline
+        4 & Zeiger auf Track-Gruppen Variablen, besteht aus 0x40 Bytes\\
+				\hline
+        4 & Zeiger auf Track Variablen, jeder Track besteht aus 0x50 Bytes\\
+				\hline
+        1 & Maximale Anzahl von Tracks f\"{u}r diese Gruppe. Falls versucht wird ein Song mit mehr Tracks abzuspielen, werden die \"{u}berschrittenen Tracks ignoriert und nciht abgespielt\\
+				\hline
+        3 & 0x00, 0x00, 0x00\\
+    \end{tabular}
+    \caption{Track-Gruppen RAM Zeiger Format}
+    \label{table:RAMZeiger}
+\end{table}
+
+Die Sappy Sound Engine kann mehrere "Gruppen von Tracks" gleichzeitig wiedergeben, so k\"{o}nnen Sound-Effekte abgespielt werden w\"{a}hrend Hintergrundmusik l\"{a}uft. Verschiedene Spiele handhaben die Gruppen auf verschiedene Wegen.
+
+Apparently when the game starts a song it doesn't know in which groups it is started (it's the song pointers structure who decides it), but afterward he can alter the volume, panning and other settings by refering to the group in which the song plays. It's a bit strangle but apparently this is how the sappy engine works.
+
+Each track in each group have it's own set of pointers and counters used by the sound engine, which should sit somewhere in RAM. The more tracks and track groups are neccesarly for the game, the more RAM it takes up.
+Each track group takes 12 bytes of pointers at this locations. Remember that IRAM is mapped in the GBA at 0x3000000.
+
+\vspace{15pt}
+\textbf{{\large Song Zeiger Format}}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{ c | p{8cm} }
+        \textbf{Byte-Gr\"{o}{\ss}e} & \textbf{Definition}\\
+        \hline
+        4 & Zeiger auf Song-Header\\
+				\hline
+        1 & Track Gruppe\\
+				\hline
+        1 & 0x00\\
+				\hline
+        1 & Track Gruppe\\
+				\hline
+        1 & 0x00\\
+    \end{tabular}
+    \caption{Song Zeiger Format}
+    \label{table:SongZeiger}
+\end{table}
+
+Obwohl die Track Gruppe zweimal vorkommt scheint diese immer Gleich zu sein. \"{A}ndert man diese so ab, dass sie sich von einander Unterscheiden, scheint nur die erste Track Gruppe einen Effekt zuhaben.
+
+
+\newpage
+\textbf{{\large Sample Format}}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{ c | p{15cm} }
+        \textbf{Byte} & \textbf{Definition}\\
+				\hline
+        3 & 0x00, 0x00, 0x00\\
+				\hline
+        1 & 0x00 f\"{u}r nicht geloopte Sample, 0x40 f\"{u}r geloopte Sample\\
+				\hline
+        4 & Pitch anpassung\\
+				\hline
+        4 & Loop relativ zum Startpunkt\\
+				\hline
+        4 & Gr\"{o}{\ss}e der Sample\\
+    \end{tabular}
+    \caption{Sample Format}
+    \label{table:SampleFormat}
+\end{table}
+
+Jedes Sample kommt mit einem 16-Byte Header gefolgt von einer variablen Datenl\"{a}nge.
+
+Die 8-Bit signed PCM Sample Datei folgt umgehend.
+
+Der Pitch Adjustement Wert wird mit folgender Formel berechnet:\newline
+Pitch Adjustement = 1024 * Sample-rate f\"{u}r Mid-C (Mid-C entspricht dem MIDI-Key \#60)
+
+The pitch adjustment equivalent to available engine sampling rates (for mid-C note) are as following :
+
+0x599800  (5734 Hz)\newline
+0x7b3000  (7884 Hz)\newline
+0xa44000  (10512 Hz)\newline
+0xd10c00  (13379 Hz)\newline
+0xf66000  (15768 Hz)\newline
+0x11bb400 (18157 Hz)\newline
+0x1488000 (21024 Hz)\newline
+0x1a21800 (26758 Hz)\newline
+0x1ecc000 (31536 Hz)\newline
+0x2376800 (36314 Hz)\newline
+0x2732400 (40137 Hz)\newline
+0x2910000 (42048 Hz)\newline
+
+Those values are often used for percussion sounds and sound effects, which are typically played at the engine's sample rate.
+
+If the loop is exactly the size of a single oscillation of a looped waveform, there is an useful shorcut to compute the right pitch:
+pitch = 267905 \* (loop\_end \- loop\_start)
+
+\vspace{15pt}
+\textbf{{\large Track Format}}
+
+Das Track Format ist das einzige Format welches nicht in 4-Byte Gruppiert wird.
+
+Im Gegensatz zu den meisten anderen Sound-Formaten in Spielen ist Polyphonie, also mehrere Noten gleichzeitig, im selben Track m\"{o}glich.
+
+Bytes zwischen 0x81-0xB0 sind Delta-T Werte, Bytes zwischen 0xB1-0xFF sind Befehle und Bytes zwischen 0x00-0x7F sind Argumente f\"{u}r Befehle.
+"`Negative"' Argumente 0x80-0xFF sind m\"{o}glich, jedoch f\"{u}r Gew\"{o}hnlich "`verboten"'.
+
+\newpage
+\begin{table}[!h]
+    \centering
+    \begin{tabular}{ c | p{11cm}| c | c}
+        \textbf{HEX-Zahl} & \textbf{Definition} & \textbf{Bytes} & \textbf{Wiederholbar}\\
+        \hline
+        0x80 & Wait Tero Time & 1 & nein\\
+        \hline
+        0x81-0xB0 & Delta-T, je H\"{o}her desto L\"{a}nger wird gewartet. Siehe Tabelle \ref{table:Timeout} unten & 1 & nein\\
+        \hline
+        0xB1 & Ende des Tracks& 1 & nein\\
+				\hline
+        0xB2 & Sprungbefehl auf eine Adresse& 4 & nein\\
+				\hline
+        0xB3 & Ruft Subsection auf & 4 & nein\\
+				\hline
+        0xB4 & Ende der Subsection & 1 & nein\\
+				\hline
+        0xB5 & Ruft und Wiederholt Subsection & 5 & nein\\
+				\hline
+				0xB9 & Speicherinhalt bedingter Breakpoint & 3 & nein\\
+				\hline
+        0xBA & Bestimmt Track-Priorit\"{a}t. H\"{o}herer Wert entspricht h\"{o}here Priorit\"{a}t & 1 & nein\\
+				\hline
+        0xBB & Tempo entspricht Beats per Minute geteilt durch zwei & 1 & nein\\
+				\hline
+        0xBC & Transponiert. Einziger Befehl, welches ein negatives Argument zul\"{a}sst & 1 & nein\\
+				\hline
+        0xBD & Stellt Instrument ein & 1 & ja\\
+				\hline
+        0xBE & Stellt Lautst\"{a}rke ein & 1 & ja\\
+				\hline
+        0xBF & Stellt Panning ein & 1 & ja\\
+				\hline
+        0xC0 & Tonh\"{o}hen\"{a}nderungs-Wert. 0x41-0x7F und h\"{o}her \"{a}ndert es nach oben, 0x00-0x3F \"{a}ndert es nach unten, 0x40 ist der Original-Ton& 1 & ja\\
+				\hline
+        0xC1 & Tonh\"{o}hen\"{a}nderungs-Reichweite. Argument ist die Anzahl von Halbt\"{o}nen entfernt vom Oringal-Ton bei \"{A}nderung zum Maximum bzw. Minimum& 1 & ja\\
+				\hline
+        0xC2 & Low Frequency Oscillator (LFO) Geschwindigkeit. Je H"{o}her desto Schneller & 1 & nein\\
+				\hline
+        0xC3 & LFO-Verz\"{o}gerung. Anzahl der Ticks welche runter gez\"{a}hlt werden bevor LFO startet & 1 & nein\\
+				\hline
+        0xC4 & LFO-Tiefe. Beeinflusst wie tief der LFO-Effekt ist & 1 & ja\\
+				\hline
+        0xC5 & LFO-Typ. W\"{a}hlt betroffene Variable, welche LFO modifiziert aus. 0 = Pitch (default), 1 = Lautst\"{a}rke, 2 = Panning& 1 & nein\\
+				\hline
+        0xC8 & Verstimmt. 0x40 ist normaler Pitch, 0x00 ist ein Halbton tiefer und 0x7F ist ein Halbton h\"{o}her & 1 & ja\\
+				\hline
+        0xCE & Note aus & 1-2 & ja\\
+				\hline
+        0xCF & Note an & 1-2 & ja\\
+				\hline
+        0xD0-0xFF & Note an mit automatischem Time-out. Siehe Tabelle \ref{table:Timeout} unten & 1-3 & ja\\
+    \end{tabular}
+    \caption{Track Format}
+    \label{table:TrackFormat}
+\end{table}
+\newpage
+
+Die L\"{a}ngen-Tabelle f\"{u}r Note-On und Delta-T Befehle sind wie folgt:
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{ c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c }
+        \textbf{Note} & \textbf{D0} & \textbf{D1} & \textbf{D2} & \textbf{...} & \textbf{E6} & \textbf{E7} & \textbf{E8} & \textbf{E9} & \textbf{EA} & \textbf{EB} & \textbf{EC} & \textbf{ED} & \textbf{EE} & \textbf{EF} & \textbf{F0}\\
+        \hline
+        Delta-t & 81 & 82 & 83 & ... & 97 & 98 & 99 & 9A & 9B & 9C & 9D & 9E & 9F & A0 & A1\\
+        \hline
+        L\"{a}nge & 1 & 2 & 3 & ... & 23 & 24 & 28 & 30 & 32 & 36 & 40 & 42 & 44 & 48 & 52\\
+    \end{tabular}
+		\begin{tabular}{ c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c }
+        \textbf{Note} & \textbf{F1} & \textbf{F2} & \textbf{F3} & \textbf{F4} & \textbf{F5} & \textbf{F6} & \textbf{F7} & \textbf{F8} & \textbf{F9} & \textbf{FA} & \textbf{FB} & \textbf{FC} & \textbf{FD} & \textbf{FE} & \textbf{FF}\\
+        \hline
+        Delta-t & A2 & A3 & A4 & A5 & A6 & A7 & A8 & A9 & AA & AB & AC & AD & AE & AF & B0\\
+        \hline
+        L\"{a}nge & 56 & 56 & 60 & 64 & 66 & 68 & 72 & 76 & 78 & 80 & 84 & 80 & 90 & 92 & 96\\
+    \end{tabular}
+    \caption{Note an mit automatischem Time-out}
+    \label{table:Timeout}
+\end{table}
+
+F\"{u}r gew\"{o}hnlich wird der Song so erstellt, dass die L\"{a}nge von 96 eine ganze Note ergibt. Demnach ist ein Tick ein drittel der Note und ist die feinere m\"{o}gliche L\"{o}sung.
+
+Die Anzahl von Argumenten bei Befehlen kann zwischen 0 und 3 Variieren. Ein "`negativ"' Byte bedeutet, dass die Argumenten-Liste beendet wird und das deshalb der Key-On Befehl komplett dekodiert wurde.
+
+Die "`volle"' Version von einem Note-On Befehls ben\"{o}tigt zwei Argumente, Key und Geschwindigkeit. Im Falle vom auto Time-out Note-On Befehl, kann ein optionales drittes Argument vorkommen. 
+
+Da die L\"{a}ngen-Tabelle fehlende l\"{a}ngen Werte hat, kann ein extra drittes Argument genutzt werden um eine feinere Pr\"{a}zision zu erreichen. 
+
+Ein Noten Befehl gefolgt von einem einzigen Argument spielt eine neue Note mit einem neuem Key ab, verwendet jedoch die zuletzt genutzte Geschwindigkeit.
+
+Folgt nach dem Note-On Befehl kein Argument, verwendet die neue Note den zuletzt angewendeten Key und die zuletzt genutzte Geschwindigkeit
+
+
+\textbf{{\large Song-Header Format}}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{ c | p{8cm} }
+        \textbf{Byte} & \textbf{Definition}\\
+        \hline
+        1 & Anzahl von Tracks\\
+        \hline
+        1 & Unbekannt\\
+        \hline
+        1 & Song Priorit\"{a}t\\
+				\hline
+        1 & Echo feedback\\
+				\hline
+        4 & Zeiger auf Definition der Instrumente\\
+				\hline
+        n*4 & Zeiger auf Track-Daten\\
+    \end{tabular}
+    \caption{Song-Header Format}
+    \label{table:HeaderFormat}
+\end{table}
+
+Die Priorit\"{a}t wird wie Folgt gehandhabt:
+\begin{itemize}
+\item Bei PSG Channel wird die Note mit der h\"{o}chsten Priorit\"{a}t wiedergegeben
+\item Bei Direct Sound Channel wird falls kein freier Channel mehr zu Verf\"{u}gung steht, die Noten mit den h\"{o}chsten Priorit\"{a}ten wiedergegeben und die mit niedrigeren Priorit\"{a}ten werden ignoriert oder zum Schweigen gebracht um Platz f\"{u}r h\"{o}her priorisierte Noten zu schaffen.
+\end{itemize}
+Im Falle von gleicher Priorit\"{a}t wird nach der Track Nummer entschieden. Die niedrigere Track Nummer hat h\"{o}here Priorit\"{a}t als die hohen Track Nummern.
+
+
 
 % ========== Chapter 2.3 ==========
 
-\subsection{Softwareentwicklung} \label{Softwareentwicklung}
+\subsection{Softwareentwicklung}
 \AutorNgoc
+
 
 % ========== Chapter 2.3.1 ==========
 
 \subsubsection{API zur Audioverarbeitung}
 \AutorNgoc
 
+
+
 % ========== Chapter 2.3.2 ==========
 
 \subsubsection{Audiodaten im Speicher}
 \AutorNgoc
 
-% ========== Chapter 2.3.3 ==========
-
-\subsubsection{Snappy - \enquote{Audio-Reflektor}}
-\AutorNgoc
-
-% ========== Chapter 2.3.4 ==========
-
-\subsubsection{Untersuchung des Assemblers}
-\AutorNgoc
 
 
 \newpage
