@@ -989,7 +989,92 @@ Im Falle von gleicher Priorit\"{a}t wird nach der Track Nummer entschieden. Die 
 \subsubsection{Audiodaten im Speicher}
 \AutorNgoc
 
+\newpage
+% ========== Chapter 2.3.3 ==========
 
+\subsubsection{Untersuchung des Assemblercodes}
+\AutorNgoc
+
+Songs in der Sappy Sound Engine finden anhand von Pok\'{e}mon Blattgr\"{u}n:
+
+\begin{wrapfigure}{r}{0.5\textwidth}
+	\vspace{-10pt}
+	\begin{center}
+		\includegraphics[width=0.5\textwidth]{Songtabelle}
+	\end{center}
+	\vspace{-10pt}
+	\caption{Anfang der Songtabelle in Hex-Ansicht}
+	\label{fig:hex-view}
+	\vspace{-30pt}
+\end{wrapfigure}
+
+Um in IDA Pro die einzelnen Songs zu finden, wird zun\"{a}chst nach der Songtabelle gesucht.
+
+Diese findet man, indem man nach der HEX-Reihenfolge von ungenutzten Instrumenten sucht. Dabei handelt es sich um folgende Reihenfolge: 
+
+\textbf{0x01, 0x3c, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0f, 0x00} (1.)
+
+Wird die Sappy Sound Engine, wie bei Pok\'{e}mon Blattgr\"{u}n, vom Spiel genutzt, sollten mehrere dieser Hex-Strings gefunden werden.
+Scrollt man jetzt von der letzten \"{U}bereinstimmung der HEX-Reihenfolge aus weiter nach unten, sollten wir Spalten mit 0x00 und 0x08 auffinden. (2.)
+
+Bei den ersten 4 Bytes welche mit 0x08 enden, handelt es sich um ein Zeiger auf den ersten Song im Spiel. (3.) Dieser befindet sich auf der ersten Position der Songtabelle. 
+In der Abbildung 2 handelt es sich dabei um den Zeiger auf die Adresse "`0x086B4F1C"'.
+
+\vspace{10pt}
+
+\begin{wrapfigure}{r}{0.5\textwidth}
+	\vspace{-10pt}
+	\begin{center}
+		\includegraphics[width=0.5\textwidth]{SongtabellenHeader}
+	\end{center}
+	\vspace{-10pt}
+	\caption{IDA-View der Songtabelle und erstem Song}
+	\label{fig:IDA-view}
+	\vspace{-40pt}
+\end{wrapfigure}
+
+
+Wird jetzt von der HEX-Ansicht auf die IDA-Ansicht gewechselt, k\"{o}nnen die einzelnen Zeiger auf die Songs erkannt werden. (4.)
+Folgt man nun einer dieser Zeiger landet man bei 0xB2, welches f\"{u}r eine Sprung-Anweisung steht, gefolgt von der Adresse des Instruments. (5.)
+
+Nach der Adresse des Instruments folgt der Song-Header. (6.) Dieser f\"{u}hrt zum Trackformat, welcher immer mit der "`Tempo"'-Anweisung 0xBB Anf\"{a}ngt und mit der "`Ende des Songs"'-Anweisung 0xB1 endet. 
+
+So wird in Abbildung 3 zun\"{a}chst das Tempo (0xBB) auf 33 gesetzt und das 91. Instrument (0xBD) ausgew\"{a}hlt. Danach wird die Lautst\"{a}rke (0xBE) auf 100 gesetzt und die Tonh\"{o}he (0xC0) auf 58 variiert. Anschlie{\ss}end folgt eine Note mit automatischem Time-Out mit 60 112 132, dann ein Instrumenten Wechsel und endet mit der Ende des Songs Anweisung (0xB1). 
+
+F\"{u}r genauere Bedeutung der Anweisungen, siehe "`Sappy Track Format"'-Tabelle \ref{table:TrackFormat}.
+
+\newpage 
+
+\begin{wrapfigure}{r}{0.5\textwidth}
+	\vspace{-10pt}
+	\begin{center}
+		\includegraphics[width=0.5\textwidth]{Sampleformat}
+	\end{center}
+	\vspace{-10pt}
+	\caption{IDA-View Voice-Table und Sample-Format}
+	\label{fig:Sampleformat}
+	\vspace{-30pt}
+\end{wrapfigure}
+
+Folgt man der Adresse des Instrumentes, landet man bei der Stimmen-Tabelle. (8.) Dieser besteht typischerweise aus 127 Instrumenten, welche jeweils 12 Bytes pro Eintrag beanspruchen.
+
+In der Abbildung 4 erkennt man das es sich in diesem Beispiel um ein Sample handelt, dieser hat einen Zeiger auf die Sample Datei (0x084ED548). Weiterhin hat es einen Attack-Wert von 255 (0xFF), einen Decay-Wert von 249 (0xF9), einen Sustain-Level von 103 (0x67) und Release-Wert von 165 (0xA5) hat. Daraufhin Folgen zwei nicht genutzte Instrumente, welche man an der bereits Bekannten HEX-Reihenfolge erkennen kann.
+F\"{u}r genauere Informationen, siehe "`Sappy Sample Instrument"'-Tabelle \ref{table:SampleInstrument}.
+
+Sample Datei (9.) diese kommt mit einem 16-Byte Header 
+
+A voice table is a collection of pointers to samples for a song to use. They typically consist of 127 voices, though some can be unused. Each entry is 12 bytes long
+
+Platzhalter f\"{u}rs formatieren. Platzhalter f\"{u}rs formatieren. Platzhalter f\"{u}rs formatieren. Platzhalter f\"{u}rs formatieren. Platzhalter f\"{u}rs formatieren. Platzhalter f\"{u}rs formatieren.
+
+
+
+% ========== Chapter 2.3.4 ==========
+
+\subsubsection{Sappy - "`Audio-Reflektor"'}
+\AutorNgoc
+
+\newpage
 
 \newpage
 
