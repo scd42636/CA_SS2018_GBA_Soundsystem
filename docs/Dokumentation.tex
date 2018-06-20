@@ -545,6 +545,8 @@ Im Sourcecode gibt es auch ein entsprechenden Header, bei welchem schon alle Reg
 	#define SOUND1ENVINIT(n)	(n<<12)		// initial envelope volume (0-15)
 	...
 \end{lstlisting}
+
+So erleichtert es einem das Programmieren auf Dauer doch sehr Erheblich, wenn man anstelle von "`*(vu16*)0x4000064 = 0x8000"', um den Sound Neustarten zulassen, "`REG\_SOUND1CNT\_X = SOUND1INIT"' schreiben kann.
 \newpage
 \vspace{5mm}
 \begin{lstlisting}[language=C++, caption={2. Ausschnitt aus Belogic gba.h}, label={list:gbaheader1}]
@@ -631,7 +633,7 @@ Jede Definition von einem Instrument oder Sub-Instruments besteht aus 12 Bytes, 
 \end{table}
 
 \paratitle{Sampled Instrument / Sub-Instrument Format}
-Um ein Sampled Instrument unver\"andert, also ohne Anwendung von Attack, Decay, Sustain und Release abzuspielen, werden die Werte0xFF, 0x00, 0xFF, 0x00 verwendet.
+Um ein Sampled Instrument unver\"andert, also ohne Anwendung von Attack, Decay, Sustain und Release abzuspielen, werden die Werte 0xFF, 0x00, 0xFF, 0x00 verwendet.
 
 \begin{table}[h]
     \centering
@@ -664,7 +666,7 @@ Um ein Sampled Instrument unver\"andert, also ohne Anwendung von Attack, Decay, 
 
 \newpage
 \paratitle{PSG Instrument / Sub-Instrument Format}
-Um ein PSG Instrument unver\"andert, also ohne Anwendung von Attack, Decay, Sustain und Release abzuspielen, werden die Werte0xFF, 0x00, 0xFF, 0x00 verwendet.
+Um ein PSG Instrument unver\"andert, also ohne Anwendung von Attack, Decay, Sustain und Release abzuspielen, werden die Werte 0xFF, 0x00, 0xFF, 0x00 verwendet.
 
 \begin{table}[h]
     \centering
@@ -701,8 +703,7 @@ Um ein PSG Instrument unver\"andert, also ohne Anwendung von Attack, Decay, Sust
     \caption{PSG Instrument / Sub-instrument Format}
     \label{table:PSGInstrument}
 \end{table}
-
-Um ein PSG Instrument unver\"andert, also ohne Anwendung von Attack, Decay, Sustain und Release abzuspielen, werden die Werte0xFF, 0x00, 0xFF, 0x00 verwendet.
+\vspace{-5pt}
 
 \paratitle{Square \& Noise Channels}
 Da die H\"ullkurve durch das ansteigen bzw. verringern des Hardware Volume Registers bestimmt wird, unterscheidet die sich grunds\"atzlich von den  Software emulierten Attack, Decay, Sustain und Release des Sampled Instrument.
@@ -713,7 +714,6 @@ Zus\"atzlich kommt zu diesem Problem hinzu, dass bei jeder \"anderung von Volume
 
 \paratitle{Programmierbarer Waveform Channel}
 Die H\"ullkurve wird mit den vier Level welche f\"ur Volume zuverf\"ugung steht (25\%, 50\%, 75\% and 100\%) von der Software simuliert. Deswegen kann die H\"ullkurve sehr abgehackt und grob klingen, da nur sowenig Level zuverf\"ugung stehen. Jedoch leidet dieser Channel nicht unter dem Problem des Klickens bei Volume-\"anderung, wie bei den Square \& Noise Channels.
-
 
 
 \newpage
@@ -747,7 +747,8 @@ Der MIDI-Key und das Panning des spezifizierten Instruments wird nur hier benutz
 
 
 \paratitle{Ungenutztes Instrumente}
-HEX-Folge von einem ungenutzten Instrument
+HEX-Folge von einem ungenutzten Instrument:
+
 0x01, 0x3C, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0F, 0x00
 
 Aus irgendeinem Grund werden nicht genutzte Instrumente in der Sappy Sound Engine immer gleich definiert. W\"urde diese mutwillig Abgespielt werden, w\"urde es sich um ein PSG Square 1 ohne richtig aktivierten Sweep handeln (tiefe Oktaven werden nciht abgespielt).
@@ -789,7 +790,7 @@ Die Sappy Sound Engine kann mehrere "Gruppen von Tracks" gleichzeitig wiedergebe
 Allen Anschein nach wei{\ss} das Spiel beim Start eines Songs nicht in welcher Gruppe es Anf\"angt, dies wird von der Song Zeiger Struktur entschieden. Danach kann aber Volume, Panning und andere Einstellungen durch Referenzen zur Gruppe, in welcher die Songs spielen, ver\"andert werden.
 
 Jeder Track in jeder Gruppe hat sein eigenen Satz an Zeigern und Z\"ahler welche von der Sound Engine genutzt werden und sich im RAM befinden. Je mehr Tracks und Track Gruppen f\"ur ein Spiel ben\"otigt werden, desto mehr RAM wird beansprucht.\newline
-Die Track Gruppe beansprucht dabei im IRAM, welches im Game Boy Advance auf 0x3000000 abgebildet ist, 12 Bytes an Zeiger. 
+Die Track Gruppe beansprucht dabei im IWRAM, welches im Game Boy Advance auf 0x3000000 abgebildet ist, 12 Bytes an Zeiger. 
 
 
 \paratitle{Song Zeiger Format}
@@ -961,8 +962,9 @@ Ein Noten Befehl gefolgt von einem einzigen Argument spielt eine neue Note mit e
 
 Folgt nach dem Note-On Befehl kein Argument, verwendet die neue Note den zuletzt angewendeten Key und die zuletzt genutzte Geschwindigkeit.
 
-
+\vspace{-5pt}
 \paratitle{Song-Header Format}
+\vspace{-10pt}
 \begin{table}[h]
     \centering
     \begin{tabular}{ c | p{8cm} }
@@ -983,7 +985,7 @@ Folgt nach dem Note-On Befehl kein Argument, verwendet die neue Note den zuletzt
     \caption{Song-Header Format}
     \label{table:HeaderFormat}
 \end{table}
-
+\vspace{-5pt}
 Die Priorit\"at wird wie Folgt gehandhabt:
 \begin{itemize}
 \item Bei PSG Channel wird die Note mit der h\"ochsten Priorit\"at wiedergegeben
@@ -991,6 +993,50 @@ Die Priorit\"at wird wie Folgt gehandhabt:
 \end{itemize}
 Im Falle von gleicher Priorit\"at wird nach der Track Nummer entschieden. Die niedrigere Track Nummer hat h\"ohere Priorit\"at als die hohen Track Nummern.
 
+\newpage
+\paratitle{Sound Mixer}
+
+Die gesampelte Sounds werden in ein oder zwei Direct Sound Channels, je nach Mono oder Stereo Operation, gemixt. Dabei benutzten verschiedene Spiele verschiedene Mixer, so ist es M\"oglich sein eigenen Mixer mit gew\"unschte Features in ARM Assembly zuschreiben.
+Der Mixer simuliert dabei ein Digital Signal Processor (DSP) mit Sound Channels und produziert dabei eine Serie an Nummern im RAM Buffer f\"ur die dazugeh\"origen Output Waveforms.
+
+Der Code f\"ur die meisten Sound Engine verwandten Routinen sind im ROM vor den Instrumenten und Sequenzen.
+So wird der Sound Mixer normalerweise von dort aus in den IWRAM (0x3000000-0x3007FFF) kopiert und dort Frame f\"ur Frame aufgerufen.
+Dies wird in den IWRAM kopiert, damit die CPU vom Game Boy Advance die Befehle schneller aufgerufen kann. Da die Sound Verarbeitung sehr komplex ist und zu jeden Frame passieren muss, beansprucht dieser die CPU stark. 
+
+Es gibt mehrere Variationen des Sound Mixers, darunter sind die drei \"ublichsten Mixer die folgende Versionen:
+
+\begin{itemize}
+\item Die Stereo Version ist 256 Words lang und nutzt 2 Buffers f\"ur Stereo Output
+\item Die Mono Version ist 224 Words lang und nutzt 1 Buffer f\"ur Mono Output (ist auch schneller)
+\item Die "alte" Version ist 256 Words lang und ist \"ahnlich zur Stereo Version, aber ist langsamer. Nur alte Game Boy Advance Spiele (Ver\"offentlich im Jahr 2001) nutzen diese.
+\end{itemize}
+
+Die Features des normalen Sound Mixer sind folgende:
+\begin{itemize}
+\item Relativ langsames Mischen
+\item Lineare Interpolation wird benutzt
+\item Kein Anti-Aliasing
+\item Jeder Sample wird direkt auf 8-Bit herunter skaliert und in den Output Buffer gemischt, welches in einen lauten Output resultiert
+\item Kein Saturation Output Control: Wenn der Output \"uber den maximalen Wert geht, produziert es ein unangenehmes "`Klick"' Ger\"ausch
+\end{itemize}
+
+Verschiedene Features k\"onnen dem Mixer hinzugef\"ugt werden. Zum Beispiel:
+\begin{itemize}
+\item Komprimierte Samples (Pokemon)
+\item Synth Instruments (Camelot)
+\item Schnelleres mischen mit selbst-modifizierbarer Code (Camelot, Final Fantasy Advance Sound Restoration Hacks)
+\item Mischen von Instruments in 16-Bit, bevor auf 8-Bit herunter skaliert wird, welches bessere Soundqualit\"at (Camelot, Final Fantasy Advance Sound Restoration Hacks)
+\item Besserer Nachhall (Camelot, Final Fantasy Advance Sound Restoration Hacks)
+\item Schutz gegen S\"attigung vom Output (Camelot, Final Fantasy Advance Sound Restoration Hacks)
+\item Bessere Attack, Decay, Sustain und Release Envelope mit 16-Bit anstelle von 8-Bit (Camelot, Final Fantasy Advance Sound Restoration Hacks)
+\item Samples umgekehrt abspielen
+\item Ping-Pong und umgekehrtes Sample looping
+\item Bessere Interpolation / Anti-Aliasing
+\end{itemize}
+
+Mit Camelot sind die Spieleentwickler gemeint, welche unter anderem die Golden Sun Serie f\"ur den Game Boy Advance entwickelt haben. 
+
+Final Fantasy Advance Sound Restoration Hacks steht f\"ur die ROM Hacks, welche ROM Hacker f\"ur die Final Fantasy Portierungen auf dem Game Boy Advance entwickelt haben. Denn im Vergleich zu den Originalen auf dem Super Nintendo Entertainment System ist die Soundqualit\"at der Game Boy Advance Ports sehr schlecht. Dieser Hack restauriert die Musik und Soundeffekte von den Game Boy Advance Spielen wieder zu den Orginalen vom Super Nintendo Entertainment System.
 
 
 % ========== Chapter 2.3 ==========
@@ -1738,8 +1784,9 @@ Der gr\"o{\ss}te Anreiz f\"ur mich war weniger zu verstehen, wie ein Game Boy Ad
 \paratitle{Florian Boemmel}
 F\"ur mich pers\"onlich war es sehr interessant einen Blick hinter die Kulissen der Audioverarbeitung des mGBA zu werfen. Ich hatte bereits einige male mit grafischen Oberfl\"achen zu tun. Jedoch kam dabei das Thema Audio nicht zum Einsatz, da dieses Thema recht komplex ist. Eine praktische Umsetzung, in diesem Fall der mGBA, zu analysieren brachte mir die Audio-Verarbeitung ein gutes St\"uck n\"aher. 
 
+\newpage
 \paratitle{Ngoc Luu Tran}
-Hello World by Ngoc.
+Als Jemand der noch nie richtige Ber\"uhrungspunkte mit Reverse Engineering hatte, fand ich das Thema der Studienarbeit sehr Interessant. So war f\"ur mich das Arbeiten mit IDA Pro sehr neu und mit viel Trial und Error verbunden. Am Ende konnte ich dann doch trotz fehlendem Wissen \"uber MIDI Dateien vieles \"uber die Verarbeitung und Speicherung von Musik in Game Boy Advance Spielen lernen.
 
 
 \newpage
