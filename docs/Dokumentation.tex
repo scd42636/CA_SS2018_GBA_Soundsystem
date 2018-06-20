@@ -98,6 +98,18 @@
     \vspace{2mm}
 }
 
+\newcommand{\paratitle}[1] {
+    \vspace{5mm}
+    \large \textbf{#1} \normalsize
+    \vspace{2mm}\newline
+}
+
+\newcommand{\paratitlecode}[2] {
+    \vspace{5mm}
+    \large \textbf{#1} \normalsize(\textit{\${#2}})
+    \vspace{2mm}\newline
+}
+
 % Document Settings
 %% Metadata
 \title{\vspace{5cm}\huge Computer Architektur \\ \Large Studienarbeit \vspace{1cm}}
@@ -243,7 +255,7 @@ Die Untersuchung wird in vier Unterthemen gegliedert:
 \section{Game Boy Advance} \label{GameBoyAdvance}
 \AutorFlorianNgoc
 
-\subsection{Hardwareumgebung}
+\subsection{Hardwareumgebung} \label{Hardwareumgebung}
 \AutorFlorian
 
 Der Game Boy Advance verf\"ugt \"uber sechs Soundkan\"ale. Vier davon wurden, vor allem aus Gr\"unden der Abw\"artskompatibilit\"at, aus dem Vorg\"anger \enquote{Game Boy Classic} \"ubernommen.
@@ -361,9 +373,7 @@ Die in Tabelle \ref{table:SoundRegister1} und in Tabelle \ref{table:SoundRegiste
 
 Die Register DMG Master Control, Direct Sound Master Control und Master Sound Output Control / Status bilden die Sound Master Register.
 
-\vspace{5mm}
-\large DMG Master Control \label{dmgmastercontrol}
-\vspace{2mm}\newline
+\paratitle{DMG Master Control} \label{dmgmastercontrol}
 Hier m\"ussen zun\"achst einige Bits gesetzt werden, bevor eine generelle Verwendung des Soundsystems m\"oglich ist.
 
 \begin{table}[h]
@@ -409,9 +419,7 @@ Hier m\"ussen zun\"achst einige Bits gesetzt werden, bevor eine generelle Verwen
 
 \newpage
 
-\vspace{5mm}
-\large Direct Sound Master Control \label{directsoundmastercontrol}
-\vspace{2mm}\newline
+\paratitle{Direct Sound Master Control} \label{directsoundmastercontrol}
 Dieses Register kontrolliert die Lautst\"arke der DMG Kan\"ale und aktiviert diese. Die Einstellungen k\"onnen separiert voneinander f\"ur den linken und rechten Lautsprecher vorgenommen werden.
 
 \begin{table}[h]
@@ -462,16 +470,8 @@ Dieses Register kontrolliert die Lautst\"arke der DMG Kan\"ale und aktiviert die
 Wenn DMA f\"ur Direct Sound verwendet wird, dann wird DMA den FIFO-Puffer zur\"ucksetzen, nachdem er verwendet wurde.
 
 
-
-
-
-
-	
-\newpage
-	
-\vspace{5mm}
-\large Master Sound Output Control / Status \label{mastersoundoutputcontrol}
-\vspace{2mm}\newline
+\newpage	
+\paratitle{Master Sound Output Control / Status} \label{mastersoundoutputcontrol}
 Aus diesem Register kann zu einem der Status der einzelnen DMG Kan\"ale ausgelesen werden und zum Anderen die generelle Soundausgabe aktiviert werden. Dazu muss das Bit 7 gesetzt werden.
 
 \begin{table}[h]
@@ -501,12 +501,9 @@ Aus diesem Register kann zu einem der Status der einzelnen DMG Kan\"ale ausgeles
 Die Bits 0-3 geben ausschlie{\ss}lich dar\"uber Auskunft, welcher Kanal aktuelle bespielt wird und nicht ob dieser eingeschaltet ist. Zum Ein- und Ausschalten eines Kanals dient das DMG Master Control Register (siehe Abschnitt \ref{dmgmastercontrol}).
 
 
-
-
-\newpage
-
 % ========== Chapter 2.2 ==========
 
+\newpage
 \subsection{Plattformen} \label{Plattformen}
 \AutorNgoc
 
@@ -515,13 +512,13 @@ Die Bits 0-3 geben ausschlie{\ss}lich dar\"uber Auskunft, welcher Kanal aktuelle
 \subsubsection{DevkitPro}
 \AutorNgoc
 
-DevkitPro ist eine Organisation welche sich auf Cross-Compiler f\"{u}r beliebte Videospielkonsolen spezialisiert hat.
+DevkitPro ist eine Organisation welche sich auf Cross-Compiler f\"ur beliebte Videospielkonsolen spezialisiert hat.
 
-Das Ziel dabei ist es Hobby und Amateur Videospielentwicklern eine Plattform zu bieten, in welcher sie wertvolle Erfahrungen im Programmieren f\"{u}r Ressourcen limitierte Ger\"{a}te sammeln k\"{o}nnen. Im Idealfall k\"{o}nnen sie die gesammelten Erfahrungen dann auf eine Karriere in der Videospielentwicklung \"{u}bertragen.
+Das Ziel dabei ist es Hobby und Amateur Videospielentwicklern eine Plattform zu bieten, in welcher sie wertvolle Erfahrungen im Programmieren f\"ur Ressourcen limitierte Ger\"ate sammeln k\"onnen. Im Idealfall k\"onnen sie die gesammelten Erfahrungen dann auf eine Karriere in der Videospielentwicklung \"ubertragen.
 
-Angefangen hat alles im Jahre 2003 mit dem Cross-Compiler namens devkitARM, welcher es erm\"{o}glichte Spiele f\"{u}r den Gambe Boy Advance zu entwickeln. Mittlerweile umfasst das Angebot nicht nur den Gambe Boy Advance, sondern auch den Nintendo GameCube, Nintendo Wii, GP32, Nintendo DS, GP2X und die Nintendo Switch. 
+Angefangen hat alles im Jahre 2003 mit dem Cross-Compiler namens devkitARM, welcher es erm\"oglichte Spiele f\"ur den Gambe Boy Advance zu entwickeln. Mittlerweile umfasst das Angebot nicht nur den Gambe Boy Advance, sondern auch den Nintendo GameCube, Nintendo Wii, GP32, Nintendo DS, GP2X und die Nintendo Switch. 
 
-DevkitARM ist dabei nicht nur die erste Toolchain f\"{u}r Videospielkonsolen, sondern sie ist bis dato auch die beliebteste unter den Toolchains. So kammen \"{u}ber die Jahre immer weitere ARM basierende Konsolen hinzu und entwickelte sich somit allgemein zu einen der besten Windows basierenden Entwicklertools f\"{u}r ARM-Ger\"{a}te. 
+DevkitARM ist dabei nicht nur die erste Toolchain f\"ur Videospielkonsolen, sondern sie ist bis dato auch die beliebteste unter den Toolchains. So kammen \"uber die Jahre immer weitere ARM basierende Konsolen hinzu und entwickelte sich somit allgemein zu einen der besten Windows basierenden Entwicklertools f\"ur ARM-Ger\"ate. 
 
 % ========== Chapter 2.2.2 ==========
 
@@ -571,7 +568,7 @@ Die von Nintendo bereitgestellte Sound-Engine, welche von der Mehrheit der komme
 Der Name der Engine stammt von einem Programm namens Sappy, welches Musik aus den Game Boy Advance Spielen extrahiert und diese in MIDI-Dateien konvertiert.
 
 
-Videospielentwickler komponieren ihre Musik als Standard MIDI-Datei oder als Trackermodul und konvertieren diese dann mithilfe eines Programms in das "`Sappy-Format"'. Dieses Format ist sehr \"{a}hnlich zu der MIDI-Datei und besteht unter anderem aus Key-On, Key-Off und Delta-T Werten. Jedoch wird das Sappy-Format effizienter gespeichert und wurde speziell f\"{u}r Videospiele entwickelt um zus\"{a}tzlich noch sowas wie Soundeffekte abzuspielen.
+Videospielentwickler komponieren ihre Musik als Standard MIDI-Datei oder als Trackermodul und konvertieren diese dann mithilfe eines Programms in das \enquote{Sappy-Format}. Dieses Format ist sehr \"ahnlich zu der MIDI-Datei und besteht unter anderem aus Key-On, Key-Off und Delta-T Werten. Jedoch wird das Sappy-Format effizienter gespeichert und wurde speziell f\"ur Videospiele entwickelt um zus\"atzlich noch sowas wie Soundeffekte abzuspielen.
 
 Die Daten werden normalerweise in folgender Reihenfolge auf dem GBA-ROM gespeichert:
 \vspace{15pt}
@@ -588,7 +585,7 @@ Die Daten werden normalerweise in folgender Reihenfolge auf dem GBA-ROM gespeich
 \item Track-Group RAM Zeiger
 \item Musik/SFX Zeiger
 \item Samples
-\item Daten f\"{u}r jeden Track
+\item Daten f\"ur jeden Track
 \item Zeiger auf jeden Track
 \end{itemize}
 \vspace{15pt}
@@ -603,8 +600,8 @@ Eine Voice Tabelle ist eine Ansammlung Zeigern zu Instrumenten, welches der Song
 So beinhaltet dieser unter anderen Sampled Instrument, PSG Instrument, Sub-Instrument, Key-Split Instrumente und Every-Key-Split Instrumente.
 
 \newpage
-
-\textbf{{\large Definition der Generischen Instrumenten Daten}}
+\paratitle{Definition der Generischen Instrumenten Daten}
+Jede Definition von einem Instrument oder Sub-Instruments besteht aus 12 Bytes, dabei gibt das erste Byte an um welchen Typen von Instrument es sich handelt.
 
 \begin{table}[h]
     \centering
@@ -629,19 +626,17 @@ So beinhaltet dieser unter anderen Sampled Instrument, PSG Instrument, Sub-Instr
 				\hline
         0x80 & Every Key split instrument / percussion : Each MIDI key points to its own sub-instrument anything else = invalid (the engine crashes) \\
     \end{tabular}
-    \caption{\"{U}bersicht des Instrumententypes}
+    \caption{\"ubersicht des Instrumententypes}
     \label{table:InstrumentenTyp}
 \end{table}
 
-Jede Definition von einem Instrument oder Sub-Instruments besteht aus 12 Bytes, dabei gibt das erste Byte an um welchen Typen von Instrument es sich handelt.
-
-\vspace{15pt}
-\textbf{{\large Sampled Instrument / Sub-Instrument Format}}
+\paratitle{Sampled Instrument / Sub-Instrument Format}
+Um ein Sampled Instrument unver\"andert, also ohne Anwendung von Attack, Decay, Sustain und Release abzuspielen, werden die Werte0xFF, 0x00, 0xFF, 0x00 verwendet.
 
 \begin{table}[h]
     \centering
     \begin{tabular}{ c | p{15cm} }
-        \textbf{Byte-Gr\"{o}{\ss}e} & \textbf{Definition} \\
+        \textbf{Byte-Gr\"o{\ss}e} & \textbf{Definition} \\
         \hline
 				1 & 0x00 (normal) oder 0x08 (nicht resampled) \\
 				\hline
@@ -654,27 +649,27 @@ Jede Definition von einem Instrument oder Sub-Instruments besteht aus 12 Bytes, 
 				\hline
         4 & Pointer zu Sample Dateien \\
 				\hline
-				1 & Attack-Wert (8-bit : 0x01 = l\"{a}ngster Attack, 0xFF = kein Attack) \\
+				1 & Attack-Wert (8-bit : 0x01 = l\"angster Attack, 0xFF = kein Attack) \\
         \hline
-        1 & Decay-Wert (8-bit : 0x00 = kein Decay, 0xFF = l\"{a}ngster Decay) \\ 
+        1 & Decay-Wert (8-bit : 0x00 = kein Decay, 0xFF = l\"angster Decay) \\ 
         \hline
-				1 & Sustain-Level (8-bit : 0x00 = Sustain zu Stumm, 0xFF = Sustain zur vollen Lautstl\"{a}rke) \\
+				1 & Sustain-Level (8-bit : 0x00 = Sustain zu Stumm, 0xFF = Sustain zur vollen Lautstl\"arke) \\
         \hline
-        1 & Release-Wert (8-bit : 0x00 = sofortiger Release, 0xFF = l\"{a}ngster Release) \\
+        1 & Release-Wert (8-bit : 0x00 = sofortiger Release, 0xFF = l\"angster Release) \\
     \end{tabular}
     \caption{Sampled Instrument / Sub-Instrument Format}
     \label{table:SampleInstrument}
 \end{table}
 
-Um ein Sampled Instrument unver\"{a}ndert, also ohne Anwendung von Attack, Decay, Sustain und Release abzuspielen, werden die Werte0xFF, 0x00, 0xFF, 0x00 verwendet.
-\newpage
 
-\textbf{{\large PSG Instrument / Sub-Instrument Format}}
+\newpage
+\paratitle{PSG Instrument / Sub-Instrument Format}
+Um ein PSG Instrument unver\"andert, also ohne Anwendung von Attack, Decay, Sustain und Release abzuspielen, werden die Werte0xFF, 0x00, 0xFF, 0x00 verwendet.
 
 \begin{table}[h]
     \centering
     \begin{tabular}{ c | p{15cm} }
-        \textbf{Byte-Gr\"{o}{\ss}e} & \textbf{Definition} \\
+        \textbf{Byte-Gr\"o{\ss}e} & \textbf{Definition} \\
 				\hline
 				1 & PSG Channel (0x01 = square 1, 0x02 = square 2, 0x03 = Programmierbare Waveform, 0x04 = Noise) \\
 				\hline
@@ -694,13 +689,13 @@ Um ein Sampled Instrument unver\"{a}ndert, also ohne Anwendung von Attack, Decay
 					Programmierbarer Channel:\newline
                 4 bytes = Zeiger auf 16-Byte Waveform-Datei \\
 				\hline
-        1 & Attack-Wert (8-bit : 0x01 = l\"{a}ngster Attack, 0xFF = kein Attack)\\
+        1 & Attack-Wert (8-bit : 0x01 = l\"angster Attack, 0xFF = kein Attack)\\
 				\hline
-        1 & Decay-Wert (8-bit : 0x00 = kein Decay, 0xFF = l\"{a}ngster Decay) \\
+        1 & Decay-Wert (8-bit : 0x00 = kein Decay, 0xFF = l\"angster Decay) \\
 				\hline
-        1 & Sustain-Level (8-bit : 0x00 = Sustain zu Stumm, 0xFF = Sustain zur vollen Lautstl\"{a}rke) \\
+        1 & Sustain-Level (8-bit : 0x00 = Sustain zu Stumm, 0xFF = Sustain zur vollen Lautstl\"arke) \\
 				\hline
-        1 & Release-Wert (8-bit : 0x00 = sofortiger Release, 0xFF = l\"{a}ngster Release) \\
+        1 & Release-Wert (8-bit : 0x00 = sofortiger Release, 0xFF = l\"angster Release) \\
 				
     \end{tabular}
     \caption{PSG Instrument / Sub-instrument Format}
@@ -709,26 +704,25 @@ Um ein Sampled Instrument unver\"{a}ndert, also ohne Anwendung von Attack, Decay
 
 Um ein PSG Instrument unver\"{a}ndert, also ohne Anwendung von Attack, Decay, Sustain und Release abzuspielen, werden die Werte0xFF, 0x00, 0xFF, 0x00 verwendet.
 
-\textbf{Square \& Noise Channels:}\newline
+\paratitle{Square \& Noise Channels}
 Da die H\"{u}llkurve durch das ansteigen bzw. verringern des Hardware Volume Registers bestimmt wird, unterscheidet die sich grunds\"{a}tzlich von den  Software emulierten Attack, Decay, Sustain und Release des Sampled Instrument.
 
-Ein Beispiel hierf\"{u}r w\"{a}hre wenn Volume auf 6 ist, wird ein Attack von "`3"' doppelt so schnell ausgef\"{u}hrt wie der Attack von "`3"' wenn Volume 12 ist. Dies geschieht, weil Volume unabh\"{a}ngig vom Volume Wert, in der gleichen Rate ansteigt.
+Ein Beispiel hierf\"ur w\"ahre wenn Volume auf 6 ist, wird ein Attack von \enquote{3} doppelt so schnell ausgef\"uhrt wie der Attack von \enquote{3} wenn Volume 12 ist. Dies geschieht, weil Volume unabh\"angig vom Volume Wert, in der gleichen Rate ansteigt.
 
-Zus\"{a}tzlich kommt zu diesem Problem hinzu, dass bei jeder \"{A}nderung von Volume in den Tracks sich Attack, Decay, Sustain und Release zur\"{u}cksetzen. Dies wiederum setzt den Sound zur\"{u}ck, welches in ein "`klick"' Sound resultiert. Das kann auch in Spiele, welche Musik Volume ein und aus blenden, geh\"{o}hrt werden. Aus diesem Grund sollten Volume-\"{A}nderungen vermieden werden und stattdessen falls m\"{o}glich Attack, Decay, Sustain und Release verwendet werden.
+Zus\"atzlich kommt zu diesem Problem hinzu, dass bei jeder \"anderung von Volume in den Tracks sich Attack, Decay, Sustain und Release zur\"ucksetzen. Dies wiederum setzt den Sound zur\"uck, welches in ein \enquote{klick} Sound resultiert. Das kann auch in Spiele, welche Musik Volume ein und aus blenden, geh\"ohrt werden. Aus diesem Grund sollten Volume-\"anderungen vermieden werden und stattdessen falls m\"oglich Attack, Decay, Sustain und Release verwendet werden.
 
-\textbf{Programmierbarer Waveform Channel:}\newline
+\paratitle{Programmierbarer Waveform Channel}
 Die H\"{u}llkurve wird mit den vier Level welche f\"{u}r Volume zuverf\"{u}gung steht (25\%, 50\%, 75\% and 100\%) von der Software simuliert. Deswegen kann die H\"{u}llkurve sehr abgehackt und grob klingen, da nur sowenig Level zuverf\"{u}gung stehen. Jedoch leidet dieser Channel nicht unter dem Problem des Klickens bei Volume-\"{A}nderung, wie bei den Square \& Noise Channels.
 
 
 
 \newpage
-
-\textbf{{\large Key-Split/Every Key-Split Instrumente}}
+\paratitle{Key-Split/Every Key-Split Instrumente}
 
 \begin{table}[h]
     \centering
     \begin{tabular}{ c | p{7,5cm} | p{7,5cm}}
-        \textbf{Byte-Gr\"{o}{\ss}e} & \textbf{Key Split Definition} & \textbf{Every Key-Split Definition}\\
+        \textbf{Byte-Gr\"o{\ss}e} & \textbf{Key Split Definition} & \textbf{Every Key-Split Definition}\\
         \hline
         1 & 0x40 & 0x80\\
 				\hline
@@ -743,26 +737,22 @@ Die H\"{u}llkurve wird mit den vier Level welche f\"{u}r Volume zuverf\"{u}gung 
 \end{table}
 
 
-\textbf{Key-Split:}\newline
+\paratitle{Key-Split}
 Die Key-Split Tabelle hat eine L\"{a}nge von 128 Bytes und gibt Informationen dar\"{u}ber welches Sub-Instrument bei welchem MIDI-Key (1 Byte) genutzt wird. 
 Die Position des benutzten Sub-Instrumentes ist:\newline 12 * KeySplitTable[MidiKey] + Zeiger auf ersten Sub-Instrument
 
-\textbf{Every Key-Split:}\newline
+\paratitle{Every Key-Split}
 Die Position des benutzten Sub-Instrumentes ist:\newline 12 * MidiKey + Zeiger auf Percussion Tabelle.\newline
 Der MIDI-Key und das Panning des spezifizierten Instruments wird nur hier benutzt.
 
-\vspace{15pt}
-\textbf{{\large Ungenutztes Instrumente}}
 
-HEX-Folge von einem ungenutzten Instrument:
-
+\paratitle{Ungenutztes Instrumente}
+HEX-Folge von einem ungenutzten Instrument
 0x01, 0x3C, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0F, 0x00
 
 Aus irgendeinem Grund werden nicht genutzte Instrumente in der Sappy Sound Engine immer gleich definiert. W\"{u}rde diese mutwillig Abgespielt werden, w\"{u}rde es sich um ein PSG Square 1 ohne richtig aktivierten Sweep handeln (tiefe Oktaven werden nciht abgespielt).
 		
-\vspace{15pt}
-\textbf{{\large 16-Byte programmaierbare Waveform Format}}
-
+\paratitle{\large 16-Byte programmaierbare Waveform Format}
 Die Waveform besteht aus 32 4-Bit Puls-Code-Modulation (PCM) Samples, Big Endian, Unsigned (0 = niedriges Level, F = H\"{o}heres Level) f\"{u}r Insgesamt 16-bytes pro Waveform.
 
 Zum Beispiel:
@@ -774,18 +764,19 @@ Die konstante Erh\"{o}hung bis 0xFE und dann konstanter Fall des Wertes,wird ein
 Der Game Boy Advance besitzt auch ein 64 Sample-Modus, jedoch keine bekannte M\"{o}glichkeit diesen Modus auszul\"{o}sen.
 
 \newpage
-\textbf{{\large Track-Gruppen RAM Zeiger Format}}
+\paratitle{Track-Gruppen RAM Zeiger Format}
+Die Sappy Sound Engine kann mehrere \enquote{Gruppen von Tracks} gleichzeitig wiedergeben, so k\"onnen Sound-Effekte abgespielt werden w\"ahrend Hintergrundmusik l\"auft. Verschiedene Spiele handhaben die Gruppen auf verschiedene Wegen.
 
 \begin{table}[h]
     \centering
     \begin{tabular}{ c | p{15cm} }
-        \textbf{Byte-Gr\"{o}{\ss}e} & \textbf{Definition}\\
+        \textbf{Byte-Gr\"o{\ss}e} & \textbf{Definition}\\
         \hline
         4 & Zeiger auf Track-Gruppen Variablen, besteht aus 0x40 Bytes\\
 				\hline
         4 & Zeiger auf Track Variablen, jeder Track besteht aus 0x50 Bytes\\
 				\hline
-        1 & Maximale Anzahl von Tracks f\"{u}r diese Gruppe. Falls versucht wird ein Song mit mehr Tracks abzuspielen, werden die \"{u}berschrittenen Tracks ignoriert und nciht abgespielt\\
+        1 & Maximale Anzahl von Tracks f\"ur diese Gruppe. Falls versucht wird ein Song mit mehr Tracks abzuspielen, werden die \"uberschrittenen Tracks ignoriert und nciht abgespielt\\
 				\hline
         3 & 0x00, 0x00, 0x00\\
     \end{tabular}
@@ -801,13 +792,13 @@ Jeder Track in jeder Gruppe hat sein eigenen Satz an Zeigern und Z\"{a}hler welc
 Die Track Gruppe beansprucht dabei im IRAM, welches im Game Boy Advance auf 0x3000000 abgebildet ist, 12 Bytes an Zeiger. 
 
 
-\vspace{15pt}
-\textbf{{\large Song Zeiger Format}}
+\paratitle{Song Zeiger Format}
+Obwohl die Track Gruppe zweimal vorkommt scheint diese immer Gleich zu sein. \"andert man diese so ab, dass sie sich von einander Unterscheiden, scheint nur die erste Track Gruppe einen Effekt zuhaben.
 
 \begin{table}[h]
     \centering
     \begin{tabular}{ c | p{8cm} }
-        \textbf{Byte-Gr\"{o}{\ss}e} & \textbf{Definition}\\
+        \textbf{Byte-Gr\"o{\ss}e} & \textbf{Definition}\\
         \hline
         4 & Zeiger auf Song-Header\\
 				\hline
@@ -823,11 +814,10 @@ Die Track Gruppe beansprucht dabei im IRAM, welches im Game Boy Advance auf 0x30
     \label{table:SongZeiger}
 \end{table}
 
-Obwohl die Track Gruppe zweimal vorkommt scheint diese immer Gleich zu sein. \"{A}ndert man diese so ab, dass sie sich von einander Unterscheiden, scheint nur die erste Track Gruppe einen Effekt zuhaben.
-
 
 \newpage
-\textbf{{\large Sample Format}}
+\paratitle{Sample Format}
+Jedes Sample kommt mit einem 16-Byte Header gefolgt von einer variablen Datenl\"ange.
 
 \begin{table}[h]
     \centering
@@ -836,24 +826,22 @@ Obwohl die Track Gruppe zweimal vorkommt scheint diese immer Gleich zu sein. \"{
 				\hline
         3 & 0x00, 0x00, 0x00\\
 				\hline
-        1 & 0x00 f\"{u}r nicht geloopte Sample, 0x40 f\"{u}r geloopte Sample\\
+        1 & 0x00 f\"ur nicht geloopte Sample, 0x40 f\"ur geloopte Sample\\
 				\hline
         4 & Pitch anpassung\\
 				\hline
         4 & Loop relativ zum Startpunkt\\
 				\hline
-        4 & Gr\"{o}{\ss}e der Sample\\
+        4 & Gr\"o{\ss}e der Sample\\
     \end{tabular}
     \caption{Sample Format}
     \label{table:SampleFormat}
 \end{table}
 
-Jedes Sample kommt mit einem 16-Byte Header gefolgt von einer variablen Datenl\"{a}nge.
-
 Die 8-Bit signed PCM Sample Datei folgt umgehend.
 
 Der Pitch Adjustement Wert wird mit folgender Formel berechnet:\newline
-Pitch Adjustement = 1024 * Sample-rate f\"{u}r Mid-C (Mid-C entspricht dem MIDI-Key \#60)
+Pitch Adjustement = 1024 * Sample-rate f\"ur Mid-C (Mid-C entspricht dem MIDI-Key \#60)
 
 Das \"{A}quivalent von Pitch Adjustement zu verf\"{u}gbare Engine Sampling Rate (f\"{u}r mid-C Note) sind wie folgt:
 
@@ -872,15 +860,13 @@ Diese Werte werden oft f\"{u}r Percussion Sounds und Soundeffekte genutzt, welch
 Wenn der Loop genau die Gr\"{o}{\ss}e von einer Schwingung einer geschleiften Waveform hat, kann der richtige Pitch auch wie folgt berechnet werden:\newline
 Pitch = 267905 * (Loop\_Ende - Loop\_Start)
 
-\vspace{15pt}
-\textbf{{\large Track Format}}
-
+\paratitle{Track Format}
 Das Track Format ist das einzige Format welches nicht in 4-Byte Gruppiert wird.
 
-Im Gegensatz zu den meisten anderen Sound-Formaten in Spielen ist Polyphonie, also mehrere Noten gleichzeitig, im selben Track m\"{o}glich.
+Im Gegensatz zu den meisten anderen Sound-Formaten in Spielen ist Polyphonie, also mehrere Noten gleichzeitig, im selben Track m\"oglich.
 
-Bytes zwischen 0x81-0xB0 sind Delta-T Werte, Bytes zwischen 0xB1-0xFF sind Befehle und Bytes zwischen 0x00-0x7F sind Argumente f\"{u}r Befehle.
-"`Negative"' Argumente 0x80-0xFF sind m\"{o}glich, jedoch f\"{u}r Gew\"{o}hnlich "`verboten"'.
+Bytes zwischen 0x81-0xB0 sind Delta-T Werte, Bytes zwischen 0xB1-0xFF sind Befehle und Bytes zwischen 0x00-0x7F sind Argumente f\"ur Befehle.
+\enquote{Negative} Argumente 0x80-0xFF sind m\"oglich, jedoch f\"ur Gew\"ohnlich \enquote{verboten}.
 
 \newpage
 \begin{table}[!h]
@@ -890,7 +876,7 @@ Bytes zwischen 0x81-0xB0 sind Delta-T Werte, Bytes zwischen 0xB1-0xFF sind Befeh
         \hline
         0x80 & Wait Tero Time & 1 & nein\\
         \hline
-        0x81-0xB0 & Delta-T, je H\"{o}her desto L\"{a}nger wird gewartet. Siehe Tabelle \ref{table:Timeout} unten & 1 & nein\\
+        0x81-0xB0 & Delta-T, je H\"oher desto L\"anger wird gewartet. Siehe Tabelle \ref{table:Timeout} unten & 1 & nein\\
         \hline
         0xB1 & Ende des Tracks& 1 & nein\\
 				\hline
@@ -904,31 +890,31 @@ Bytes zwischen 0x81-0xB0 sind Delta-T Werte, Bytes zwischen 0xB1-0xFF sind Befeh
 				\hline
 				0xB9 & Speicherinhalt bedingter Breakpoint & 3 & nein\\
 				\hline
-        0xBA & Bestimmt Track-Priorit\"{a}t. H\"{o}herer Wert entspricht h\"{o}here Priorit\"{a}t & 1 & nein\\
+        0xBA & Bestimmt Track-Priorit\"at. H\"oherer Wert entspricht h\"ohere Priorit\"at & 1 & nein\\
 				\hline
         0xBB & Tempo entspricht Beats per Minute geteilt durch zwei & 1 & nein\\
 				\hline
-        0xBC & Transponiert. Einziger Befehl, welches ein negatives Argument zul\"{a}sst & 1 & nein\\
+        0xBC & Transponiert. Einziger Befehl, welches ein negatives Argument zul\"asst & 1 & nein\\
 				\hline
         0xBD & Stellt Instrument ein & 1 & ja\\
 				\hline
-        0xBE & Stellt Lautst\"{a}rke ein & 1 & ja\\
+        0xBE & Stellt Lautst\"arke ein & 1 & ja\\
 				\hline
         0xBF & Stellt Panning ein & 1 & ja\\
 				\hline
-        0xC0 & Tonh\"{o}hen\"{a}nderungs-Wert. 0x41-0x7F und h\"{o}her \"{a}ndert es nach oben, 0x00-0x3F \"{a}ndert es nach unten, 0x40 ist der Original-Ton& 1 & ja\\
+        0xC0 & Tonh\"ohen\"anderungs-Wert. 0x41-0x7F und h\"oher \"andert es nach oben, 0x00-0x3F \"andert es nach unten, 0x40 ist der Original-Ton& 1 & ja\\
 				\hline
-        0xC1 & Tonh\"{o}hen\"{a}nderungs-Reichweite. Argument ist die Anzahl von Halbt\"{o}nen entfernt vom Oringal-Ton bei \"{A}nderung zum Maximum bzw. Minimum& 1 & ja\\
+        0xC1 & Tonh\"ohen\"anderungs-Reichweite. Argument ist die Anzahl von Halbt\"onen entfernt vom Oringal-Ton bei \"anderung zum Maximum bzw. Minimum& 1 & ja\\
 				\hline
         0xC2 & Low Frequency Oscillator (LFO) Geschwindigkeit. Je H"{o}her desto Schneller & 1 & nein\\
 				\hline
-        0xC3 & LFO-Verz\"{o}gerung. Anzahl der Ticks welche runter gez\"{a}hlt werden bevor LFO startet & 1 & nein\\
+        0xC3 & LFO-Verz\"ogerung. Anzahl der Ticks welche runter gez\"ahlt werden bevor LFO startet & 1 & nein\\
 				\hline
         0xC4 & LFO-Tiefe. Beeinflusst wie tief der LFO-Effekt ist & 1 & ja\\
 				\hline
-        0xC5 & LFO-Typ. W\"{a}hlt betroffene Variable, welche LFO modifiziert aus. 0 = Pitch (default), 1 = Lautst\"{a}rke, 2 = Panning& 1 & nein\\
+        0xC5 & LFO-Typ. W\"ahlt betroffene Variable, welche LFO modifiziert aus. 0 = Pitch (default), 1 = Lautst\"arke, 2 = Panning& 1 & nein\\
 				\hline
-        0xC8 & Verstimmt. 0x40 ist normaler Pitch, 0x00 ist ein Halbton tiefer und 0x7F ist ein Halbton h\"{o}her & 1 & ja\\
+        0xC8 & Verstimmt. 0x40 ist normaler Pitch, 0x00 ist ein Halbton tiefer und 0x7F ist ein Halbton h\"oher & 1 & ja\\
 				\hline
         0xCE & Note aus & 1-2 & ja\\
 				\hline
@@ -941,7 +927,7 @@ Bytes zwischen 0x81-0xB0 sind Delta-T Werte, Bytes zwischen 0xB1-0xFF sind Befeh
 \end{table}
 \newpage
 
-Die L\"{a}ngen-Tabelle f\"{u}r Note-On und Delta-T Befehle sind wie folgt:
+Die L\"angen-Tabelle f\"ur Note-On und Delta-T Befehle sind wie folgt:
 
 \begin{table}[h]
     \centering
@@ -950,34 +936,33 @@ Die L\"{a}ngen-Tabelle f\"{u}r Note-On und Delta-T Befehle sind wie folgt:
         \hline
         Delta-t & 81 & 82 & 83 & ... & 97 & 98 & 99 & 9A & 9B & 9C & 9D & 9E & 9F & A0 & A1\\
         \hline
-        L\"{a}nge & 1 & 2 & 3 & ... & 23 & 24 & 28 & 30 & 32 & 36 & 40 & 42 & 44 & 48 & 52\\
+        L\"ange & 1 & 2 & 3 & ... & 23 & 24 & 28 & 30 & 32 & 36 & 40 & 42 & 44 & 48 & 52\\
     \end{tabular}
 		\begin{tabular}{ c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c }
         \textbf{Note} & \textbf{F1} & \textbf{F2} & \textbf{F3} & \textbf{F4} & \textbf{F5} & \textbf{F6} & \textbf{F7} & \textbf{F8} & \textbf{F9} & \textbf{FA} & \textbf{FB} & \textbf{FC} & \textbf{FD} & \textbf{FE} & \textbf{FF}\\
         \hline
         Delta-t & A2 & A3 & A4 & A5 & A6 & A7 & A8 & A9 & AA & AB & AC & AD & AE & AF & B0\\
         \hline
-        L\"{a}nge & 56 & 56 & 60 & 64 & 66 & 68 & 72 & 76 & 78 & 80 & 84 & 80 & 90 & 92 & 96\\
+        L\"ange & 56 & 56 & 60 & 64 & 66 & 68 & 72 & 76 & 78 & 80 & 84 & 80 & 90 & 92 & 96\\
     \end{tabular}
     \caption{Note an mit automatischem Time-out}
     \label{table:Timeout}
 \end{table}
 
-F\"{u}r gew\"{o}hnlich wird der Song so erstellt, dass die L\"{a}nge von 96 eine ganze Note ergibt. Demnach ist ein Tick ein drittel der Note und ist die feinere m\"{o}gliche L\"{o}sung.
+F\"ur gew\"ohnlich wird der Song so erstellt, dass die L\"ange von 96 eine ganze Note ergibt. Demnach ist ein Tick ein drittel der Note und ist die feinere m\"ogliche L\"osung.
 
-Die Anzahl von Argumenten bei Befehlen kann zwischen 0 und 3 Variieren. Ein "`negativ"' Byte bedeutet, dass die Argumenten-Liste beendet wird und das deshalb der Key-On Befehl komplett dekodiert wurde.
+Die Anzahl von Argumenten bei Befehlen kann zwischen 0 und 3 Variieren. Ein \enquote{negativ} Byte bedeutet, dass die Argumenten-Liste beendet wird und das deshalb der Key-On Befehl komplett dekodiert wurde.
 
-Die "`volle"' Version von einem Note-On Befehls ben\"{o}tigt zwei Argumente, Key und Geschwindigkeit. Im Falle vom auto Time-out Note-On Befehl, kann ein optionales drittes Argument vorkommen. 
+Die \enquote{volle} Version von einem Note-On Befehls ben\"otigt zwei Argumente, Key und Geschwindigkeit. Im Falle vom auto Time-out Note-On Befehl, kann ein optionales drittes Argument vorkommen. 
 
-Da die L\"{a}ngen-Tabelle fehlende l\"{a}ngen Werte hat, kann ein extra drittes Argument genutzt werden um eine feinere Pr\"{a}zision zu erreichen. 
+Da die L\"angen-Tabelle fehlende l\"angen Werte hat, kann ein extra drittes Argument genutzt werden um eine feinere Pr\"azision zu erreichen. 
 
 Ein Noten Befehl gefolgt von einem einzigen Argument spielt eine neue Note mit einem neuem Key ab, verwendet jedoch die zuletzt genutzte Geschwindigkeit.
 
-Folgt nach dem Note-On Befehl kein Argument, verwendet die neue Note den zuletzt angewendeten Key und die zuletzt genutzte Geschwindigkeit
+Folgt nach dem Note-On Befehl kein Argument, verwendet die neue Note den zuletzt angewendeten Key und die zuletzt genutzte Geschwindigkeit.
 
 
-\textbf{{\large Song-Header Format}}
-
+\paratitle{Song-Header Format}
 \begin{table}[h]
     \centering
     \begin{tabular}{ c | p{8cm} }
@@ -987,7 +972,7 @@ Folgt nach dem Note-On Befehl kein Argument, verwendet die neue Note den zuletzt
         \hline
         1 & Unbekannt\\
         \hline
-        1 & Song Priorit\"{a}t\\
+        1 & Song Priorit\"at\\
 				\hline
         1 & Echo feedback\\
 				\hline
@@ -999,12 +984,12 @@ Folgt nach dem Note-On Befehl kein Argument, verwendet die neue Note den zuletzt
     \label{table:HeaderFormat}
 \end{table}
 
-Die Priorit\"{a}t wird wie Folgt gehandhabt:
+Die Priorit\"at wird wie Folgt gehandhabt:
 \begin{itemize}
-\item Bei PSG Channel wird die Note mit der h\"{o}chsten Priorit\"{a}t wiedergegeben
-\item Bei Direct Sound Channel wird falls kein freier Channel mehr zu Verf\"{u}gung steht, die Noten mit den h\"{o}chsten Priorit\"{a}ten wiedergegeben und die mit niedrigeren Priorit\"{a}ten werden ignoriert oder zum Schweigen gebracht um Platz f\"{u}r h\"{o}her priorisierte Noten zu schaffen.
+\item Bei PSG Channel wird die Note mit der h\"ochsten Priorit\"at wiedergegeben
+\item Bei Direct Sound Channel wird falls kein freier Channel mehr zu Verf\"ugung steht, die Noten mit den h\"ochsten Priorit\"aten wiedergegeben und die mit niedrigeren Priorit\"aten werden ignoriert oder zum Schweigen gebracht um Platz f\"ur h\"oher priorisierte Noten zu schaffen.
 \end{itemize}
-Im Falle von gleicher Priorit\"{a}t wird nach der Track Nummer entschieden. Die niedrigere Track Nummer hat h\"{o}here Priorit\"{a}t als die hohen Track Nummern.
+Im Falle von gleicher Priorit\"at wird nach der Track Nummer entschieden. Die niedrigere Track Nummer hat h\"ohere Priorit\"at als die hohen Track Nummern.
 
 
 
@@ -1149,14 +1134,14 @@ Untersuchung des Assemblercodes der Sappy Sound Engine anhand von Pok\'{e}mon Bl
 	\vspace{-30pt}
 \end{wrapfigure}
 
-Um in IDA Pro die einzelnen Songs zu finden, wird zun\"{a}chst nach der Songtabelle gesucht.
+Um in IDA Pro die einzelnen Songs zu finden, wird zun\"achst nach der Songtabelle gesucht.
 
 Diese findet man, indem man nach der HEX-Reihenfolge von ungenutzten Instrumenten sucht. Dabei handelt es sich um folgende Reihenfolge: 
 
 \textbf{0x01, 0x3c, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0f, 0x00} (1.)
 
-Wird die Sappy Sound Engine, wie bei Pok\'{e}mon Blattgr\"{u}n, vom Spiel genutzt, sollten mehrere dieser Hex-Strings gefunden werden.
-Scrollt man jetzt von der letzten \"{U}bereinstimmung der HEX-Reihenfolge aus weiter nach unten, sollten wir Spalten mit 0x00 und 0x08 auffinden. (2.)
+Wird die Sappy Sound Engine, wie bei Pok\'{e}mon Blattgr\"un, vom Spiel genutzt, sollten mehrere dieser Hex-Strings gefunden werden.
+Scrollt man jetzt von der letzten \"ubereinstimmung der HEX-Reihenfolge aus weiter nach unten, sollten wir Spalten mit 0x00 und 0x08 auffinden. (2.)
 
 Bei den ersten 4 Bytes welche mit 0x08 enden, handelt es sich um ein Zeiger auf den ersten Song im Spiel. (3.) Dieser befindet sich auf der ersten Position der Songtabelle. 
 In der Abbildung \ref{fig:hex-view} handelt es sich dabei um den Zeiger auf die Adresse "`0x086B4F1C"'.
@@ -1175,14 +1160,14 @@ In der Abbildung \ref{fig:hex-view} handelt es sich dabei um den Zeiger auf die 
 \end{wrapfigure}
 
 
-Wird jetzt von der HEX-Ansicht auf die IDA-Ansicht gewechselt, k\"{o}nnen die einzelnen Zeiger auf die Songs erkannt werden. (4.)
-Folgt man nun einer dieser Zeiger landet man bei 0xB2, welches f\"{u}r eine Sprung-Anweisung steht, gefolgt von der Adresse des Instruments. (5.)
+Wird jetzt von der HEX-Ansicht auf die IDA-Ansicht gewechselt, k\"onnen die einzelnen Zeiger auf die Songs erkannt werden. (4.)
+Folgt man nun einer dieser Zeiger landet man bei 0xB2, welches f\"ur eine Sprung-Anweisung steht, gefolgt von der Adresse des Instruments. (5.)
 
-Nach der Adresse des Instruments folgt der Song-Header. (6.) Dieser f\"{u}hrt zum Trackformat, welcher immer mit der "`Tempo"'-Anweisung 0xBB Anf\"{a}ngt und mit der "`Ende des Songs"'-Anweisung 0xB1 endet. 
+Nach der Adresse des Instruments folgt der Song-Header. (6.) Dieser f\"uhrt zum Trackformat, welcher immer mit der \enquote{Tempo}-Anweisung 0xBB Anf\"angt und mit der \enquote{Ende des Songs}-Anweisung 0xB1 endet. 
 
 So wird in Abbildung \ref{fig:IDA-view} zun\"{a}chst das Tempo (0xBB) auf 33 gesetzt und das 91. Instrument (0xBD) ausgew\"{a}hlt. Danach wird die Lautst\"{a}rke (0xBE) auf 100 gesetzt und die Tonh\"{o}he (0xC0) auf 58 variiert. Anschlie{\ss}end folgt eine Note mit automatischem Time-Out mit 60 112 132, dann ein Instrumenten Wechsel und endet mit der Ende des Songs Anweisung (0xB1). 
 
-F\"{u}r genauere Bedeutung der Anweisungen, siehe "`Sappy Track Format"'-Tabelle \ref{table:TrackFormat}.
+F\"ur genauere Bedeutung der Anweisungen, siehe \enquote{Sappy Track Format}-Tabelle \ref{table:TrackFormat}.
 
 \newpage 
 
@@ -1217,7 +1202,7 @@ F\"{u}r genauere Informationen, siehe "`Sappy Sample Instrument"'-Tabelle \ref{t
 	\label{fig:SelectSong}
 \end{wrapfigure}
 
-Die Song-Ausw\"{a}hl-Funktion f\"{u}r Sappy-Sound-Engine schaut in IDA aus wie in der Abbildung \ref{fig:SelectSong}. 
+Die Song-Ausw\"ahl-Funktion f\"ur Sappy-Sound-Engine schaut in IDA aus wie in der Abbildung \ref{fig:SelectSong}. 
 
 In der Proximity-Browser-View wird klarer, dass es sich um die Song-Ausw\"{a}hl-Funktion handelt, als in der Graph-View.
 
@@ -1231,7 +1216,7 @@ Diese kann man leicht finden, indem man nach Folgender HEX-Reihenfolge sucht:
 \newpage
 % ========== Chapter 2.3.4 ==========
 
-\subsubsection{Sappy - "`Audio-Reflektor"'}
+\subsubsection{Sappy - \enquote{Audio-Reflektor}}
 \AutorNgoc
 
 \begin{figure}[h]
@@ -1260,12 +1245,24 @@ So sieht man in der Abbildung \ref{fig:Sappy}, dass man im Vergleich zu IDA Pro 
 \subsection{Was ist der mGBA?}
 \AutorDominik
 
+\enquote{mGBA ist ein Open-Source Game Boy Advance Emulator, der von endrift entwickelt wurde. Von Grund auf neu geschrieben, zielt die Anwendung auf Geschwindigkeit, Genauigkeit und Portabilit\"at ab. Bis jetzt ist mGBA der umfassendste GBA-Emulator, der das \"altere Projekt VBA (Visual Boy Advance) und dessen Forks \"uberstanden hat [...]} \cite{mGBAWiki} Das K\"urzel \enquote{GBA} steht dabei f\"ur Game Boy Advance.
+
+\enquote{mGBA ist eine neue Generation des Game Boy Advance Emulators. Das Projekt startete im April 2013 mit dem Ziel, schnell genug auf einer schw\"acheren Hardware zu laufen als andere Emulatoren, ohne auf Genauigkeit oder Portabilit\"at zu verzichten. Schon in der ersten Version liesen sich Spiele generell ohne Probleme spielen. mGBA ist seither immer besser geworden und r\"uhmt sich nun, der genaueste GBA-Emulator zu sein.
+
+Weitere Ziele sind eine ausreichend genaue Emulation, um eine Entwicklungsumgebung f\"ur Homebrew-Software bereitzustellen, ein guter Workflow f\"ur Tool-Assist-Runner und ein moderner Funktionsumfang f\"ur Emulatoren, den \"altere Emulatoren m\"oglicherweise nicht unterst\"utzen.
+
+mGBA ist unter der Mozilla Public License 2.0 lizenziert und [...] kann auf GitHub gefunden werden.} \cite{mGBAAbout}
+
+\paratitle{F\"ur was steht das \enquote{m}?}
+\enquote{[...] mGBA sollte urspr\"unglich miniGBA hei{\ss}en, aber als das Projekt wuchs, wurde der Begriff unpassend. Der Name sollte nur tempor\"ar sein, aber als die erste ver\"offentlichte Version n\"aher kam, konnte ich mir keine besseren Namen vorstellen. Andere Projektnamen f\"ur mGBA waren GBAc und Gerboa, aber nichts anderes blieb.} \cite{mGBAFaq}
+
+
 % ========== Chapter 3.2 ==========
 
 \subsection{Emulation des Game Boy Advance} \label{EmulationGameBoyAdvance}
 \AutorDominikFlorian
 
-Die Anwendung \enquote{mGBA} wurde von den Entwicklern mit dem GUI-Toolkit Qt realisiert. Qt erm\"oglicht die plattformunabh\"angige Entwicklung von Anwendungen mit grafischer Benutzeroberfl\"ache und basiert auf der Sprache C++. Damit ist es Entwicklern auch m\"oglich, bereits realisierte Basis-Software problemlos zu integrieren.
+Die Anwendung \enquote{mGBA} wurde von den Entwicklern mit dem GUI-Toolkit Qt realisiert. Qt erm\"oglicht die plattformunabh\"angige Entwicklung von Anwendungen mit grafischer Benutzeroberfl\"ache und basiert auf der Sprachen C und C++. Damit ist es Entwicklern auch m\"oglich, bereits realisierte Basis-Software problemlos zu integrieren.
 
 % ========== Chapter 3.2.1 ==========
 
@@ -1274,21 +1271,21 @@ Die Anwendung \enquote{mGBA} wurde von den Entwicklern mit dem GUI-Toolkit Qt re
 
 F\"ur die Untersuchung, wie der Emulator mit dem Betriebssystem interagiert, wird im Folgenden nur auf die daf\"ur ben\"otigten Klassen, Methoden und Konzepte eingegangen. Dabei liegt der Fokus ausschlie{\ss}lich auf Abl\"aufe die zur Emulation des Soundsystems notwendig sind.
 
-\subsubsection{Start des Emulators} \label{startdesemulators}
+\newpage
+\subsubsection{Start des Emulators} \label{Emulator_Start}
 \AutorDominik
 
 Wie \"ublich beginnt auch beim mGBA die Anwendung in der globalen \verb|main|-Methode (\textit{\$/src/platform/qt/main.cpp}). Diese initialisiert den \textbf{ConfigController} mittels \verb|argc| und \verb|argv|. Anschlie{\ss}end wird eine neue Instanz der Klasse \textbf{GBAApp} ebenfalls mit \verb|argc| und \verb|argv|, sowie dem vorinitialisierten \verb|configController| initialisiert. Die weitere Logik der \verb|main|-Methode dient der Initialisierung und Lokalisierung einer \textbf{Window}-Instanz zur Anzeige der mGBA GUI. Die dabei erzeugte \textbf{Window}-Instanz wird w\"ahrenddessen dazu aufgefordert die Einstellungen aus dem bereits initialisierten \verb|configController| zu laden. Hierzu wird die Methode \verb|loadConfig()| der \textbf{Window}-Klasse verwendet.
 
 Durch den Aufruf der \verb|loadConfig()|-Methode wird wiederum die Methode \verb|reloadConfig()| der \textbf{Window}-Klasse aufgerufen. Diese vermittelt unter anderen die aktuelle \textbf{mCoreConfig}-Struktur der \verb|m_config| (vom Typen \textbf{ConfigController}) an den \verb|m_controller| (vom Typen \textbf{GameController}) mittels \verb|setConfig()|-Methode der \textbf{GameController}-Klasse.
 
-\vspace{5mm}
-\large ConfigController \normalsize(\textit{\$/src/platform/qt/ConfigController.h \& .cpp})
-\vspace{2mm}\newline
+\paratitlecode{ConfigController}{/src/platform/qt/ConfigController.h \& .cpp}
 Im Konstruktor der \textbf{ConfigController}-Klasse werden eventuell vorhandene Einstellungen aus einer \enquote{qt.ini} oder \enquote{config.ini} geladen und Standard-Werte der Membervariable \verb|m_opts| vom Typen der \textbf{mCoreOptions}-Struktur (\textit{\$/include/mgba/core/config.h}) festgelegt, siehe Snippet \ref{list:ConfigController_ctor}.
 
 \vspace{5mm}
 \begin{lstlisting}[language=C++, caption={Ausschnitt aus dem Konstruktor der ConfigController-Klasse}, label={list:ConfigController_ctor}]
-    ...	m_opts.audioSync = GameController::AUDIO_SYNC;
+    ...
+	m_opts.audioSync = GameController::AUDIO_SYNC;
 	m_opts.audioBuffers = 1536;
 	m_opts.sampleRate = 44100;
 	m_opts.volume = 0x100;
@@ -1297,14 +1294,11 @@ Im Konstruktor der \textbf{ConfigController}-Klasse werden eventuell vorhandene 
 
 Alle im \textbf{ConfigController} enthaltenen Einstellungen werden im Laufe der Anwendung je nach Bedarf entweder \"uber die \verb|options()|-Methode oder \"uber die \verb|config()|-Methode abgerufen. Dabei wird bei der ersten Methode eine \textbf{mCoreOptions}-Struktur (\textit{\$/include/mgba/core/config.h}) und bei der zweiten Methode eine \textbf{mCoreConfig}-Struktur (\textit{\$/include/mgba/core/config.h}) bereitgestellt. W\"ahrend die \textbf{mCoreConfig}-Struktur auschlie{\ss}lich eine Abstraktion der konfigurierten Werte, der Standardwerte und der \"uberschriebenen Werte bietet, stellt die \textbf{mCoreOptions}-Struktur alle verf\"ugbaren Einstellungen direkt als typisierte Felder bereit.
 
-\vspace{5mm}
-\large GBAApp \normalsize(\textit{\$/src/platform/qt/GBAApp.h \& .cpp})
-\vspace{2mm}\newline
+\paratitlecode{GBAApp}{/src/platform/qt/GBAApp.h \& .cpp}
 Im Konstruktor der \textbf{GBAApp}-Klasse wird der lokale \verb|m_configController| mit dem \"ubergebenen initialisiert und der Treiber der \textbf{AudioProcessor}-Klasse mittels \verb|AudioProcessor.setDriver(...)| festgelegt. Der \textbf{AudioProcessor.Driver} (eine Enumeration) legt dabei fest, ob entweder die \textbf{AudioProcessor}-Spezialisierung \textbf{AudioProcessorQt} oder \textbf{AudioProcessorSDL} mittels \verb|AudioProcessor.create()|-Aufruf erstellt wird. Der zu verwendende \textbf{AudioProcessor.Driver} wird dabei durch den \textbf{ConfigController} \"uber die Option \enquote{audioDriver} bereitgestellt.
 
-\vspace{5mm}
-\large Window \normalsize(\textit{\$/src/platform/qt/Window.h \& .cpp})
-\vspace{2mm}\newline
+\newpage
+\paratitlecode{Window}{/src/platform/qt/Window.h \& .cpp}
 Im Konstruktor der \textbf{Window}-Klasse wird die lokale \verb|m_config| mit dem \"ubergebenen \textbf{ConfigController} (\verb|config|-Parameter) und der lokale \verb|m_inputController| initialisiert. Daraufhin wird eine neue Instanz der \textbf{GameController}-Klasse erzeugt, in der Membervariablen \verb|m_controller| gespeichert und der \verb|m_inputController| an die \textbf{GameController}-Instanz mittels \verb|m_controller.setInputController(...)| \"ubergeben. Weiter stellt der Konstruktor der \textbf{Window}-Klasse Verbindungen mittels Qt Signals \& Slots zwischen den folgenden Methoden her:
 
 \begin{itemize}
@@ -1320,14 +1314,11 @@ Als letzte Anweisung des Konstruktors wird die lokale \verb|setupMenu()|-Methode
 \end{itemize}
 
 
-\vspace{5mm}
-\large VideoView \normalsize(\textit{\$/src/platform/qt/VideoView.h \& .cpp})
-\vspace{2mm}\newline
+\paratitlecode{VideoView}{/src/platform/qt/VideoView.h \& .cpp}
 Bei der Instanziierung der \textbf{VideoView}-Klasse verwendet der Konstruktor die globale Methode \textbf{FFmpegEncoderInit} (\$/src/feature/ffmpeg/ffmpeg-encoder.c) zur Initialisierung der Membervariablen \verb|m_encoder|. Die f\"ur die Audio-/Videoausgabe verwendete Struktur vom Typen \textbf{FFmpegEncoder} (\$/src/feature/ffmpeg/ffmpeg-encoder.c) wird beim Aufruf der Instanzmethode \verb|startRecording()| der \textbf{VideoView}-Klasse mttels globaler \textbf{FFmpegEncoderOpen}-Methode so final konfiguriert, dass der Encoder die bei der Emulation anfallenden Audio-/Videodaten aufzeichnet. Zum Abschluss der \textbf{startRecording()}-Methode wird das Qt Signal \verb|recordingStarted| mit dem Feld \verb|d| vom Typen der Struktur \textbf{mAVStream} der \verb|m_encoder| Membervariablen als Parameter gesendet. Dieses Signal endet schlie{\ss}lich in einen Aufruf der \verb|setAVStream|-Methode der \textbf{GameController}-Instanz \verb|m_controller| der \textbf{Window}-Klasse.
 
-\vspace{5mm}
-\large GameController \normalsize(\textit{\$/src/platform/qt/GameController.h \& .cpp})
-\vspace{2mm}\newline
+
+\paratitlecode{GameController}{/src/platform/qt/GameController.h \& .cpp}
 Im Konstruktor der \textbf{GameController}-Klasse wird die lokale \verb|m_audioProcessor| Membervariable mit dem Ergebnis des \verb|AudioProcessor.create()|-Aufrufs initialisiert. Daraufhin erfolgt das Setup der Membervariable \verb|m_threadContext| vom Typen der \textbf{mCoreThread}-Struktur. Hierbei wird unter anderen das \verb|startCallback|, \verb|cleanCallback| und das \verb|userData| Feld der Kontextvariablen entsprechend belegt. Abschlie{\ss}end werden die folgenden Methoden mittels Qt Signals \& Slots miteinander verbunden:
 
 \begin{itemize}
@@ -1335,42 +1326,49 @@ Im Konstruktor der \textbf{GameController}-Klasse wird die lokale \verb|m_audioP
     \item \verb|GameController.gameStarted| $\rightarrow$ \verb|m_audioProcessor.setInput|
 \end{itemize}
 
+\newpage
 \subsubsection{Initialisierung des \enquote{mCore}}
 \AutorDominik
 
-W\"ahlt der mGBA-Anwender im Men\"u den Punkt \enquote{Load ROM...}, wird hierf\"ur die Methode \verb|selectROM()| der \textbf{Window}-Klasse ausgef\"uhrt. Nach erfolgter Auswahl einer entsprechend unterst\"utzten Datei, wird die Methode \verb|loadGame(path)|  der lokalen \textbf{GameController}-Instanz (\verb|m_controller|) mit dem Pfad zur ausgew\"ahlten ROM-Datei aufgerufen. Diese f\"uhrt nach einigen Vorabaktionen die Methode \verb|openGame()| der \textbf{GameController}-Instanz aus. Mittels globaler \textbf{mCoreFind}-Methode (\textit{\$/src/core/core.c}) wird der vom Format der ROM-Datei abh\"angige \enquote{Core} ermittelt und erstellt. Handelt es sich bei der ROM-Datei um ein Game Boy Advance (kurz \enquote{GBA}) Speicherabbild, wird die globale \textbf{GBACoreCreate}-Methode (\textit{\$/src/gba/core.c}) dazu verwendet den Speicher f\"ur die Struktur \textbf{GBACore} (\textit{\$/src/gba/core.c}) zu allokieren. Das dabei implizit allokierte \textbf{mCore}-Feld \verb|d| wird daraufhin mit diversen Funktionszeigern zu globalen Methoden mit dem Prefix \textbf{{\_}GBA} beziehungsweise \textbf{{\_}GBACore} initialisiert. Das auf diese Weise konfigurierte \verb|d|-Feld wird dann von der globalen \textbf{GBACoreCreate}-Methode zur\"uckgeliefert und im Feld \verb|mCoreThread.core| der lokalen Membervariable \verb|m_threadContext| der \textbf{GameController}-Instanz gespeichert.
+W\"ahlt der mGBA-Anwender im Men\"u den Punkt \enquote{Load ROM...}, wird hierf\"ur die Methode \verb|selectROM()| der \textbf{Window}-Klasse ausgef\"uhrt. Nach erfolgter Auswahl einer entsprechend unterst\"utzten Datei, wird die Methode \verb|loadGame(path)|  der lokalen \textbf{GameController}-Instanz (\verb|m_controller|) mit dem Pfad zur ausgew\"ahlten ROM-Datei aufgerufen. Diese f\"uhrt nach einigen Vorabaktionen die Methode \verb|openGame()| der \textbf{GameController}-Instanz aus. Mittels globaler \textbf{mCoreFind}-Methode (\textit{\$/src/core/core.c}) wird der vom Format der ROM-Datei abh\"angige \enquote{Core} ermittelt und erstellt.
 
-\vspace{5mm}
-\large {\_}GBACoreInit \normalsize(\textit{\$/src/gba/core.c})
-\vspace{2mm}\newline
-Der erste der zuvor festgelegten Funktionszeiger der daraufhin verwendet wird ist der der Funktion auf die im Feld \verb|init| verwiesen wird. Nach Durchlaufen der globalen \textbf{GBACoreCreate}-Methode ist das die globale Methode \textbf{{\_}GBACoreInit}. Die globale Methode initialisiert die Felder \verb|cpu| und \verb|board| des \textbf{mCore}. Hierzu wird f\"ur das Feld \verb|cpu| die Struktur \textbf{ARMCore} (\textit{\$/include/mgba/internal/arm/arm.h}) und f\"ur das Feld \verb|board| die Struktur \textbf{GBA} (\textit{\$/include/mgba/internal/gba/gba.h}) verwendet. Nach der Initialisierung einzelner weiterer Felder wird dann die globale Methode \textbf{GBACreate} (\textit{\$/src/gba/gba.c}) mit den Verweis auf die zuvor initialisierte \verb|board|-Variable vom Typen der \textbf{GBA}-Struktur aufgerufen. Diese legt unter anderen als Wert f\"ur das \verb|init|-Feld des \verb|d|-Feldes vom Typen der \textbf{mCPUComponent}-Struktur der \verb|board|-Variablen die globale Methode \textbf{GBAInit} (\textit{\$/src/gba/gba.c}) fest. \sout{Im weiteren Verlauf der \textbf{{\_}GBACoreInit}-Methode wird schlie{\ss}lich noch die globale Methode \textbf{ARMInit} aufgerufen und ihr dabei die zuvor initialisierte cpu-Variable vom Typen der \textbf{ARMCore}-Struktur \"ubergeben.} Anschlie{\ss}end wird in Folge der Aufrufe der globalen Methoden \textbf{ARMSetComponents} (\textit{\$/src/arm/arm.c}) und \textbf{ARMInit} (\textit{\$/src/arm/arm.c}) die zuvor auf dem \verb|init|-Feld des \verb|d|-Feldes der \verb|board|-Variablen die globale Methode \textbf{GBAInit} aufgerufen.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Emulator_Core}
+    \caption{Struktur des GBACore}
+    \label{fig:mcore}
+\end{figure}
 
-\vspace{5mm}
-\large GBAInit \normalsize(\textit{\$/src/gba/gba.c})
-\vspace{2mm}\newline
+Handelt es sich bei der ROM-Datei um ein Game Boy Advance (kurz \enquote{GBA}) Speicherabbild, wird die globale \textbf{GBACoreCreate}-Methode (\textit{\$/src/gba/core.c}) dazu verwendet den Speicher f\"ur die Struktur \textbf{GBACore} (\textit{\$/src/gba/core.c}) zu allokieren. Eine abstrakte Darstellung der Struktur ist in Abbildung \ref{fig:mcore} zu finden. Das dabei implizit allokierte \textbf{mCore}-Feld \verb|d| wird daraufhin mit diversen Funktionszeigern zu globalen Methoden mit dem Prefix \textbf{{\_}GBA} beziehungsweise \textbf{{\_}GBACore} initialisiert. Das auf diese Weise konfigurierte \verb|d|-Feld wird dann von der globalen \textbf{GBACoreCreate}-Methode zur\"uckgeliefert und im Feld \verb|mCoreThread.core| der lokalen Membervariable \verb|m_threadContext| der \textbf{GameController}-Instanz gespeichert.
+
+
+\paratitlecode{{\_}GBACoreInit}{/src/gba/core.c}
+Der erste der zuvor festgelegten Funktionszeiger der daraufhin verwendet wird ist der der Funktion auf die im Feld \verb|init| verwiesen wird. Nach Durchlaufen der globalen \textbf{GBACoreCreate}-Methode ist das die globale Methode \textbf{{\_}GBACoreInit}. Die globale Methode initialisiert die Felder \verb|cpu| und \verb|board| des \textbf{mCore}. Hierzu wird f\"ur das Feld \verb|cpu| die Struktur \textbf{ARMCore} (\textit{\$/include/mgba/internal/arm/arm.h}) und f\"ur das Feld \verb|board| die Struktur \textbf{GBA} (\textit{\$/include/mgba/internal/gba/gba.h}) verwendet. Nach der Initialisierung einzelner weiterer Felder wird dann die globale Methode \textbf{GBACreate} (\textit{\$/src/gba/gba.c}) mit den Verweis auf die zuvor initialisierte \verb|board|-Variable vom Typen der \textbf{GBA}-Struktur aufgerufen. Diese legt unter anderen als Wert f\"ur das \verb|init|-Feld des \verb|d|-Feldes vom Typen der \textbf{mCPUComponent}-Struktur der \verb|board|-Variablen die globale Methode \textbf{GBAInit} (\textit{\$/src/gba/gba.c}) fest. Anschlie{\ss}end wird in Folge der Aufrufe der globalen Methoden \textbf{ARMSetComponents} (\textit{\$/src/arm/arm.c}) und \textbf{ARMInit} (\textit{\$/src/arm/arm.c}) die zuvor auf dem \verb|init|-Feld des \verb|d|-Feldes der \verb|board|-Variablen die globale Methode \textbf{GBAInit} aufgerufen.
+
+\newpage
+\paratitlecode{GBAInit}{/src/gba/gba.c}
 In dieser Low-Level Init-Routine werden alle virtuellen Hardwarekomponenten des \textbf{mCore} initialisiert und mit weiteren globalen Methoden verlinkt. Dazu geh\"ohrt unter anderen das Setup des Interrupt-Handlers, welcher \"uber das Feld \verb|irqh| des \verb|cpu|-Feldes der \textbf{GBA}-Instanz an die globale Methode \textbf{GBAInterruptHandlerInit} \"ubergeben wird. Nach der Initialisierung des Interrupt-Handlers folgt die Initialisierung des Speichers des \textbf{GBA} mittels globaler \textbf{GBAMemoryInit}-Methode. Darauf folgt das Setup der \enquote{Audio}-Peripherie des \textbf{GBA} mit Hilfe der globalen Methode \textbf{GBAAudioInit}.
 
-\vspace{5mm}
-\large GBAInterruptHandlerInit \normalsize(\textit{\$/src/gba/gba.c})
-\vspace{2mm}\newline
+\paratitlecode{GBAInterruptHandlerInit}{/src/gba/gba.c}
 Die einzige Aufgabe dieser Methode ist es die \textbf{ARMInterruptHandler}-Struktur (\textit{\$/include/mgba/internal/arm/arm.h}) des \textbf{GBA} zu initialisieren. Hierzu legt die Methode entsprechende Funktionszeiger f\"ur die einzelnen Service-Routinen der Interrupt-Handler-Struktur fest.
 
 \vspace{5mm}
-\begin{lstlisting}[language=C++, caption={Ausschnitt aus der \textbf{GBAInterruptHandlerInit}-Methode}, label={list:GBAInterruptHandlerInit}]    irqh->reset = GBAReset;
+\begin{lstlisting}[language=C++, caption={Ausschnitt aus der \textbf{GBAInterruptHandlerInit}-Methode}, label={list:GBAInterruptHandlerInit}]
+    irqh->reset = GBAReset;
     irqh->processEvents = GBAProcessEvents;
     irqh->swi16 = GBASwi16;
     irqh->swi32 = GBASwi32;
     ...
 \end{lstlisting}
 
-\vspace{5mm}
-\large GBAMemoryInit \normalsize(\textit{\$/src/gba/memory.c})
-\vspace{2mm}\newline
+
+\paratitlecode{GBAMemoryInit}{/src/gba/memory.c}
 Neben den diversen Initialisierungsoperationen und Aufrufen weiterer Subroutinen zur Initialisierung des \verb|memory|-Feldes der \enquote{CPU} \"uber das \verb|cpu|-Feld des \textbf{GBA} legt auch diese Methode entsprechende Funktionszeiger f\"ur die einzelnen Speicherzugriffe auf der \textbf{ARMMemory}-Struktur (\textit{\$/include/mgba/internal/arm/arm.h}) fest. Die im folgenden Snippet gezeigten Zeilen sind f\"ur die Untersuchtung der Emulation des Soundsystems relevant.
 
 \vspace{5mm}
 \begin{lstlisting}[language=C++, caption={Ausschnitt aus der \textbf{GBAMemoryInit}-Methode}, label={list:GBAMemoryInit}]
-    ...    cpu->memory.load32 = GBALoad32;
+    ...
+    cpu->memory.load32 = GBALoad32;
     cpu->memory.load16 = GBALoad16;
     cpu->memory.load8 = GBALoad8;
     cpu->memory.loadMultiple = GBALoadMultiple;
@@ -1382,9 +1380,17 @@ Neben den diversen Initialisierungsoperationen und Aufrufen weiterer Subroutinen
     ...
 \end{lstlisting}
 
-\vspace{5mm}
-\large GBAAudioInit \normalsize(\textit{\$/src/gba/audio.c})
-\vspace{2mm}\newline
+\newpage
+\paratitlecode{GBAAudioInit}{/src/gba/audio.c}
+In Abbildung \ref{fig:gbaaudio} ist die abstrakte Struktur der \textbf{GBAAudio} zu sehen. Das Feld \verb|psg| wird dabei f\"ur eine Instanz der \textbf{GBAudio} Struktur verwendet. Die Felder \verb|ch1| und \verb|ch2| dienen dabei als FIFOs f\"ur die je Kanal anliegenden Audiodaten. Die eigentlichen Kanalspezifischen Audioeinstellungen zur Tongenerierung finden sich jedoch im \verb|psg|-Feld. Dort wird je Kanaltyp die entsprechende Steuerung vorgenommen.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Emulator_Audio}
+    \caption{Struktur des GBAAudio}
+    \label{fig:gbaaudio}
+\end{figure}
+
 Die globale \textbf{GBAAudioInit}-Methode ist f\"ur den vollen Setup der \textbf{GBAAudio}-Struktur (\textit{\$/include/mgba/internal/gba/audio.h}) der \textbf{GBA}-Instanz verantwortlich. Neben diversen Audio-Parametern werden auch ben\"otigte \textbf{mTimingEvent}-Strukturen initialisiert. Diese Event-Strukturen dienen dem Scheduler sp\"ater bei der quasi-parallelen Verarbeitung der Audiodaten. Die daf\"ur eigens definierten Events werden mit entsprechenden Callback-Routinen verlinkt, welche die verz\"ogerte / parallele Verarbeitung der Audiodaten durchf\"uhren. Zusammen mit der ebenfalls globalen Methode \textbf{GBAudioInit} werden w\"ahrend der Ausf\"uhrung der Methode die folgenden Events konfiguriert.
 
 \begin{table}[h]
@@ -1410,78 +1416,78 @@ Die globale \textbf{GBAAudioInit}-Methode ist f\"ur den vollen Setup der \textbf
     \label{table:SoundEvents}
 \end{table}
 
+Die Verarbeitung der definierten Ereignisse zur Audioverarbeitung findet durch Aufruf der Methode im Feld \verb|processEvents| des \textbf{mCore} statt. Nach Durchlaufen der globalen \textbf{GBACoreCreate}-Methode ist das die globale Methode \textbf{{\_}GBAProcessEvents}. Die Ausf\"uhrung der Methode m\"undet in die \textbf{mTimingTick} welche letztendlich die \verb|callback|-Methoden (siehe Tabelle \ref{table:SoundEvents}) der einzelnen Ereignisse anst\"o{\ss}t.
 
+
+\newpage
 \subsubsection{Laden des ROM}
 \AutorDominik
 
-\large {\_}GBACoreSetAudioBufferSize \normalsize(\textit{\$/src/gba/core.c})
-\vspace{2mm}\newline
+Wurde die Initialisierung des gesamten \textbf{mCore} abgeschlossen und die f\"ur die Emulation notwendigen Strukturen erzeugt, kann die eigentliche ROM Datei geladen werden. Ein Teil des Ladevorgangs ist dabei das Setup der zuvor geschaffenen \enquote{virtuellen} Peripherie. Dies geschieht anhand diverser \enquote{Setup}-Routinen. Wie dann letztlich der Inhalt der ROM geladen und interpretiert wird, h\"angt vom Format und dem Inhalt der ROM-Datei ab.
+
+\paratitlecode{{\_}GBACoreSetAudioBufferSize}{/src/gba/core.c}
 Anschlie{\ss}end wird mit Hilfe der globalen Methode \textbf{mCoreLoadForeignConfig} (\textit{\$/src/core/core.c}) die Konfiguration der \textbf{ConfigController}-Instanz, die durch die \textbf{Window}-Klasse an den \textbf{GameController} \"ubertragen wurde, auf den \textbf{mCore} des \verb|core|-Feldes der Membervariablen \verb|m_threadContext| angewendet. Hierbei wird unter anderen die Funktion auf die im Feld \verb|setAudioBufferSize| verwiesen wird aufgerufen. Nach Durchlaufen der globalen \textbf{GBACoreCreate}-Methode ist das die globale Methode \textbf{{\_}GBACoreSetAudioBufferSize}. Sie leitet den Aufruf direkt weiter an die globale Methode \textbf{GBAAudioResizeBuffer} unter Verwendung des \verb|audio|-Feldes der \textbf{GBAAudio}-Struktur des \verb|board|-Felds der \textbf{mCore}-Struktur.
 
-\vspace{5mm}
-\large {\_}GBACoreLoadConfig \normalsize(\textit{\$/src/gba/core.c})
-\vspace{2mm}\newline
+\paratitlecode{{\_}GBACoreLoadConfig}{/src/gba/core.c}
 Nachdem die Funktion auf die im Feld \verb|setAudioBufferSize| verwiesen wird aufgerufen wurde, wird von der globalen Methode \textbf{mCoreLoadForeignConfig} die allgemeine Funktion auf die im Feld \verb|loadConfig| verwiesen wird aufgerufen. Nach Durchlaufen der globalen \textbf{GBACoreCreate}-Methode ist das die globale Methode \textbf{{\_}GBACoreLoadConfig}. Sie \"ubernimmt im Wesentlichen die Konfiguration f\"ur das Mastervolume des \verb|audio|-Feldes der \textbf{GBAAudio}-Struktur des \verb|board|-Felds der \textbf{mCore}-Struktur.
 
-\vspace{5mm}
-\large {\_}GBACoreLoadROM \normalsize(\textit{\$/src/gba/core.c})
-\vspace{2mm}\newline
+\paratitlecode{{\_}GBACoreLoadROM}{/src/gba/core.c}
 Auf die vorangegangene Konfiguration des \textbf{mCore} wird schlie{\ss}lich der ROM in den \enquote{Core} geladen. Hierzu verwendet die \textbf{GameController}-Instanz die Funktion auf die im Feld \verb|loadROM| verwiesen wird. Nach Durchlaufen der globalen \textbf{GBACoreCreate}-Methode ist das die globale Methode \textbf{{\_}GBACoreLoadROM}. Sie dient dem finalen Setup der virtuellen Hardwarekonfiguration des \textbf{mCore} sowie der Initialisierung des virtuellen Prozessspeichers im \verb|memory|-Feld des \verb|board|-Feldes der \textbf{mCore}-Instanz.
 
-\vspace{5mm}
-\large {\_}GBACoreSetAVStream \normalsize(\textit{\$/src/gba/core.c})
-\vspace{2mm}\newline
+\paratitlecode{{\_}GBACoreSetAVStream}{/src/gba/core.c}
 Bevor mit der eigentlichen Emulation begonnen wird, wird nun noch der Audio-/Videostream in Form der \textbf{mAVStream}-Struktur als \verb|m_stream|-Membervariable der \textbf{GameController}-Instanz an den \textbf{mCore} \"ubergeben. Diese geschieht durch Aufruf der Funktion auf die im Feld \verb|setAVStream| verwiesen wird. Nach Durchlaufen der globalen \textbf{GBACoreCreate}-Methode ist das die globale Methode \textbf{{\_}GBACoreSetAVStream}. Diese Methode geht hierbei lediglich dazu \"uber den \textbf{mAVStream}-Verweis im \verb|stream|-Feld des \verb|board|-Feldes der \textbf{mCore}-Instanz zu speichern.
 
-\vspace{5mm}
-\large {\_}GBACoreEnableAudioChannel \normalsize(\textit{\$/src/gba/core.c})
-\vspace{2mm}\newline
+\paratitlecode{{\_}GBACoreEnableAudioChannel}{/src/gba/core.c}
 Aufgabe dieser globalen Methode ist es dem \verb|board|-Feld des \textbf{mCore} mittels gegebener Parameter zu konfigurieren. Das hierbei vorgenommene Setup bezieht sich auschlie{\ss}lich auf das \verb|audio|-Feld des \verb|board|-Felds vom Typen der \textbf{GBA}-Struktur. Die dabei vorgenommenen \"Anderungen beziehen sich somit nur auf Felder der \textbf{GBAAudio}-Struktur.
 
 
+\newpage
 \subsubsection{Starten des ROM}
 \AutorDominik
 
-\large mCoreThreadStart \normalsize(\textit{\$/src/core/thread.c})
-\vspace{2mm}\newline
+\paratitlecode{mCoreThreadStart}{/src/core/thread.c}
 Nach Abschluss des vollst\"andigen Setups des \textbf{mCore} wird die im \verb|m_threadContext.core| gespeicherte Instanz samt \verb|m_threadContext| an die globale Methode \textbf{mCoreThreadStart} \"ubergeben. Bevor aber die Methode den eigentlichen Thread erzeugt initialisiert sie diverse Mutex- sowie Condition-Instanzen zur Synchronisation der Thread-\"ubergreifenden Operationen. Von besonderer Bedeutung sind hierbei der Mutex \verb|audioBufferMutex| und die Condition \verb|audioRequiredCond|. Beide Felder sind Teil der \textbf{mCoreSync}-Struktur des \verb|theadContext|-Parameters vom Typen \textbf{mCoreThread}.
 
 Sind alle Bedingungen f\"ur das Multithreading erf\"ullt, legt die Methode mittels globaler \textbf{ThreadCreate}-Methode (\textit{\$/include/mgba-util/platform/\{os\}/threading.h}) den Emulations-Thread an. Als \textbf{ThreadEntry} wird dabei die globale Methode \textbf{{\_}mCoreThreadRun} und als \verb|context|-Parameter ein Verweis auf den \textbf{mCoreThread} alias \verb|threadContext| verwendet. Der Verweis auf den so erzeugten Thread wird schlie{\ss}lich noch im \verb|thread|-Feld des \verb|threadContext|-Parameters gespeichert.
 
-\vspace{5mm}
-\large {\_}mCoreThreadRun \normalsize(\textit{\$/src/core/thread.c})
-\vspace{2mm}\newline
+\paratitlecode{{\_}mCoreThreadRun}{/src/core/thread.c}
+Zu Beginn der Methode werden noch weitere Methoden der \textbf{mCore}-Struktur ausgef\"uhrt. Eine dieser ist die Methode, die im Feld \verb|setSync| eingetragen ist. Nach Durchlaufen der globalen \textbf{GBACoreCreate}-Methode ist das die globale Methode \textbf{{\_}GBACoreSetSync}. Sie wird dazu verwendet um die \textbf{mCoreSync}-Struktur des \verb|m_threadContext->sync|-Feldes dem \textbf{mCore} bekannt zu machen. In ihr sind die bereits durch die \textbf{mCoreThreadStart}-Methode vorbereiteten Condition- und Mutex-Instanzen zur Thread-Synchronisation enthalten.
+
 Bevor nun mit der eigentlichen Ausf\"uhrung des Prozesses begonnen wird, nimmt die globale \textbf{{\_}mCoreThreadRun} noch ein paar Vorkehrungen f\"ur die Threadinteraktion mittels Callback-Routinen vor. Darauf folgt der Aufruf der im Feld \verb|startCallback| des \verb|threadContext|-Parameters hinterlegten Methode. Dabei wird die durch die \textbf{GameContoller}-Klasse definierte anonyme Methode mit \verb|threadContext|-Parameter aufgerufen. W\"ahrend der Ausf\"uhrung des Start-Callbacks stellt der \textbf{GameController} sicher, dass im \textbf{mCore} (im \verb|core|-Feld des \verb|threadContext|-Parameters) die korrekten Audio-Kan\"ale ein- beziehungsweise ausgeschaltet sind. Hierzu verwendet der \textbf{GameController} die Funktion auf die im Feld \verb|enableAudioChannel| verwiesen wird. Nach Durchlaufen der globalen \textbf{GBACoreCreate}-Methode ist das die globale Methode \textbf{{\_}GBACoreEnableAudioChannel}.
+
+\begin{wrapfigure}[18]{r}{0.40\textwidth}
+    \centering
+    \vspace{-7mm}
+    \includegraphics[width=0.35\textwidth]{Emulator_RunLoop}
+    \caption{Ablauf der Methode}
+    \label{fig:runloop}
+\end{wrapfigure}
 
 Abgeschlossen wird der Code der Callback-Routine mit dem dynamischen Ausl\"osen der Signale \textbf{gameStarted} und \textbf{startAudio} der \textbf{GameController}-Instanz die f\"ur den \"ubergebenen \verb|threadContext| zust\"andig ist. W\"ahrend \textbf{gameStarted} auf die \verb|setInput()|-Methode der \verb|m_audioProcessor|-Instanz im \textbf{GameController} weiterleitet, um den aktuellen \textbf{mCoreThread} der \textbf{AudioProcessor}-Instanz mitzuteilen, f\"uhrt der Aufruf des \textbf{startAudio}-Signals zum Aufruf der \verb|start()|-Methode der \verb|m_audioProcessor|-Instanz im \textbf{GameController}.
 
-Wurde auch alle weiteren Callback-Routinen durchlaufen, beginnt die Ausf\"uhrung des Prozesses durch stetigen Aufruf der Funktion auf die im Feld \verb|runLoop| verwiesen wird. Nach Durchlaufen der globalen \textbf{GBACoreCreate}-Methode ist das die globale Methode \textbf{{\_}GBACoreRunLoop}. Dies geschieht solange, wie sich der Thread im Zustand kleiner/gleich \verb|THREAD_MAX_RUNNING| befindet.
+Wurden auch alle weiteren Callback-Routinen durchlaufen, beginnt die Ausf\"uhrung des Prozesses durch stetigen Aufruf der Funktion auf die im Feld \verb|runLoop| verwiesen wird. Nach Durchlaufen der globalen \textbf{GBACoreCreate}-Methode ist das die globale Methode \textbf{{\_}GBACoreRunLoop}. Dies geschieht solange, wie sich der Thread im Zustand kleiner/gleich \verb|THREAD_MAX_RUNNING| befindet. Der in Abbildung \ref{fig:runloop} gezeigte Programmablauf veranschaulicht den Ablauf.
 
 
+\newpage
 \subsubsection{Ausf\"uhrung des ROM}
 \AutorDominik
 
 Nach Durchlaufen der Setup-Phase bestehend aus dem Einrichten der notwendigen Strukturen und dem Laden des Prozessspeichers, kann der Inhalt des ROMs gem\"a{\ss} dem bekannten Instruction-Set eines ARM-Prozessors abgerarbeitet werden. Hierbei wird jede Anweisung im ROM sequentiell eine nach der anderen ausgewertet und ausgef\"uhrt. Die dabei im ROM beschriebenen Assembler Befehle f\"ur die ARM-Architektur, werden durch entsprechende Methoden abgearbeitet, welche das Verhalten der Plattform so emulieren, als ob der Prozess auf einem physikalichen ARM ausgef\"uhrt werden w\"urde.
 
-\vspace{5mm}
-\large {\_}GBACoreRunLoop \normalsize(\textit{\$/src/gba/core.c})
-\vspace{2mm}\newline
+\paratitlecode{{\_}GBACoreRunLoop}{/src/gba/core.c}
 Die bereits im vorangegangenen Abschnitt erw\"ahnte globale Methode ist f\"ur die Ausf\"uhrung der einzelnen Assembler Anweisungen im geladenen ROM zust\"andig. Hierzu bedient sie sich der ebenfalls globalen Methode \textbf{ARMRunLoop} und \"ubergibt dieser dabei die Kontrolle \"uber die \enquote{CPU}.
 
-\vspace{5mm}
-\large ARMRunLoop \normalsize(\textit{\$/src/arm/arm.c})
-\vspace{2mm}\newline
+\paratitlecode{ARMRunLoop}{/src/arm/arm.c}
 Mit Hilfe der \"ubergebenen \enquote{CPU} in Form der \textbf{ARMCore}-Struktur f\"uhrt die Methode die Assembler-Anweisungen Schritt f\"ur Schritt aus. Dabei ber\"ucksichtigt sie die Anzahl der auszuf\"uhrenden Anweisungen in Abh\"angigkeit zur Ausf\"uhrung des n\"achsten Events. Bis es zur einer Abarbeitung von Events kommt wird je Zyklus die globale Methode \textbf{ARMStep} ausgef\"uhrt. Entspricht die Anzahl der vollzogenen Zyklen dem Zyklus eines anstehenden Events, wird die weitere Verarbeitung unterbrochen und dem Interrupt-Service-Routinen-Handler Zeit gegeben die anstehenden Events abzuarbeiten.
 
-\vspace{5mm}
-\large ARMStep \normalsize(\textit{\$/src/arm/arm.c})
-\vspace{2mm}\newline
+\paratitlecode{ARMStep}{/src/arm/arm.c}
 Entsprechend der Natur von Software welche auf Hardware-Level in Form von Assembler-Befehlen ausgef\"uhrt wird, holt auch diese Methode stets den \textbf{OpCode} des als n\"achstes auszuf\"uhrenden Befehls aus dem Prefech-Speicher der \textbf{MMU}. Basierend auf den Wert des \textbf{OpCodes} wird aus einem global definierten und mittels Makros gef\"ulltem Array der Zeiger zur Funktion ermittelt, welche f\"ur die Emulation des Assembler-Befehls verantwortlich ist.
 
 Die zur Ausf\"uhrung per Makro definierten Routinen vollziehen dabei nicht auschlie{\ss}lich einfache Delegationsarbeit zu global definierten Methoden deren Funktionszeiger in diversen Feldern des \textbf{mCore} gespeichert sind. Sie f\"uhren zus\"atzliche Pr\"ufungen, Vorabbedingungen und Nachbedingungen sowie weitere Operationen aus die f\"ur die korrekte Interaktion mit dem Prozess und dem emulierten Speicher notwendig sind. Die Operationen stellen dabei ein Mindestma{\ss} an Korrektheit der ausgef\"uhrten Assembler-Befehle vor und nach Ausf\"uhrung der Callback-Routinen sicher - falls f\"ur den Befehl eine solche vorliegt.
 
 \vspace{5mm}
-\begin{lstlisting}[language=C++, caption={Ausschnitt aus der \textbf{ARMStep}-Methode}, label={list:ARMStep}]    uint32_t opcode = cpu->prefetch[0];
+\begin{lstlisting}[language=C++, caption={Ausschnitt aus der \textbf{ARMStep}-Methode}, label={list:ARMStep}]
+    uint32_t opcode = cpu->prefetch[0];
 	cpu->prefetch[0] = cpu->prefetch[1];
 
 	cpu->gprs[ARM_PC] += WORD_SIZE_ARM;
@@ -1490,9 +1496,7 @@ Die zur Ausf\"uhrung per Makro definierten Routinen vollziehen dabei nicht ausch
 	    cpu->prefetch[1],
 	    cpu->gprs[ARM_PC] & cpu->memory.activeMask,
 	    cpu->memory.activeRegion);
-
     ...
-	
 	uint32_t instructionIndex = ((opcode >> 16) & 0xFF0) | ((opcode >> 4) & 0x00F);
 	
 	ARMInstruction instruction = _armTable[instructionIndex];
@@ -1504,7 +1508,8 @@ Die Signatur einer \textbf{ARMInstruction} ist dabei so einfach wie m\"oglich ge
 Ein Beispiel f\"ur so eine Makrodefinition kann im folgenden betrachtet werden. Die eigentliche Verarbeitung mittels globaler Callback-Routine findet in Zeile 5 des Snippets \ref{list:ARMInstruction_STRT} statt.
 
 \vspace{5mm}
-\begin{lstlisting}[language=C++, caption={ARM Instruction Makro f\"ur \textbf{STRT}}, label={list:ARMInstruction_STRT}]    DEFINE_LOAD_STORE_T_INSTRUCTION_ARM(STRT,
+\begin{lstlisting}[language=C++, caption={ARM Instruction Makro f\"ur \textbf{STRT}}, label={list:ARMInstruction_STRT}]
+    DEFINE_LOAD_STORE_T_INSTRUCTION_ARM(STRT,
 	    enum PrivilegeMode priv = cpu->privilegeMode;
 	    int32_t r = cpu->gprs[rd];
 	    ARMSetPrivilegeMode(cpu, MODE_USER);
@@ -1528,9 +1533,7 @@ Der Aufruf der gloablen \textbf{GBAStore32} (\textit{\$/src/gba/memory.c}) Metho
 \subsection{Emulation des Soundsystems} \label{EmulationSoundsystem}
 \AutorDominik
 
-Damit die vom ROM beziehungsweise vom Prozess generierten Audiodaten auch mittels \textbf{mAVStream} in der \textbf{VideoView} sowie durch das \textbf{AudioDevice} verarbeitet werden bedient sich mGBA verschiedener Methoden.
-
-Zur Ausgabe \"uber den \textbf{mAVStream} greift der Callback des \enquote{GB(A) Audio Sample}-Events (die globale \textbf{{\_}sample} Methode) direkt auf das \verb|stream|-Feld \"uber den \textbf{GBA}-Verweis des Feldes \verb|p| in der \textbf{GBAAudio}-Struktur zu. Hierbei bedient sich die \textbf{{\_}sample} Methode des dort eingetragenen Callbacks im Feld \verb|postAudioBuffer| und ruft somit eine Methode der vom mGBA verwendeten \textbf{FFmpeg}-Library auf um die Audiodaten im Stream abzulegen.
+Damit die vom ROM liegenden beziehungsweise vom Prozess generierten Audiodaten auch mittels \textbf{mAVStream} in der \textbf{VideoView} sowie durch das \textbf{AudioDevice} verarbeitet werden bedient sich mGBA verschiedener Methoden. Zur Ausgabe \"uber den \textbf{mAVStream} greift der Callback des \enquote{GB(A) Audio Sample}-Events (die globale \textbf{{\_}sample} Methode) direkt auf das \verb|stream|-Feld \"uber den \textbf{GBA}-Verweis des Feldes \verb|p| in der \textbf{GBAAudio}-Struktur zu. Hierbei bedient sich die \textbf{{\_}sample} Methode des dort eingetragenen Callbacks im Feld \verb|postAudioBuffer| und ruft somit eine Methode der vom mGBA verwendeten \textbf{FFmpeg}-Library auf um die Audiodaten im Stream abzulegen.
 
 
 % ========== Chapter 3.3.1 ==========
@@ -1538,16 +1541,47 @@ Zur Ausgabe \"uber den \textbf{mAVStream} greift der Callback des \enquote{GB(A)
 \subsubsection{Audioverarbeitung im Assembler}
 \AutorDominik
 
+Im Rahmen der Untersuchungen wurde festgestellt, dass die Audiodaten entweder vorab im ROM vorliegen oder im Assembler generiert werden. Ausschlaggebend f\"ur die Audioverarbeitung ist dabei die korrekte Interaktion mit den zust\"andigen Registern. Im Allgemeinen wird immer zuerst ein Sample mit zugeh\"origen Audiosetup in die daf\"ur vorgesehenen Register geschrieben. Nachdem alle f\"ur ein Sample notwendigen Konfigurationen getroffen wurden, wird \"uber das Master Control Register die Audioausgabe angesto{\ss}en.
+
+Wurde ein Sample vom \enquote{AudioProcessor} verarbeitet, kann das Programm den n\"achsten Sample in die Register laden und wiederholt die Verarbeitung ansto{\ss}en. Im Wesentlichen basiert die Audioverarbeitung im Assembler prim\"ar darauf, dass Samples entweder getaktet oder mittels FIFO bereitgestellt werden. Liegen die Daten bereit, werden diese anschlie{\ss}end als \enquote{bereit zur Ausgabe} markiert. Erst nach erfolgter Ausgabe wird der n\"achste Sample bereitgestellt, beziehungsweise noch w\"ahrend der Ausgabe aus einem FIFO dieser kontinuierlich weiter bef\"ullt.
+
+Die f\"ur die Verarbeitung notwendigen Register wurden bereits im Abschnitt \ref{Hardwareumgebung} genannt. Essentiell sind aufgrund der eben beschriebenen Operationen Assembler-Befehle, die zum Laden und Speichern von Daten in und aus den besagten Registern notwendig sind. Ein Beispiel-Befehl ist hierf\"ur der \textbf{STRT}-Befehl, dessen Interpretation im Bezug auf die \textbf{ARMStep}-Methode erkl\"art wurde. Betrachtet man dessen Umsetzung vom Assembler-Code zum C-Code, dann erkennt man die logischen Abl\"aufe, welchen Einfluss ein Assembler-Befehl auf die Ausf\"uhrung des ROMs im Emulator hat.
+
+
 % ========== Chapter 3.3.2 ==========
 
 \subsubsection{Weiterverarbeitung im Emulator}
 \AutorDominik
 
-Betrachtet man den von der \textbf{VideoView} unabh\"angigen Ablauf der Audiodatenverarbeitung stellt man fest, dass die Verarbeitung direkt \"uber den Speicher des \textbf{mCore} stattfindet. Da aber der Speicher vom Emulations-Thread verwendet wird, kann der Main-Thread nicht ohne weiteres auf diesen zugreifen. An dieser Stelle kommen die in der \textbf{mCoreThreadStart} initialisierte Condition \verb|audioRequiredCond| sowie der Mutex \verb|audioBufferMutex| ins Spiel. W\"ahrend der Callback des \enquote{GB(A) Audio Sample}-Events (die globale \textbf{{\_}sample} Methode) die globale Methode \textbf{mCoreSyncProduceAudio} verwendet, nutzt im Main-Thread die \textbf{AudioDevice}-Instanz des verwendeten \textbf{AudioProcessor}'s die globale Methode \textbf{mCoreSyncConsumeAudio}.
+Im Kontext der von der \textbf{VideoView} unabh\"angigen Abl\"aufe der Audiodatenverarbeitung stellt man fest, dass die Verarbeitung direkt \"uber den Speicher des \textbf{mCore} stattfindet. Da aber der Speicher vom Emulations-Thread verwendet wird, kann der Main-Thread nicht ohne weiteres auf diesen zugreifen. An dieser Stelle kommen die in der \textbf{mCoreThreadStart} initialisierte Condition \verb|audioRequiredCond| sowie der Mutex \verb|audioBufferMutex| ins Spiel. W\"ahrend der Callback des \enquote{GB(A) Audio Sample}-Events (die globale \textbf{{\_}sample} Methode) die globale Methode \textbf{mCoreSyncProduceAudio} verwendet, nutzt im Main-Thread die \textbf{AudioDevice}-Instanz des verwendeten \textbf{AudioProcessor}'s die globale Methode \textbf{mCoreSyncConsumeAudio}.
 
-Letztere verwendet die \textbf{mCoreSyncConsumeAudio} Methode \underline{nach} dem Zugriff auf die Audiodaten im Speicher, w\"ahrend \underline{vor} dem Zugriff weitere Zugriffe durch den Prozess mittels Aufruf der globalen \textbf{mCoreSyncLockAudio} Methode blockiert werden. Erst der Aufruf der \textbf{mCoreSyncConsumeAudio} Methode gibt den Zugriff auf den Audiodaten-Speicher wieder frei.
+Letztere verwendet die \textbf{mCoreSyncConsumeAudio} Methode \underline{nach} dem Zugriff auf die Audiodaten im Speicher, w\"ahrend \underline{vor} dem Zugriff weitere Zugriffe durch den Prozess mittels Aufruf der globalen \textbf{mCoreSyncLockAudio} Methode blockiert werden. Erst der Aufruf der \textbf{mCoreSyncConsumeAudio} Methode gibt den Zugriff auf den Audiodaten-Speicher wieder frei. Der grobe Ablauf des Synchronisation im \textbf{AudioDevice} kann in Snippet \ref{list: AudioDevice_LockConsume} betrachtet werden.
 
-Ebenso wie das \textbf{AudioDevice} den Zugriff auf die Audiodaten blockiert, w\"ahrend diese gelesen werden, so blockiert auch die \textbf{{\_}sample}-Methode den Zugriff auf diese mit einem ebenfalls vorgeschalteten Aufruf der \textbf{mCoreSyncLockAudio} Methode. Nach der Bearbeitung der Audiodaten werden diese schlie{\ss}lich mit Aufruf der globalen \textbf{mCoreSyncConsumeAudio} Methode f\"ur den Zugriff wieder freigegeben.
+\vspace{5mm}
+\begin{lstlisting}[language=C++, caption={AudioDevice - \enquote{Lock / Consume}}, label={list:AudioDevice_LockConsume}]
+	mCoreSyncLockAudio(&m_context->sync);
+	...
+	blip_read_samples(
+            m_context->core->getAudioChannel(m_context->core, 0),
+            &reinterpret_cast<GBAStereoSample*>(data)->left,
+            ...);
+    ...
+    mCoreSyncConsumeAudio(&m_context->sync);
+\end{lstlisting}
+
+Ebenso wie das \textbf{AudioDevice} den Zugriff auf die Audiodaten blockiert, w\"ahrend diese gelesen werden, so blockiert auch die \textbf{{\_}sample}-Methode den Zugriff auf diese mit einem ebenfalls vorgeschalteten Aufruf der \textbf{mCoreSyncLockAudio} Methode. Nach der Bearbeitung der Audiodaten werden diese schlie{\ss}lich mit Aufruf der globalen \textbf{mCoreSyncConsumeAudio} Methode f\"ur den Zugriff wieder freigegeben. Wie in etwa die Methode bei der Synchronisation vorgeht, kann im folgenden Snippet \ref{list:Sample_LockConsume} nachvollzogen werden.
+
+\vspace{5mm}
+\begin{lstlisting}[language=C++, caption={{\_}sample - \enquote{Lock / Consume}}, label={list:Sample_LockConsume}]
+	mCoreSyncLockAudio(audio->p->sync);
+    ...
+    blip_add_delta(audio->left, audio->clock, sampleLeft - audio->lastLeft);
+    ...	
+	bool wait = produced >= audio->samples;
+	mCoreSyncProduceAudio(audio->p->sync, wait);
+	...
+\end{lstlisting}
+
 
 % ========== Chapter 3.3.3 ==========
 
@@ -1558,7 +1592,7 @@ Ebenso wie das \textbf{AudioDevice} den Zugriff auf die Audiodaten blockiert, w\
 \subsubsection{Start des Emulators}
 \AutorFlorian
 
-Im Kapitel  \ref{startdesemulators} wurde bereits der Ablauf bis zur Erstellung der AudioProcessor-Klasse, sowie das Setzten des Treibers beschrieben. Auf diesen Ablauf wird im Folgenden nun aufgesetzt. In dieser Arbeit
+Im Kapitel \ref{Emulator_Start} wurde bereits der Ablauf bis zur Erstellung der AudioProcessor-Klasse, sowie das Setzten des Treibers beschrieben. Auf diesen Ablauf wird im Folgenden nun aufgesetzt. In dieser Arbeit
 wird der \enquote{Qt Multimedia} Treiber untersucht und schlie{\ss}t somit die Betrachtung des SDL-Treibers aus.
 
 Startet der Benutzer den mGBA, wird unter Verwendung des zuvor gesetzten Treibers, eine neue Instanz von AudioProcessor erstellt. In diesem Fall wird die AudioProcessor::create() Methode aufgerufen und w\"ahlt \"uber ein Switch Statement den Konstruktor von AudioProcessorQt aus und liefert eine neue Instanz zur\"uck. Dieser verf\"ugt \"uber keine Logik und ist demnach leer. F\"ur die weitere Untersuchung folgt ein Klassendiagramm der wesentlichen Klassen auf Seitens der Qt-Anwendung.
@@ -1572,9 +1606,7 @@ Startet der Benutzer den mGBA, wird unter Verwendung des zuvor gesetzten Treiber
 
 \newpage
 
-\vspace{5mm}
-\large AudioProcessor-Klasse \normalsize(\textit{\$/src/platform/qt/AudioProcessor.cpp})
-\vspace{2mm}\newline
+\paratitlecode{AudioProcessor-Klasse}{/src/platform/qt/AudioProcessor.cpp}
 Die Klasse AudioProcessor erbt von QObject, ist eine abstrakte Klasse und definiert ein Interface f\"ur die Klassen AudioProcessorQt und AudioProcessorSDL. QObject ist die Basisklasse aller Qt Objekte und im Bezug auf
 die Objektmodellierung somit das Herzst\"uck von Qt. 
 
@@ -1612,9 +1644,7 @@ Anlie{\ss}end wird die Methode \textbf{AudioProcessor::setBufferSamples} aufgeru
 W\"ahlt der Benutzer eine neue ROM aus und startet diese, wird zun\"achst die \textbf{AudioProcessor::setInput} Methode aufgerufen. Diese setzt den Zeiger auf den m\_coreThread zur internen Variablen m\_context. Es folgt der Aufruf der
 \textbf{AudioProcessorQt::start} Methode.
 
-\vspace{5mm}
-\large AudioProcessorQt::start() \normalsize(\textit{\$/src/platform/qt/AudioProcessorQt.cpp})
-\vspace{2mm}\newline
+\paratitlecode{AudioProcessorQt::start()}{/src/platform/qt/AudioProcessorQt.cpp}
 Im ersten Schritt wird \"uberpr\"uft, ob der m\_coreThread bereits gesetzt wurde. Im n\"achsten Schritt wird der internen Variablen \textbf{m\_device} ein neue Instanz von \textbf{AudioDevice} zugewiesen.
 
 Die Klasse \textbf{AudioDevice} stellt das Bindeglied zwischen AudioProcessorQt und dem mCoreThread dar. \textbf{AudioDevice} erbt von QIODevice. QIODevice ist ein Interface f\"ur alle I/O Ger\"ate und kann deshalb nicht direkt instanziiert werden.
@@ -1625,15 +1655,18 @@ Es folgt das Erzeugen einer neuen Instanz von QAudioFormat. Die Klasse \textbf{Q
 \vspace{5mm}
 \begin{lstlisting}[language=C++, caption={Ausschnitt aus AudioProcessorQt::start()}, label={list:FormatAudioProcessorQt}]
     QAudioFormat format;
-		format.setSampleRate(m_sampleRate); // m_sampleRate = 44100
-		format.setChannelCount(2);			// 2 bedeutet Stereo 1 Mono
-		format.setSampleSize(16);			// Typischerweise 8 oder 16
-		format.setCodec("audio/pcm");		// Linear PCM
-		format.setByteOrder(QAudioFormat::Endian(QSysInfo::ByteOrder));
-		// Little- oder Big-Endian
-		format.setSampleType(QAudioFormat::SignedInt);	// Sample Typ
-		m_audioOutput = new QAudioOutput(format, this);
-		m_audioOutput->setCategory("game");
+    format.setSampleRate(m_sampleRate); // m_sampleRate = 44100
+    format.setChannelCount(2);			// 2 bedeutet Stereo 1 Mono
+    format.setSampleSize(16);			// Typischerweise 8 oder 16
+    format.setCodec("audio/pcm");		// Linear PCM
+    format.setByteOrder(QAudioFormat::Endian(QSysInfo::ByteOrder));
+
+    // Little- oder Big-Endian
+    format.setSampleType(QAudioFormat::SignedInt);
+
+    // Sample Typ
+    m_audioOutput = new QAudioOutput(format, this);
+    m_audioOutput->setCategory("game");
 \end{lstlisting}
   
 Wie bereits am Ende von Snippet \ref{list:FormatAudioProcessorQt} zu sehen, wird eine neue Instanz der Klasse \textbf{QAudioOutput} erzeugt und in die interne Variable \textbf{m\_audioOutput} geschrieben. 
@@ -1647,10 +1680,7 @@ Durch den Methodenaufruf \textbf{m\_device$\rightarrow$setInput} wird der Klasse
 das Format von \textbf{m\_audioOutput} als \"Ubergabeparameter, aufgerufen.
 
 \newpage
-
-\vspace{5mm}
-\large AudioDevice::setFormat(const QAudioFormat\& format) \normalsize(\textit{\$/src/platform/qt/AudioDevice.cpp})
-\vspace{2mm}\newline 
+\paratitlecode{AudioDevice::setFormat(const QAudioFormat\& format)}{/src/platform/qt/AudioDevice.cpp} 
 Wie gewohnt wird zun\"achst \"uberpr\"uft, ob der \textbf{mCoreThread} vorhanden ist. Im n\"achsten Schritt wird ein Multiplikator errechnet. Dieser wird abh\"angig von der eingestellten FPS berechnet. Bei 60 FPS betr\"agt dieser
 0,995458. Anschli{\ss}end werden die im \textbf{mCoreThread} befindlichen Audio-Speicherbereiche gesperrt. Nun werden die Frequenzen der beiden Audiokan\"ale im \textbf{mCoreThread} mit den Frequenzen, multipliziert mit dem zuvor errechneten
 Multiplikator, des \textbf{m\_audioOutput} synchronisiert. Mit dem entsperren der Speicherbereiche endet die Methode.
@@ -1666,9 +1696,8 @@ Daten f\"ur die Audioausgabe liest und diese an die Systemausgabe weiterleitet. 
 
 Die Klasse \textbf{QAudioOutput} ruft nun selbstst\"andig  in gewissen Zeitabst\"anden die \textbf{AudioDevice::readData} Methode auf und \"ubergibt einen Zeiger in dem die Daten zur Ausgabe eingelesen werden sollen und dessen Gr\"o{\ss}e.
 
-\vspace{5mm}
-\large AudioDevice::readData(char* data, qint64 maxSize) \normalsize(\textit{\$/src/platform/qt/AudioDevice.cpp})
-\vspace{2mm}\newline
+
+\paratitlecode{AudioDevice::readData(char* data, qint64 maxSize)}{/src/platform/qt/AudioDevice.cpp}
 Wie bereits erw\"ahnt, muss diese Methode \"uberschrieben werden. Zu Beginn wird \"uberpr\"uft ob die maximal zul\"assige Gr\"o{\ss}e des \"ubergebenen Puffers nicht \"uberschritten ist und der \textbf{m\_coreThread} vorhanden ist.
 Nun wird, wie auch in der \textbf{AudioDevice::setFormat} Methode, der Speicherbereich im \textbf{m\_coreThread} in dem die Audiodaten gespeichert sind gesperrt.
 Mit dem Methodenaufruf \textbf{blip\_samples\_avail} wird die Anzahl der verf\"ugbahren Samples im \textbf{m\_coreThread} abgefragt. \"Uberschreitet die Anzahl der Samples die Gr\"o{\ss}e des Puffers, geteilt durch die 
@@ -1679,10 +1708,9 @@ Dazu wird der \"ubergebene Puffer auf die Struktur \textbf{GBAStereoSample} geca
 \textbf{AudioDevice::readData}. Die im Puffer befindlichen Daten werden nun in der Klasse \textbf{QAudioOutput} verarbeitet und zum Systemausgang weitergeleitet.
 
 
-\newpage
-
 % ========== Chapter 4 ==========
 
+\newpage
 \section{Zusammenfassung} \label{Zusammenfassung}
 
 % ========== Chapter 4.1 ==========
@@ -1690,21 +1718,26 @@ Dazu wird der \"ubergebene Puffer auf die Struktur \textbf{GBAStereoSample} geca
 \subsection{Inhalt des Dokumentes}
 \AutorDominik
 
+Entsprechend der Aufgabenstellung zur Studienarbeit f\"ur die Vorlesung Computer Architektur haben die drei Studenten Ngoc Luu Tran, Florian Boemmel und Dominik Scharnagl in kooperativer Arbeit die Aufgabenstellung bearbeitet. Im Rahmen dieser Arbeit war es Ziel die Emulation des Soundsystems eines Game Boy Advance Emulators zu untersuchen. Die dabei durchgef\"uhrte Untersuchung nahm das Open-Source Projekt mGBA als Ausgangspunkt zur Beschreibung aller notwenigen Abl\"aufe der Emulation.
+
+Eingangs werden die Hardwareanforderungen an den Emulator grob umrissen. W\"ahrend darauf die verf\"ugbaren Plattformen zur Entwicklung eines Game Boy Advance Spiels erl\"autert werden,  folgte jeweils ein kurzer Einblick in diese. Ziel des darauf anschlie{\ss}enden Kaptiels Softwareentwicklung ist es einen tieferen Einblick in die technischen Anforderungen zur Entwicklung einer Game Boy Advance Software zu geben, welche Soundausgaben durchf\"uhrt.
+
+Im Gegensatz zum Kapitel \enquote{Game Boy Advance}, indem ausschlie{\ss}lich die Plattform hardware- als auch softwaretechnisch durchl\"auchtet wird (bis in den Assembler-Code), steht das Kaptiel \enquote{Emulation mittels mGBA}. Ziel dieses Kapitels ist es eine logische Trennung der notwendigen Softwarekomponenten zur Emulation zu bekommen. Zugleich wird am Beispiel des mGBA-Projektes veranschaulicht, welche Aufw\"ande bei der Interpretation von OpCodes \"uber die Ausf\"uhrung ihrer Anweisungen bis hin zur Audioausgabe anfallen.
+
+Am Ende der Studienarbeit angekommen, kann man den vollst\"andigen Ablauf der Emulation des Soundsystems eines Game Boy Advance beschreiben und aufgrund der Inhalte des Kapitels \enquote{Game Boy Advance} eine eigene Software f\"ur einen Game Boy Advance entwickeln. Wie die Audioverbeitung von dieser Software durch einen Emulator stattfindet erfuhr man am Beispiel des mGBA-Projektes in Kapitel \enquote{Emulation mittels mGBA}.
+
+
 % ========== Chapter 4.2 ==========
 \subsection{Fazit zur Studienarbeit}
+Startschwierigkeiten gibt es in jedem Projekt, insbesondere bei unbekannten Softwareprojekten. Diese Studienarbeit machte dabei auch in keiner Hinsicht eine Ausnahme. Dank diverser Quellen und kurzer Vorf\"uhrung des Debuggers IDA Pro durch Enrico Pozzobon war es f\"ur uns kein g\"anzlicher Sprung ins kalte Wasser. Leider lie{\ss} sich auch dadurch der gro{\ss}e Sprung - zum Einstieg in die Studienarbeit - nicht ohne Weiteres schnell bew\"altigen.
 
-\large Dominik Scharnagl
-\vspace{2mm}\newline
-Hello World by Dominik.
+\paratitle{Dominik Scharnagl}
+Der gr\"o{\ss}te Anreiz f\"ur mich war weniger zu verstehen, wie ein Game Boy Advance Spiel emuliert wird, sondern viel mehr, wie man einen Emulator - am praktischen Beispiel mGBA - umsetzen und implementieren kann. Das zeigt sich auch in der Wahl der von mir ausformulierten Themen und Abschnitte wieder.
 
-\vspace{5mm}
-\large Florian Boemmel
-\vspace{2mm}\newline
+\paratitle{Florian Boemmel}
 Hello World by Florian.
 
-\vspace{5mm}
-\large Ngoc Luu Tran
-\vspace{2mm}\newline
+\paratitle{Ngoc Luu Tran}
 Hello World by Ngoc.
 
 
@@ -1714,15 +1747,29 @@ Hello World by Ngoc.
 \begin{thebibliography}{tiefe}
     \bibitem{NintendoGeschichte}Nintendo: \textit{Game Boy Advance}\newline
     \url{https://www.nintendo.de/Unternehmen/Unternehmensgeschichte/Game-Boy-Advance/Game-Boy-Advance-627139.html}, Mai 2018
+    
     \bibitem{GigaEmulator}Giga Ratgeber: \textit{Was ist der Unterschied zwischen Simulation, Emulation \& Virtualisierung?}\newline
     \url{https://www.giga.de/extra/ratgeber/specials/was-ist-der-unterschied-zwischen-simulation-emulation-virtualisierung-computertechnik/}, Mai 2018
+    
     \bibitem{GameBoyTechnischeDaten}Nintendo: \textit{Game Boy Advance}\newline
     \url{http://de.nintendo.wikia.com/wiki/Game_Boy_Advance}, Mai 2018
+    
     \bibitem{GameBoySoundsystem}Coranac: \textit{18. Beep! GBA sound introduction}\newline
     \url{https://www.coranac.com/tonc/text/sndsqr.htm#sec-intro}, Mai 2018
+    
     \bibitem{SoundRegisters}BELOGIC: \textit{The Audio ADVANCE}\newline
     \url{http://belogic.com/gba/}, Juni 2018
-		\bibitem{GameBoyAdvanceRegister}Problemkaputt: \textit{GBATEK}\newline
+
+    \bibitem{mGBAWiki}EMUGEN: \textit{mGBA}\newline
+    \url{http://emulation.gametechwiki.com/index.php/MGBA}, Juni 2018
+
+    \bibitem{mGBAAbout}mGBA: \textit{About}\newline
+    \url{https://mgba.io/about.html}, Juni 2018
+
+    \bibitem{mGBAFaq}mGBA: \textit{FAQs}\newline
+    \url{https://mgba.io/faq.html}, Juni 2018
+
+    \bibitem{GameBoyAdvanceRegister}Problemkaputt: \textit{GBATEK}\newline
     \url{https://problemkaputt.de/gbatek.htm#gbamemorymap}, Juni 2018
 \end{thebibliography}
 
@@ -1734,10 +1781,22 @@ Hello World by Ngoc.
 \begin{itemize}
     \item Abbildung \ref{fig:gba}: \textit{Game Boy Advance - Blue Edition}\newline
     \url{https://d3nevzfk7ii3be.cloudfront.net/igi/L3WryntCMswfDks1.large}, Mai 2018
-\end{itemize}
-
-\begin{itemize}
+    
+    \item Abbildung \ref{fig:hex-view}: \textit{Anfang der Songtabelle in Hex-Ansicht}
+    
+    \item Abbildung \ref{fig:IDA-view}: \textit{IDA-View der Songtabelle und erstem Song}
+    
+    \item Abbildung \ref{fig:Sampleformat}: \textit{IDA-View Voice-Table und Sample-Format}
+    
+    \item Abbildung \ref{fig:mcore}: \textit{Struktur des GBACore}
+    
+    \item Abbildung \ref{fig:gbaaudio}: \textit{Struktur des GBAAudio}
+    
+    \item Abbildung \ref{fig:runloop}: \textit{Ablauf der RunLoop-Methode}
+    
     \item Abbildung \ref{fig:qtclassdiagramm}: \textit{\"Ubersicht der Audioklassen in der Qt Anwendung}
+    
+    \item Abbildung \ref{fig:audioeinstellungen}: \textit{Audioeinstellungen im mGBA}
 \end{itemize}
 
 \end{document}
