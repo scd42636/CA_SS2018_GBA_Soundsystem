@@ -1269,34 +1269,12 @@ Die Anwendung \enquote{mGBA} wurde von den Entwicklern mit dem GUI-Toolkit Qt re
 
 F\"ur die Untersuchung, wie der Emulator mit dem Betriebssystem interagiert, wird im Folgenden nur auf die daf\"ur ben\"otigten Klassen, Methoden und Konzepte eingegangen. Dabei liegt der Fokus ausschlie{\ss}lich auf Abl\"aufe die zur Emulation des Soundsystems notwendig sind.
 
-\subsubsection{Start des Emulators}
+\subsubsection{Start des Emulators} \label{startdesemulators}
 \AutorDominik
-
-\subsubsection{Initialisierung des \enquote{mCore}}
-\AutorDominik
-
-\subsubsection{Laden des ROM}
-\AutorDominik
-
-\subsubsection{Starten des ROM}
-\AutorDominik
-
-\subsubsection{Ausf\"uhrung des ROM}
-\AutorDominik
-
-
-
-
-
-
-
-
-
-
-%\subsubitem{Start der Anwendung}
-%\AutorDominik
 
 Wie \"ublich beginnt auch beim mGBA die Anwendung in der globalen \verb|main|-Methode (\textit{\$/src/platform/qt/main.cpp}). Diese initialisiert den \textbf{ConfigController} mittels \verb|argc| und \verb|argv|. Anschlie{\ss}end wird eine neue Instanz der Klasse \textbf{GBAApp} ebenfalls mit \verb|argc| und \verb|argv|, sowie dem vorinitialisierten \verb|configController| initialisiert. Die weitere Logik der \verb|main|-Methode dient der Initialisierung und Lokalisierung einer \textbf{Window}-Instanz zur Anzeige der mGBA GUI. Die dabei erzeugte \textbf{Window}-Instanz wird w\"ahrenddessen dazu aufgefordert die Einstellungen aus dem bereits initialisierten \verb|configController| zu laden. Hierzu wird die Methode \verb|loadConfig()| der \textbf{Window}-Klasse verwendet.
+
+Durch den Aufruf der \verb|loadConfig()|-Methode wird wiederum die Methode \verb|reloadConfig()| der \textbf{Window}-Klasse aufgerufen. Diese vermittelt unter anderen die aktuelle \textbf{mCoreConfig}-Struktur der \verb|m_config| (vom Typen \textbf{ConfigController}) an den \verb|m_controller| (vom Typen \textbf{GameController}) mittels \verb|setConfig()|-Methode der \textbf{GameController}-Klasse.
 
 \vspace{5mm}
 \large ConfigController \normalsize(\textit{\$/src/platform/qt/ConfigController.h \& .cpp})
@@ -1337,12 +1315,10 @@ Als letzte Anweisung des Konstruktors wird die lokale \verb|setupMenu()|-Methode
 \end{itemize}
 
 
-Durch den Aufruf der \verb|loadConfig()|-Methode wird wiederum die Methode \verb|reloadConfig()| der \textbf{Window}-Klasse aufgerufen. Diese vermittelt unter anderen die aktuelle \textbf{mCoreConfig}-Struktur der \verb|m_config| (vom Typen \textbf{ConfigController}) an den \verb|m_controller| (vom Typen \textbf{GameController}) mittels \verb|setConfig()|-Methode der \textbf{GameController}-Klasse.
-
 \vspace{5mm}
 \large VideoView \normalsize(\textit{\$/src/platform/qt/VideoView.h \& .cpp})
 \vspace{2mm}\newline
-Bei der Instanziierung der \textbf{VideoView}-Klasse verwendet der Konstruktor die globale Methode \textbf{FFmpegEncoderInit} (\$/src/feature/ffmpeg/ffmpeg-encoder.c) zur Initialisierung der Membervariablen \verb|m_encoder|. Die f\"ur die Audio-/Videoausgabe verwendete Struktur vom Typen \textbf{FFmpegEncoder} (\$/src/feature/ffmpeg/ffmpeg-encoder.c) wird beim Aufruf der Instanzmethode \verb|startRecording()| der \textbf{VideoView}-Klasse mttels globaler \textbf{FFmpegEncoderOpen} Methode so final konfiguriert, dass der Encoder die bei der Emulation anfallenden Audio-/Videodaten aufzeichnet. Zum Abschluss der \textbf{startRecording()}-Methode wird das Qt Signal \verb|recordingStarted| mit dem Feld \verb|d| vom Typen der Struktur \textbf{mAVStream} der \verb|m_encoder| Membervariablen als Parameter gesendet. Dieses Signal endet schlie{\ss}lich in einen Aufruf der \verb|setAVStream|-Methode der \textbf{GameController}-Instanz \verb|m_controller| der \textbf{Window}-Klasse.
+Bei der Instanziierung der \textbf{VideoView}-Klasse verwendet der Konstruktor die globale Methode \textbf{FFmpegEncoderInit} (\$/src/feature/ffmpeg/ffmpeg-encoder.c) zur Initialisierung der Membervariablen \verb|m_encoder|. Die f\"ur die Audio-/Videoausgabe verwendete Struktur vom Typen \textbf{FFmpegEncoder} (\$/src/feature/ffmpeg/ffmpeg-encoder.c) wird beim Aufruf der Instanzmethode \verb|startRecording()| der \textbf{VideoView}-Klasse mttels globaler \textbf{FFmpegEncoderOpen}-Methode so final konfiguriert, dass der Encoder die bei der Emulation anfallenden Audio-/Videodaten aufzeichnet. Zum Abschluss der \textbf{startRecording()}-Methode wird das Qt Signal \verb|recordingStarted| mit dem Feld \verb|d| vom Typen der Struktur \textbf{mAVStream} der \verb|m_encoder| Membervariablen als Parameter gesendet. Dieses Signal endet schlie{\ss}lich in einen Aufruf der \verb|setAVStream|-Methode der \textbf{GameController}-Instanz \verb|m_controller| der \textbf{Window}-Klasse.
 
 \vspace{5mm}
 \large GameController \normalsize(\textit{\$/src/platform/qt/GameController.h \& .cpp})
@@ -1354,9 +1330,8 @@ Im Konstruktor der \textbf{GameController}-Klasse wird die lokale \verb|m_audioP
     \item \verb|GameController.gameStarted| $\rightarrow$ \verb|m_audioProcessor.setInput|
 \end{itemize}
 
-
-%\subsubsection{Laden und Starten eines ROM}
-%\AutorDominik
+\subsubsection{Initialisierung des \enquote{mCore}}
+\AutorDominik
 
 W\"ahlt der mGBA-Anwender im Men\"u den Punkt \enquote{Load ROM...}, wird hierf\"ur die Methode \verb|selectROM()| der \textbf{Window}-Klasse ausgef\"uhrt. Nach erfolgter Auswahl einer entsprechend unterst\"utzten Datei, wird die Methode \verb|loadGame(path)|  der lokalen \textbf{GameController}-Instanz (\verb|m_controller|) mit dem Pfad zur ausgew\"ahlten ROM-Datei aufgerufen. Diese f\"uhrt nach einigen Vorabaktionen die Methode \verb|openGame()| der \textbf{GameController}-Instanz aus. Mittels globaler \textbf{mCoreFind}-Methode (\textit{\$/src/core/core.c}) wird der vom Format der ROM-Datei abh\"angige \enquote{Core} ermittelt und erstellt. Handelt es sich bei der ROM-Datei um ein Game Boy Advance (kurz \enquote{GBA}) Speicherabbild, wird die globale \textbf{GBACoreCreate}-Methode (\textit{\$/src/gba/core.c}) dazu verwendet den Speicher f\"ur die Struktur \textbf{GBACore} (\textit{\$/src/gba/core.c}) zu allokieren. Das dabei implizit allokierte \textbf{mCore}-Feld \verb|d| wird daraufhin mit diversen Funktionszeigern zu globalen Methoden mit dem Prefix \textbf{{\_}GBA} beziehungsweise \textbf{{\_}GBACore} initialisiert. Das auf diese Weise konfigurierte \verb|d|-Feld wird dann von der globalen \textbf{GBACoreCreate}-Methode zur\"uckgeliefert und im Feld \verb|mCoreThread.core| der lokalen Membervariable \verb|m_threadContext| der \textbf{GameController}-Instanz gespeichert.
 
@@ -1431,7 +1406,9 @@ Die globale \textbf{GBAAudioInit}-Methode ist f\"ur den vollen Setup der \textbf
 \end{table}
 
 
-\vspace{5mm}
+\subsubsection{Laden des ROM}
+\AutorDominik
+
 \large {\_}GBACoreSetAudioBufferSize \normalsize(\textit{\$/src/gba/core.c})
 \vspace{2mm}\newline
 Anschlie{\ss}end wird mit Hilfe der globalen Methode \textbf{mCoreLoadForeignConfig} (\textit{\$/src/core/core.c}) die Konfiguration der \textbf{ConfigController}-Instanz, die durch die \textbf{Window}-Klasse an den \textbf{GameController} \"ubertragen wurde, auf den \textbf{mCore} des \verb|core|-Feldes der Membervariablen \verb|m_threadContext| angewendet. Hierbei wird unter anderen die Funktion auf die im Feld \verb|setAudioBufferSize| verwiesen wird aufgerufen. Nach Durchlaufen der globalen \textbf{GBACoreCreate}-Methode ist das die globale Methode \textbf{{\_}GBACoreSetAudioBufferSize}. Sie leitet den Aufruf direkt weiter an die globale Methode \textbf{GBAAudioResizeBuffer} unter Verwendung des \verb|audio|-Feldes der \textbf{GBAAudio}-Struktur des \verb|board|-Felds der \textbf{mCore}-Struktur.
@@ -1456,14 +1433,15 @@ Bevor mit der eigentlichen Emulation begonnen wird, wird nun noch der Audio-/Vid
 \vspace{2mm}\newline
 Aufgabe dieser globalen Methode ist es dem \verb|board|-Feld des \textbf{mCore} mittels gegebener Parameter zu konfigurieren. Das hierbei vorgenommene Setup bezieht sich auschlie{\ss}lich auf das \verb|audio|-Feld des \verb|board|-Felds vom Typen der \textbf{GBA}-Struktur. Die dabei vorgenommenen \"Anderungen beziehen sich somit nur auf Felder der \textbf{GBAAudio}-Struktur.
 
-\vspace{5mm}
+
+\subsubsection{Starten des ROM}
+\AutorDominik
+
 \large mCoreThreadStart \normalsize(\textit{\$/src/core/thread.c})
 \vspace{2mm}\newline
 Nach Abschluss des vollst\"andigen Setups des \textbf{mCore} wird die im \verb|m_threadContext.core| gespeicherte Instanz samt \verb|m_threadContext| an die globale Methode \textbf{mCoreThreadStart} \"ubergeben. Bevor aber die Methode den eigentlichen Thread erzeugt initialisiert sie diverse Mutex- sowie Condition-Instanzen zur Synchronisation der Thread-\"ubergreifenden Operationen. Von besonderer Bedeutung sind hierbei der Mutex \verb|audioBufferMutex| und die Condition \verb|audioRequiredCond|. Beide Felder sind Teil der \textbf{mCoreSync}-Struktur des \verb|theadContext|-Parameters vom Typen \textbf{mCoreThread}.
 
 Sind alle Bedingungen f\"ur das Multithreading erf\"ullt, legt die Methode mittels globaler \textbf{ThreadCreate}-Methode (\textit{\$/include/mgba-util/platform/\{os\}/threading.h}) den Emulations-Thread an. Als \textbf{ThreadEntry} wird dabei die globale Methode \textbf{{\_}mCoreThreadRun} und als \verb|context|-Parameter ein Verweis auf den \textbf{mCoreThread} alias \verb|threadContext| verwendet. Der Verweis auf den so erzeugten Thread wird schlie{\ss}lich noch im \verb|thread|-Feld des \verb|threadContext|-Parameters gespeichert.
-
-\newpage
 
 \vspace{5mm}
 \large {\_}mCoreThreadRun \normalsize(\textit{\$/src/core/thread.c})
@@ -1475,8 +1453,8 @@ Abgeschlossen wird der Code der Callback-Routine mit dem dynamischen Ausl\"osen 
 Wurde auch alle weiteren Callback-Routinen durchlaufen, beginnt die Ausf\"uhrung des Prozesses durch stetigen Aufruf der Funktion auf die im Feld \verb|runLoop| verwiesen wird. Nach Durchlaufen der globalen \textbf{GBACoreCreate}-Methode ist das die globale Methode \textbf{{\_}GBACoreRunLoop}. Dies geschieht solange, wie sich der Thread im Zustand kleiner/gleich \verb|THREAD_MAX_RUNNING| befindet.
 
 
-%\subsubsection{Ausf\"uhrung eines ROM}
-%\AutorDominik
+\subsubsection{Ausf\"uhrung des ROM}
+\AutorDominik
 
 Nach Durchlaufen der Setup-Phase bestehend aus dem Einrichten der notwendigen Strukturen und dem Laden des Prozessspeichers, kann der Inhalt des ROMs gem\"a{\ss} dem bekannten Instruction-Set eines ARM-Prozessors abgerarbeitet werden. Hierbei wird jede Anweisung im ROM sequentiell eine nach der anderen ausgewertet und ausgef\"uhrt. Die dabei im ROM beschriebenen Assembler Befehle f\"ur die ARM-Architektur, werden durch entsprechende Methoden abgearbeitet, welche das Verhalten der Plattform so emulieren, als ob der Prozess auf einem physikalichen ARM ausgef\"uhrt werden w\"urde.
 
@@ -1540,28 +1518,15 @@ Der Aufruf der gloablen \textbf{GBAStore32} (\textit{\$/src/gba/memory.c}) Metho
 \end{itemize}
 
 
-\newpage
+% ========== Chapter 3.3 ==========
 
-
-%\subsubsection{Interaktion mit dem Soundsystem}
-%\AutorDominik
+\subsection{Emulation des Soundsystems} \label{EmulationSoundsystem}
+\AutorDominik
 
 Damit die vom ROM beziehungsweise vom Prozess generierten Audiodaten auch mittels \textbf{mAVStream} in der \textbf{VideoView} sowie durch das \textbf{AudioDevice} verarbeitet werden bedient sich mGBA verschiedener Methoden.
 
 Zur Ausgabe \"uber den \textbf{mAVStream} greift der Callback des \enquote{GB(A) Audio Sample}-Events (die globale \textbf{{\_}sample} Methode) direkt auf das \verb|stream|-Feld \"uber den \textbf{GBA}-Verweis des Feldes \verb|p| in der \textbf{GBAAudio}-Struktur zu. Hierbei bedient sich die \textbf{{\_}sample} Methode des dort eingetragenen Callbacks im Feld \verb|postAudioBuffer| und ruft somit eine Methode der vom mGBA verwendeten \textbf{FFmpeg}-Library auf um die Audiodaten im Stream abzulegen.
 
-Betrachtet man den von der \textbf{VideoView} unabh\"angigen Ablauf der Audiodatenverarbeitung stellt man fest, dass die Verarbeitung direkt \"uber den Speicher des \textbf{mCore} stattfindet. Da aber der Speicher vom Emulations-Thread verwendet wird, kann der Main-Thread nicht ohne weiteres auf diesen zugreifen. An dieser Stelle kommen die in der \textbf{mCoreThreadStart} initialisierte Condition \verb|audioRequiredCond| sowie der Mutex \verb|audioBufferMutex| ins Spiel. W\"ahrend der Callback des \enquote{GB(A) Audio Sample}-Events (die globale \textbf{{\_}sample} Methode) die globale Methode \textbf{mCoreSyncProduceAudio} verwendet, nutzt im Main-Thread die \textbf{AudioDevice}-Instanz des verwendeten \textbf{AudioProcessor}'s die globale Methode \textbf{mCoreSyncConsumeAudio}.
-
-Letztere verwendet die \textbf{mCoreSyncConsumeAudio} Methode \underline{nach} dem Zugriff auf die Audiodaten im Speicher, w\"ahrend \underline{vor} dem Zugriff weitere Zugriffe durch den Prozess mittels Aufruf der globalen \textbf{mCoreSyncLockAudio} Methode blockiert werden. Erst der Aufruf der \textbf{mCoreSyncConsumeAudio} Methode gibt den Zugriff auf den Audiodaten-Speicher wieder frei.
-
-Ebenso wie das \textbf{AudioDevice} den Zugriff auf die Audiodaten blockiert, w\"ahrend diese gelesen werden, so blockiert auch die \textbf{{\_}sample}-Methode den Zugriff auf diese mit einem ebenfalls vorgeschalteten Aufruf der \textbf{mCoreSyncLockAudio} Methode. Nach der Bearbeitung der Audiodaten werden diese schlie{\ss}lich mit Aufruf der globalen \textbf{mCoreSyncConsumeAudio} Methode f\"ur den Zugriff wieder freigegeben.
-
-\newpage
-
-% ========== Chapter 3.3 ==========
-
-\subsection{Emulation des Soundsystems} \label{EmulationSoundsystem}
-\AutorDominik
 
 % ========== Chapter 3.3.1 ==========
 
@@ -1573,6 +1538,12 @@ Ebenso wie das \textbf{AudioDevice} den Zugriff auf die Audiodaten blockiert, w\
 \subsubsection{Weiterverarbeitung im Emulator}
 \AutorDominik
 
+Betrachtet man den von der \textbf{VideoView} unabh\"angigen Ablauf der Audiodatenverarbeitung stellt man fest, dass die Verarbeitung direkt \"uber den Speicher des \textbf{mCore} stattfindet. Da aber der Speicher vom Emulations-Thread verwendet wird, kann der Main-Thread nicht ohne weiteres auf diesen zugreifen. An dieser Stelle kommen die in der \textbf{mCoreThreadStart} initialisierte Condition \verb|audioRequiredCond| sowie der Mutex \verb|audioBufferMutex| ins Spiel. W\"ahrend der Callback des \enquote{GB(A) Audio Sample}-Events (die globale \textbf{{\_}sample} Methode) die globale Methode \textbf{mCoreSyncProduceAudio} verwendet, nutzt im Main-Thread die \textbf{AudioDevice}-Instanz des verwendeten \textbf{AudioProcessor}'s die globale Methode \textbf{mCoreSyncConsumeAudio}.
+
+Letztere verwendet die \textbf{mCoreSyncConsumeAudio} Methode \underline{nach} dem Zugriff auf die Audiodaten im Speicher, w\"ahrend \underline{vor} dem Zugriff weitere Zugriffe durch den Prozess mittels Aufruf der globalen \textbf{mCoreSyncLockAudio} Methode blockiert werden. Erst der Aufruf der \textbf{mCoreSyncConsumeAudio} Methode gibt den Zugriff auf den Audiodaten-Speicher wieder frei.
+
+Ebenso wie das \textbf{AudioDevice} den Zugriff auf die Audiodaten blockiert, w\"ahrend diese gelesen werden, so blockiert auch die \textbf{{\_}sample}-Methode den Zugriff auf diese mit einem ebenfalls vorgeschalteten Aufruf der \textbf{mCoreSyncLockAudio} Methode. Nach der Bearbeitung der Audiodaten werden diese schlie{\ss}lich mit Aufruf der globalen \textbf{mCoreSyncConsumeAudio} Methode f\"ur den Zugriff wieder freigegeben.
+
 % ========== Chapter 3.3.3 ==========
 
 \newpage
@@ -1582,7 +1553,7 @@ Ebenso wie das \textbf{AudioDevice} den Zugriff auf die Audiodaten blockiert, w\
 \subsubsection{Start des Emulators}
 \AutorFlorian
 
-In Kapitel  \textcolor{red}{ TODO: REF} wurde bereits der Ablauf bis zur Erstellung der AudioProcessor-Klasse, sowie das Setzten des Treibers beschrieben. Auf diesen Ablauf wird im Folgenden nun aufgebaut. In dieser Arbeit
+Im Kapitel  \ref{startdesemulators} wurde bereits der Ablauf bis zur Erstellung der AudioProcessor-Klasse, sowie das Setzten des Treibers beschrieben. Auf diesen Ablauf wird im Folgenden nun aufgesetzt. In dieser Arbeit
 wird der \enquote{Qt Multimedia} Treiber untersucht und schlie{\ss}t somit die Betrachtung des SDL-Treibers aus.
 
 Startet der Benutzer den mGBA, wird unter Verwendung des zuvor gesetzten Treibers, eine neue Instanz von AudioProcessor erstellt. In diesem Fall wird die AudioProcessor::create() Methode aufgerufen und w\"ahlt \"uber ein Switch Statement den Konstruktor von AudioProcessorQt aus und liefert eine neue Instanz zur\"uck. Dieser verf\"ugt \"uber keine Logik und ist demnach leer. F\"ur die weitere Untersuchung folgt ein Klassendiagramm der wesentlichen Klassen auf Seitens der Qt-Anwendung.
