@@ -1555,7 +1555,7 @@ Die f\"ur die Verarbeitung notwendigen Register wurden bereits im Abschnitt \ref
 
 Im Kontext der von der \textbf{VideoView} unabh\"angigen Abl\"aufe der Audiodatenverarbeitung stellt man fest, dass die Verarbeitung direkt \"uber den Speicher des \textbf{mCore} stattfindet. Da aber der Speicher vom Emulations-Thread verwendet wird, kann der Main-Thread nicht ohne weiteres auf diesen zugreifen. An dieser Stelle kommen die in der \textbf{mCoreThreadStart} initialisierte Condition \verb|audioRequiredCond| sowie der Mutex \verb|audioBufferMutex| ins Spiel. W\"ahrend der Callback des \enquote{GB(A) Audio Sample}-Events (die globale \textbf{{\_}sample} Methode) die globale Methode \textbf{mCoreSyncProduceAudio} verwendet, nutzt im Main-Thread die \textbf{AudioDevice}-Instanz des verwendeten \textbf{AudioProcessor}'s die globale Methode \textbf{mCoreSyncConsumeAudio}.
 
-Letztere verwendet die \textbf{mCoreSyncConsumeAudio} Methode \underline{nach} dem Zugriff auf die Audiodaten im Speicher, w\"ahrend \underline{vor} dem Zugriff weitere Zugriffe durch den Prozess mittels Aufruf der globalen \textbf{mCoreSyncLockAudio} Methode blockiert werden. Erst der Aufruf der \textbf{mCoreSyncConsumeAudio} Methode gibt den Zugriff auf den Audiodaten-Speicher wieder frei. Der grobe Ablauf des Synchronisation im \textbf{AudioDevice} kann in Snippet \ref{list: AudioDevice_LockConsume} betrachtet werden.
+Letztere verwendet die \textbf{mCoreSyncConsumeAudio} Methode \underline{nach} dem Zugriff auf die Audiodaten im Speicher, w\"ahrend \underline{vor} dem Zugriff weitere Zugriffe durch den Prozess mittels Aufruf der globalen \textbf{mCoreSyncLockAudio} Methode blockiert werden. Erst der Aufruf der \textbf{mCoreSyncConsumeAudio} Methode gibt den Zugriff auf den Audiodaten-Speicher wieder frei. Der grobe Ablauf des Synchronisation im \textbf{AudioDevice} kann in Snippet \ref{list:AudioDevice_LockConsume} betrachtet werden.
 
 \vspace{5mm}
 \begin{lstlisting}[language=C++, caption={AudioDevice - \enquote{Lock / Consume}}, label={list:AudioDevice_LockConsume}]
@@ -1636,6 +1636,7 @@ aber auch frei gesetzt werden. Schlie{ss}lich folgt die Lautst\"arkeneinstellung
 
 Wie schon zu erahnen ist, wird nach einer Ver\"anderung des Audio-Treibers der Destruktor der zuvor gew\"ahlten Klasse aufgerufen und ein erneuter Aufruf der \textbf{AudioProcessor::create} Methode erzeugt eine neue AudioProcessor Instanz.
 Anlie{\ss}end wird die Methode \textbf{AudioProcessor::setBufferSamples} aufgerufen. Als \"Ubergabeparameter erh\"ahlt diese den Wert aus dem Feld Audio-Puffer und setzt diesen in die interne Variable m\_samples.
+\newpage
 
 
 \subsubsection{Starten des ROM}
@@ -1735,7 +1736,7 @@ Startschwierigkeiten gibt es in jedem Projekt, insbesondere bei unbekannten Soft
 Der gr\"o{\ss}te Anreiz f\"ur mich war weniger zu verstehen, wie ein Game Boy Advance Spiel emuliert wird, sondern viel mehr, wie man einen Emulator - am praktischen Beispiel mGBA - umsetzen und implementieren kann. Das zeigt sich auch in der Wahl der von mir ausformulierten Themen und Abschnitte wieder.
 
 \paratitle{Florian Boemmel}
-Hello World by Florian.
+F\"ur mich pers\"onlich war es sehr interessant einen Blick hinter die Kulissen der Audioverarbeitung des mGBA zu werfen. Ich hatte bereits einige male mit grafischen Oberfl\"achen zu tun. Jedoch kam dabei das Thema Audio nicht zum Einsatz, da dieses Thema recht komplex ist. Eine praktische Umsetzung, in diesem Fall der mGBA, zu analysieren brachte mir die Audio-Verarbeitung ein gutes St\"uck n\"aher. 
 
 \paratitle{Ngoc Luu Tran}
 Hello World by Ngoc.
