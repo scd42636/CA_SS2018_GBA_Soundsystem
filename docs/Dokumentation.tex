@@ -220,7 +220,7 @@ Die Untersuchung wird in vier Unterthemen gegliedert:
 
 \begin{itemize}
     \item Erstellung eines Beispielprogramms (siehe Abschnitt \ref{Plattformen} und Abschnitt \ref{Softwareentwicklung})
-    \item Untersuchung der Fragestellung mit Hilfe eines Beispielprogrammes (siehe Abschnitt \ref{Softwareentwicklung})
+    \item Untersuchung der Fragestellung mit Hilfe eines Beispielprogrammes (siehe Abschnitt \ref{Assemblercode})
     \item Untersuchung der Interaktion des Beispielprogrammes mit dem Emulator (siehe Abschnitt \ref{EmulationGameBoyAdvance})
     \item Untersuchung der Interaktion von Emulator und Betriebssystem (siehe Abschnitt \ref{EmulationSoundsystem})
 \end{itemize}
@@ -230,7 +230,7 @@ Die Untersuchung wird in vier Unterthemen gegliedert:
 
 \begin{itemize}
     \item \textbf{Betriebssysteme}: Ubuntu 16.0 x64, Windows 10 x64, macOS 10.13.4
-    \item \textbf{Disassembler}: IDA Pro
+    \item \textbf{Disassembler}: IDA Pro, Sappy
     \item \textbf{Emualtor}: mGBA
     \item \textbf{SDK}: devkitPro
     \item \textbf{IDE's}: Programmer's Notepad, Visual Studio Code, Eclipse, Qt Creator
@@ -525,17 +525,44 @@ DevkitARM ist dabei nicht nur die erste Toolchain f\"{u}r Videospielkonsolen, so
 
 % ========== Chapter 2.2.2 ==========
 
-\subsubsection{BeLogic}
+\subsubsection{Belogic}
 \AutorNgoc
+ 
+Belogic ist eine Webseite welche einen Audio Development f\"{u}r Game Boy Advance Spiele n\"{a}her bringt. Die Seite ist insofern Hilfreich, da einen nicht nur die ganzen Sound Register erkl\"{a}rt werden, sondern auch jeder der 6 Channels. Zus\"{a}tzlich wird zu jedem der 6 Channels auch ein Beispiel ROM mit entsprechendem Sourcecode zu Verf\"{u}gung gestellt.
+
+Im Sourcecode gibt es auch ein entsprechenden Header, bei welchem schon alle Register und Sound Channels vordefiniert sind.
+
+\vspace{5mm}
+\begin{lstlisting}[language=C++, caption={1. Ausschnitt aus Belogic gba.h}, label={list:gbaheader2}]
+    ...
+	#define SOUND1PLAYONCE		0x4000		// play sound once
+	#define SOUND1PLAYLOOP		0x0000		// play sound looped
+	#define SOUND1INIT			0x8000		// makes the sound restart
+	#define SOUND1SWEEPSHIFTS(n)	n		// number of sweep shifts (0-7)
+	#define SOUND1SWEEPINC		0x0000		// sweep add (freq increase)
+	#define SOUND1SWEEPDEC		0x0008		// sweep dec (freq decrese)
+	#define SOUND1SWEEPTIME(n)	(n<<4)		// time of sweep (0-7)
+	#define SOUND1ENVSTEPS(n)	(n<<8)		// envelope steps (0-7)
+	#define SOUND1ENVINC		0x0800		// envellope increase
+	#define SOUND1ENVDEC		0x0000		// envellope decrease
+	#define SOUND1ENVINIT(n)	(n<<12)		// initial envelope volume (0-15)
+	...
+\end{lstlisting}
+\newpage
+\vspace{5mm}
+\begin{lstlisting}[language=C++, caption={2. Ausschnitt aus Belogic gba.h}, label={list:gbaheader1}]
+    ...
+	#define REG_SOUND1CNT   *(vu32*)0x4000060	//sound 1
+	#define REG_SOUND1CNT_L *(vu16*)0x4000060	//
+	#define REG_SOUND1CNT_H *(vu16*)0x4000062	//
+	#define REG_SOUND1CNT_X *(vu16*)0x4000064	//
+
+	#define REG_SOUND2CNT_L *(vu16*)0x4000068	//sound 2 lenght & wave duty
+	#define REG_SOUND2CNT_H *(vu16*)0x400006C	//sound 2 frequency+loop+reset
+	...
+\end{lstlisting}
 
 % ========== Chapter 2.2.3 ==========
-
-\subsubsection{MaxMod}
-\AutorNgoc
-
-
-\newpage
-% ========== Chapter 2.2.4 ==========
 
 \subsubsection{\enquote{Sappy}}
 \AutorNgoc
@@ -547,6 +574,7 @@ Der Name der Engine stammt von einem Programm namens Sappy, welches Musik aus de
 Videospielentwickler komponieren ihre Musik als Standard MIDI-Datei oder als Trackermodul und konvertieren diese dann mithilfe eines Programms in das "`Sappy-Format"'. Dieses Format ist sehr \"{a}hnlich zu der MIDI-Datei und besteht unter anderem aus Key-On, Key-Off und Delta-T Werten. Jedoch wird das Sappy-Format effizienter gespeichert und wurde speziell f\"{u}r Videospiele entwickelt um zus\"{a}tzlich noch sowas wie Soundeffekte abzuspielen.
 
 Die Daten werden normalerweise in folgender Reihenfolge auf dem GBA-ROM gespeichert:
+\vspace{15pt}
 \begin{itemize}
 \item Definitionen der Instrument Banks
 \begin{itemize}
@@ -563,7 +591,16 @@ Die Daten werden normalerweise in folgender Reihenfolge auf dem GBA-ROM gespeich
 \item Daten f\"{u}r jeden Track
 \item Zeiger auf jeden Track
 \end{itemize}
+\vspace{15pt}
 
+Die Daten m\"{u}ssen nicht Zwangsl\"{a}ufig in dieser Reihenfolge in einer ROM gespeichert sein und es ist ebenso m\"{o}glich, dass andere Daten dazwischen verschachtelt sind.
+
+\vspace{15pt}
+\textbf{{\large Voice Tabelle}}
+
+Eine Voice Tabelle ist eine Ansammlung Zeigern zu Instrumenten, welches der Song benutzten kann. Diese besteht f\"{u}r gew\"{o}hnlich aus 127 Instrumenten, obwohl manche davon ungenutzt sein k\"{o}nnen. 
+
+So beinhaltet dieser unter anderen Sampled Instrument, PSG Instrument, Sub-Instrument, Key-Split Instrumente und Every-Key-Split Instrumente.
 
 \newpage
 
@@ -639,7 +676,7 @@ Um ein Sampled Instrument unver\"{a}ndert, also ohne Anwendung von Attack, Decay
     \begin{tabular}{ c | p{15cm} }
         \textbf{Byte-Gr\"{o}{\ss}e} & \textbf{Definition} \\
 				\hline
-				1 & PSG Channel (0x01 = square 1, 0x02 = square 2, 0x03 = programmierbare waveform, 0x04 = noise) \\
+				1 & PSG Channel (0x01 = square 1, 0x02 = square 2, 0x03 = Programmierbare Waveform, 0x04 = Noise) \\
 				\hline
         1 & MIDI Key (wird nur als Percussion Sub-Instrument verwendet)\\
 				\hline
@@ -686,7 +723,7 @@ Die H\"{u}llkurve wird mit den vier Level welche f\"{u}r Volume zuverf\"{u}gung 
 
 \newpage
 
-\textbf{{\large Every/Key-Split Instrumente}}
+\textbf{{\large Key-Split/Every Key-Split Instrumente}}
 
 \begin{table}[h]
     \centering
@@ -701,7 +738,7 @@ Die H\"{u}llkurve wird mit den vier Level welche f\"{u}r Volume zuverf\"{u}gung 
 				\hline
         4 & Zeiger auf Key Split Tabelle & 0x00\\
     \end{tabular}
-    \caption{Every/Key-Split Instrumente}
+    \caption{Key-Split/Every Key-Split Instrumente}
     \label{table:EveryKey-SplitInstrument}
 \end{table}
 
@@ -719,18 +756,18 @@ Der MIDI-Key und das Panning des spezifizierten Instruments wird nur hier benutz
 
 HEX-Folge von einem ungenutzten Instrument
 
-0x01, 0x3c, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0f, 0x00
+0x01, 0x3C, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0F, 0x00
 		
 \vspace{15pt}
-\textbf{{\large 16-Byte programmaierbare Waveform format}}
+\textbf{{\large 16-Byte programmaierbare Waveform Format}}
 
 Die Waveform besteht aus 32 4-Bit Puls-Code-Modulation (PCM) Samples, Big Endian, Unsigned (0 = niedriges Level, F = H\"{o}heres Level) f\"{u}r Insgesamt 16-bytes pro Waveform.
 
 Zum Beispiel:
 
-0x01, 0x23, 0x45, 0x67, 0x89, 0xab, 0xcd, 0xef, 0xfe, 0xdc, 0xba, 0x98, 0x76, 0x54, 0x32, 0x10
+0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF, 0xFE, 0xDC, 0xBA, 0x98, 0x76, 0x54, 0x32, 0x10
 
-Produziert ein Triangle Wave.
+Also konstante Erh\"{o}hung bis 0xFE und dann konstanter Fall des wertes, produziert ein Triangle Wave.
 
 Der Game Boy Advance hat ein 64 Sample-Modus, jedoch keine m\"{o}glichkeit diesen auszul\"{o}sen.
 
@@ -756,10 +793,11 @@ Der Game Boy Advance hat ein 64 Sample-Modus, jedoch keine m\"{o}glichkeit diese
 
 Die Sappy Sound Engine kann mehrere "Gruppen von Tracks" gleichzeitig wiedergeben, so k\"{o}nnen Sound-Effekte abgespielt werden w\"{a}hrend Hintergrundmusik l\"{a}uft. Verschiedene Spiele handhaben die Gruppen auf verschiedene Wegen.
 
-Apparently when the game starts a song it doesn't know in which groups it is started (it's the song pointers structure who decides it), but afterward he can alter the volume, panning and other settings by refering to the group in which the song plays. It's a bit strangle but apparently this is how the sappy engine works.
+Allen Anschein nach wei{\ss} das Spiel beim Start eines Songs nicht in welcher Gruppe es Anf\"{a}ngt, dies wird von der Song Zeiger Struktur entschieden. Danach kann aber Volume, Panning und andere Einstellungen durch Referenzen zur Gruppe, in welcher die Songs spielen, ver\"{a}ndert werden.
 
-Each track in each group have it's own set of pointers and counters used by the sound engine, which should sit somewhere in RAM. The more tracks and track groups are neccesarly for the game, the more RAM it takes up.
-Each track group takes 12 bytes of pointers at this locations. Remember that IRAM is mapped in the GBA at 0x3000000.
+Jeder Track in jeder Gruppe hat sein eigenen Satz an Zeigern und Z\"{a}hler welche von der Sound Engine genutzt werden und sich im RAM befinden. Je mehr Tracks und Track Gruppen f\"{u}r ein Spiel ben\"{o}tigt werden, desto mehr RAM wird beansprucht.\newline
+Die Track Gruppe beansprucht dabei im IRAM, welches im Game Boy Advance auf 0x3000000 abgebildet ist, 12 Bytes an Zeiger. 
+
 
 \vspace{15pt}
 \textbf{{\large Song Zeiger Format}}
@@ -815,25 +853,22 @@ Die 8-Bit signed PCM Sample Datei folgt umgehend.
 Der Pitch Adjustement Wert wird mit folgender Formel berechnet:\newline
 Pitch Adjustement = 1024 * Sample-rate f\"{u}r Mid-C (Mid-C entspricht dem MIDI-Key \#60)
 
-The pitch adjustment equivalent to available engine sampling rates (for mid-C note) are as following :
+Das \"{A}quivalent von Pitch Adjustement zu verf\"{u}gbare Engine Sampling Rate (f\"{u}r mid-C Note) sind wie folgt:
 
-0x599800  (5734 Hz)\newline
-0x7b3000  (7884 Hz)\newline
-0xa44000  (10512 Hz)\newline
-0xd10c00  (13379 Hz)\newline
-0xf66000  (15768 Hz)\newline
-0x11bb400 (18157 Hz)\newline
-0x1488000 (21024 Hz)\newline
-0x1a21800 (26758 Hz)\newline
-0x1ecc000 (31536 Hz)\newline
-0x2376800 (36314 Hz)\newline
-0x2732400 (40137 Hz)\newline
-0x2910000 (42048 Hz)\newline
+\begin{tabbing}
+    Links p{10cm} \= Links p{10cm} \=p{10cm} \= Links p{10cm}\= Links \kill
+		0x599800  \>(5734 Hz) \>\>0x1488000 \>(21024 Hz)\\
+		0x7B3000  \>(7884 Hz)  \>\>0x1A21800 \>(26758 Hz)\\
+		0xA44000  \>(10512 Hz)  \>\>0x1ECC000 \>(31536 Hz)\\
+		0xD10c00  \>(13379 Hz)  \>\>0x2376800 \>(36314 Hz)\\
+		0xF66000  \>(15768 Hz)  \>\>0x2732400 \>(40137 Hz)\\
+		0x11BB400 \>(18157 Hz)  \>\>0x2910000 \>(42048 Hz)\\
+\end{tabbing}
+\vspace{-15pt}
+Diese Werte werden oft f\"{u}r Percussion Sounds und Soundeffekte genutzt, welche normalerweise bei Engine Sample Rate abgespielt werden.
 
-Those values are often used for percussion sounds and sound effects, which are typically played at the engine's sample rate.
-
-If the loop is exactly the size of a single oscillation of a looped waveform, there is an useful shorcut to compute the right pitch:
-pitch = 267905 \* (loop\_end \- loop\_start)
+Wenn der Loop genau die Gr\"{o}{\ss}e von einer Schwingung einer geschleiften Waveform hat, kann der richtige Pitch auch wie folgt berechnet werden:\newline
+Pitch = 267905 * (Loop\_Ende - Loop\_Start)
 
 \vspace{15pt}
 \textbf{{\large Track Format}}
@@ -973,29 +1008,131 @@ Im Falle von gleicher Priorit\"{a}t wird nach der Track Nummer entschieden. Die 
 
 % ========== Chapter 2.3 ==========
 
-\subsection{Softwareentwicklung}
+\subsection{Softwareentwicklung} \label{Softwareentwicklung}
 \AutorNgoc
-
-
 % ========== Chapter 2.3.1 ==========
 
-\subsubsection{API zur Audioverarbeitung}
+\subsubsection{Erstellung der Beispielprogramme}
 \AutorNgoc
 
+Erstellung der Beispielprogramme anhand der Belogic Channel 1 Demo und Belogic Direct Sound Demo:
+
+Belogic Channel 1 Demo:
+
+Die Demo zeigt alle Features von Sound Channel 1. So erlaubt die Demo die Bitweise-\"{A}nderung von den REG\_SOUND1CNT\_L, REG\_SOUND1CNT\_H und REG\_SOUND1CNT\_X. Der H\"{o}rbahre Unterschied ist bei Channel 1 jedoch sehr Subtil oder nicht bemerkbar.
 
 
-% ========== Chapter 2.3.2 ==========
+\vspace{5mm}
+\begin{lstlisting}[language=C++, caption={Belogic Channel 1 Demo}, label={list:channel1}]
+	...
+	u16 note;
+	u16 delta,u,sweepshifts=2,sweepdir=1,sweeptime=7,cur=6;
+	u16 envinit=0xf, envdir=0, envsteptime=7,waveduty=2,soundlength=1;
+	u16 loopmode=0,sfreq=0x400,resamp=1;
 
-\subsubsection{Audiodaten im Speicher}
-\AutorNgoc
+    ...
+	if(~REG_KEYPAD&BUTTON_A) //play the sound
+	{ 
+	REG_SOUND1CNT_L=(sweeptime<<4)+(sweepdir<<3)+sweepshifts;
+	REG_SOUND1CNT_H=(envinit<<12)+(envdir<<11)+(envsteptime<<8)+(waveduty<<6)+soundlength;
+	REG_SOUND1CNT_X=SOUND1INIT+(loopmode<<14)+sfreq;
+	}
+	...
+\end{lstlisting}
+
+Der Sound Channel 1 produziert eine Square Wave mit Envelope und Frequenzdurchlaufs-Funktion. 
+
+Im Belogic Channel 1 Demo ROM \"{U}bergeben wir am Anfang dem \textbf{REG\_SOUND1CNT\_L}, welcher f\"{u}r den Frequenzdurchlauf zust\"{a}ndig ist, die 0x7A. Das Bedeutet f\"{u}r den REG\_SOUND1CNT\_L ein Sweep Shift von 2, Sweep decrease und Sweep Time von 54.7 ms.
+
+
+\textbf{REG\_SOUND1CNT\_H}, welches die 0xF781 zugewiesen wird, ist f\"{u}r den Duty Cycle, die L\"{a}nge und den Envelope zust\"{a}ndig. Bei unserem Beispiel bedeutet das eine Sound L\"{a}nge von 1, Wave Duty Cycle von 50\%,Envelope Step Time von 3, Envelope decrement und Initial Envelope Value von 0xF, welches maximale Lautst\"{a}rke bedeutet.
+
+\textbf{REG\_SOUND1CNT\_X} beinhaltet die Frequenz und die Kontrolle f\"{u}r Looped oder Timed Modus. Im Beispiel von 0x8400 bedeutet das eine Frequenz von 32,8 Khz, Loop und Sound Reset an. 
 
 \newpage
-% ========== Chapter 2.3.3 ==========
 
-\subsubsection{Untersuchung des Assemblercodes}
+Belogic Direct Sound Demo:
+
+Das Programm gibt bei Knopfdruck (A,B,L,R,Start und Select) ein Sample \"{u}ber den Direct Memory Access Sound Channel wieder.
+
+\vspace{5mm}
+\begin{lstlisting}[language=C++, caption={Belogic Direct Sound Demo}, label={list:directsound1}]
+    ...
+	int AgbMain(void){
+	//	play a sound using timer 0 as sampling source
+	//	When timer 0 overflows, the interrupt handler loads the FIFO with the next sample
+	
+	init(); //set graphic mode 4
+	LoadPic((u16*)_binary_logo_raw_start,(u8*)logopal); //load logo
+
+	Print(5,2,"Direct Sound Mono Playback Demo");
+	Print(6,19,"(c)2001 www.Belogic.com / Uze");
+	TimerPlaySound();  //play in interrupt mode
+
+	while(1){
+		if(~REG_KEYPAD&0x3ff){
+			REG_TM0CNT_H=0;	//disable timer 0
+			DmaPlaySound(); //play in dma mode
+		}
+	};
+	}
+	...
+\end{lstlisting}
+
+Das Spiel startet und Landet in einer Schleife, welche auf einen Tastendruck wartet. Wird eine Taste gedr\"{u}ckt, ruft diese dann die DmaPlaySound() Funktion auf.
+
+\vspace{5mm}
+\begin{lstlisting}[language=C++, caption={Belogic DmaPlaySound()}, label={list:directsound2}]
+    ...
+	void DmaPlaySound (void){
+	//Play a mono sound at 16khz in DMA mode Direct Sound
+	//uses timer 0 as sampling rate source
+	//uses timer 1 to count the samples played in order to stop the sound 
+	REG_SOUNDCNT_L=0;
+	REG_SOUNDCNT_H=0x0b0F;  //DS A&B + fifo reset + timer0 + max volume to L and R
+	REG_SOUNDCNT_X=0x0080;  //turn sound chip on
+	
+	REG_DMA1SAD=(unsigned long)_binary_lo1234_pcm_start;	//dma1 source
+	REG_DMA1DAD=0x040000a0; //write to FIFO A address
+	REG_DMA1CNT_H=0xb600;	//dma control: DMA enabled+ start on FIFO+32bit+repeat
+	
+	REG_TM1CNT_L=0x7098;	//0xffff-the number of samples to play
+	REG_TM1CNT_H=0xC4;		//enable timer1 + irq and cascade from timer 0
+
+	REG_IE=0x10;	  	//enable irq for timer 1 overflow
+	REG_IME=1;				//enable interrupt
+	
+	//Formula for playback frequency is: 0xFFFF-round(cpuFreq/playbackFreq)
+	REG_TM0CNT_L=0xFBE8;	//16khz playback freq
+	REG_TM0CNT_H=0x0080; 	//enable timer at CPU freq 
+	}
+	...
+\end{lstlisting}
+\newpage
+
+Das Register \textbf{REG\_SOUNDCNT\_L} kontrolliert nur den Dot Matrix Game (DMG) Output Verst\"{a}rker und hat sonst keinen Einfluss auf die Verarbeitung der Sound Channels oder der Direct Sound Lautst\"{a}rke. So beinhaltet dieses Register auch Bits f\"{u}r Vin Rechts und Links, welches Spielkassetten vom Game Boy Classic berechtigten ihre eigenen Sound Quellen zu verwenden. Jedoch ist es nicht Bekannt, ob diese Funktion noch vom Game Boy Advance unterst\"{u}tzt wird oder noch funktioniert.
+
+
+\textbf{REG\_SOUNDCNT\_H} bekommt im Sourcecode den Wert 0x0B0F. Dies bedeutet ein Output Sound Verh\"{a}ltnis f\"{u}r Channel 1 bis 4 von 100\%, ein Direct Sound A\&B Verh\"{a}ltnis von 100\% und f\"{u}r Direct Sound A eine Ausgabe f\"{u}r Links und Rechts mit FIFO Reset und Timer 0.
+
+Dabei kontrolliert Output Ratio die ausgegebene Lautst\"{a}rke, wenn die DMG oder Direct Sound Channels im Verh\"{a}ltnis zueinander zu Laut sind.
+
+Der Direct Sound ist ein dual 8-bit Digital-To-Analog Converter (DAC), welche die Daten von zwei FIFO's bekommt. Die FIFO's k\"{o}nnen manuell oder automatisch in DMA Modus geladen werden, dabei verwendet der DMA Modus die Timer als Abtastfrequenzbezug.
+
+
+\textbf{REG\_SOUNDCNT\_X} schaltet den Sound Chip (DMG und Direct Sound) an oder aus. Dieser sollte so oft wie nur m\"{o}glich aus sein um Batterieleistung zu sparen, dies erm\"{o}glicht es Batterien bis zu 10\% l\"{a}nger zuhalten. 
+
+
+Danach wird \textbf{REG\_DMA1SAD}, welches die Source Adresse angibt, die Sound Datei zugewiesen und dann man mit dem \textbf{REG\_DMA1DAD} Register die Ziel Adresse (In unserem Fall Channel A FIFO Register) bestimmt. Dann muss noch durch \textbf{REG\_DMA1CNT\_H} der DMA aktiviert und das Start Timing auf Sound FIFO gesetzt werden. Zuallerletzt m\"{u}ssen noch die ben\"{o}tigten Timer gesetzt und aktiviert werden.
+
+
+\newpage
+% ========== Chapter 2.3.2 ==========
+
+\subsubsection{Untersuchung des Assemblercodes} \label{Assemblercode}
 \AutorNgoc
 
-Songs in der Sappy Sound Engine finden anhand von Pok\'{e}mon Blattgr\"{u}n:
+Untersuchung des Assemblercodes von der Sappy Sound Engine anhand von Pok\'{e}mon Blattgr\"{u}n:
 
 \begin{wrapfigure}{r}{0.5\textwidth}
 	\vspace{-10pt}
@@ -1018,9 +1155,9 @@ Wird die Sappy Sound Engine, wie bei Pok\'{e}mon Blattgr\"{u}n, vom Spiel genutz
 Scrollt man jetzt von der letzten \"{U}bereinstimmung der HEX-Reihenfolge aus weiter nach unten, sollten wir Spalten mit 0x00 und 0x08 auffinden. (2.)
 
 Bei den ersten 4 Bytes welche mit 0x08 enden, handelt es sich um ein Zeiger auf den ersten Song im Spiel. (3.) Dieser befindet sich auf der ersten Position der Songtabelle. 
-In der Abbildung 2 handelt es sich dabei um den Zeiger auf die Adresse "`0x086B4F1C"'.
+In der Abbildung \ref{fig:hex-view} handelt es sich dabei um den Zeiger auf die Adresse "`0x086B4F1C"'.
 
-\vspace{10pt}
+\vspace{15pt}
 
 \begin{wrapfigure}{r}{0.5\textwidth}
 	\vspace{-10pt}
@@ -1039,7 +1176,7 @@ Folgt man nun einer dieser Zeiger landet man bei 0xB2, welches f\"{u}r eine Spru
 
 Nach der Adresse des Instruments folgt der Song-Header. (6.) Dieser f\"{u}hrt zum Trackformat, welcher immer mit der "`Tempo"'-Anweisung 0xBB Anf\"{a}ngt und mit der "`Ende des Songs"'-Anweisung 0xB1 endet. 
 
-So wird in Abbildung 3 zun\"{a}chst das Tempo (0xBB) auf 33 gesetzt und das 91. Instrument (0xBD) ausgew\"{a}hlt. Danach wird die Lautst\"{a}rke (0xBE) auf 100 gesetzt und die Tonh\"{o}he (0xC0) auf 58 variiert. Anschlie{\ss}end folgt eine Note mit automatischem Time-Out mit 60 112 132, dann ein Instrumenten Wechsel und endet mit der Ende des Songs Anweisung (0xB1). 
+So wird in Abbildung \ref{fig:IDA-view} zun\"{a}chst das Tempo (0xBB) auf 33 gesetzt und das 91. Instrument (0xBD) ausgew\"{a}hlt. Danach wird die Lautst\"{a}rke (0xBE) auf 100 gesetzt und die Tonh\"{o}he (0xC0) auf 58 variiert. Anschlie{\ss}end folgt eine Note mit automatischem Time-Out mit 60 112 132, dann ein Instrumenten Wechsel und endet mit der Ende des Songs Anweisung (0xB1). 
 
 F\"{u}r genauere Bedeutung der Anweisungen, siehe "`Sappy Track Format"'-Tabelle \ref{table:TrackFormat}.
 
@@ -1056,25 +1193,55 @@ F\"{u}r genauere Bedeutung der Anweisungen, siehe "`Sappy Track Format"'-Tabelle
 	\vspace{-30pt}
 \end{wrapfigure}
 
-Folgt man der Adresse des Instrumentes, landet man bei der Stimmen-Tabelle. (8.) Dieser besteht typischerweise aus 127 Instrumenten, welche jeweils 12 Bytes pro Eintrag beanspruchen.
+Folgt man der Adresse des Instrumentes, landet man bei der Voice-Tabelle. (8.) Dieser besteht typischerweise aus 127 Instrumenten, welche jeweils 12 Bytes pro Eintrag beanspruchen.
 
-In der Abbildung 4 erkennt man das es sich in diesem Beispiel um ein Sample handelt, dieser hat einen Zeiger auf die Sample Datei (0x084ED548). Weiterhin hat es einen Attack-Wert von 255 (0xFF), einen Decay-Wert von 249 (0xF9), einen Sustain-Level von 103 (0x67) und Release-Wert von 165 (0xA5) hat. Daraufhin Folgen zwei nicht genutzte Instrumente, welche man an der bereits Bekannten HEX-Reihenfolge erkennen kann.
+In der Abbildung \ref{fig:Sampleformat} erkennt man das es sich in diesem Beispiel um ein Sample handelt, dieser hat einen Zeiger auf die Sample Datei (0x084ED548). Weiterhin hat es einen Attack-Wert von 255 (0xFF), einen Decay-Wert von 249 (0xF9), einen Sustain-Level von 103 (0x67) und Release-Wert von 165 (0xA5) hat. Daraufhin Folgen zwei nicht genutzte Instrumente, welche man an der bereits Bekannten HEX-Reihenfolge erkennen kann.
 F\"{u}r genauere Informationen, siehe "`Sappy Sample Instrument"'-Tabelle \ref{table:SampleInstrument}.
 
-Sample Datei (9.) diese kommt mit einem 16-Byte Header 
+Die Sample Datei kommt mit einem 16-Byte Header (9.), gefolgt von einer variablen Datenl\"{a}nge. So Handelt es sich in der Abbildung \ref{fig:Sampleformat} um ein geschleiftes Sample mit Pitch Adjustement
+von 0xAC4400 (11025 Hz).
 
-A voice table is a collection of pointers to samples for a song to use. They typically consist of 127 voices, though some can be unused. Each entry is 12 bytes long
+F\"{u}r genauere Informationen, siehe "`Sappy Sample Instrument"'-Tabelle \ref{table:SampleFormat}.
 
-Platzhalter f\"{u}rs formatieren. Platzhalter f\"{u}rs formatieren. Platzhalter f\"{u}rs formatieren. Platzhalter f\"{u}rs formatieren. Platzhalter f\"{u}rs formatieren. Platzhalter f\"{u}rs formatieren.
+\vspace{15pt}
+\begin{wrapfigure}{r}{0.5\textwidth}
+	\vspace{-10pt}
+	\centering
+		\includegraphics[width=0.75\linewidth]{SelectSong}
+	\vspace{-10pt}
+	\caption{IDA-Graph-View und Proximity-Browser-View f\"{u}r SelectSong Funktion}
+	\label{fig:SelectSong}
+\end{wrapfigure}
 
+Die Song-Ausw\"{a}hl-Funktion f\"{u}r Sappy-Sound-Engine schaut in IDA aus wie in der Abbildung \ref{fig:SelectSong}. 
 
+In der Proximity-Browser-View wird klarer, dass es sich um die Song-Ausw\"{a}hl-Funktion handelt, als in der Graph-View.
 
+Diese kann man leicht finden, indem man nach Folgender HEX-Reihenfolge sucht:
+
+\textbf{0x00, 0xB5, 0x00, 0x04, 0x07, 0x4A, 0x08, 0x49,
+0x40, 0x0B, 0x40, 0x18, 0x83, 0x88, 0x59, 0x00,
+0xC9, 0x18, 0x89, 0x00, 0x89, 0x18, 0x0A, 0x68,
+0x01, 0x68, 0x10, 0x1C, 0x00, 0xF0}
+
+\newpage
 % ========== Chapter 2.3.4 ==========
 
 \subsubsection{Sappy - "`Audio-Reflektor"'}
 \AutorNgoc
 
-\newpage
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{Sappy}
+    \caption{Sappy Audio-Reflektor}
+    \label{fig:Sappy}
+\end{figure}
+
+Sappy ist ein Programm um Musik von Game Boy Advance Spielen, falls sie die Sappy Sound Engine nutzen, zu extrahieren. Nach ausw\"{a}hlen eines Spieles werden die Songs und deren Instrumente automatisch gefunden.
+
+Zu anderen Anwendungen geh\"{o}ren das Abspielen von den gefundenen Songs, Bearbeitung, Entfernen und Hinzuf\"{u}gen von Tracks und Instrumente oder das Konvertieren in MIDI-Dateien.
+
+So sieht man in der Abbildung \ref{fig:Sappy}, dass man relativ Leicht \"{A}nderungen in der Voice-Table vornehmen kann. 
 
 \newpage
 
@@ -1579,6 +1746,8 @@ Hello World by Ngoc.
     \url{https://www.coranac.com/tonc/text/sndsqr.htm#sec-intro}, Mai 2018
     \bibitem{SoundRegisters}BELOGIC: \textit{The Audio ADVANCE}\newline
     \url{http://belogic.com/gba/}, Juni 2018
+		\bibitem{GameBoyAdvanceRegister}Problemkaputt: \textit{GBATEK}\newline
+    \url{https://problemkaputt.de/gbatek.htm#gbamemorymap}, Juni 2018
 \end{thebibliography}
 
 \vspace{1cm}
