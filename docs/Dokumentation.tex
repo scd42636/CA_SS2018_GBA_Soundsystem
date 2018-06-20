@@ -185,7 +185,7 @@ Der Game Boy Advance z\"ahlt zu einer der erfolgreichsten Spielekonsolen der Wel
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.5\textwidth]{GameBoyAdvance}
-    \caption{Game Boy Advanced - Blue Edition}
+    \caption{Game Boy Advance - Blue Edition}
     \label{fig:gba}
 \end{figure}
 
@@ -709,14 +709,14 @@ Um ein Sampled Instrument unver\"{a}ndert, also ohne Anwendung von Attack, Decay
 
 Um ein PSG Instrument unver\"{a}ndert, also ohne Anwendung von Attack, Decay, Sustain und Release abzuspielen, werden die Werte0xFF, 0x00, 0xFF, 0x00 verwendet.
 
-Square \& Noise Channels:\newline
+\textbf{Square \& Noise Channels:}\newline
 Da die H\"{u}llkurve durch das ansteigen bzw. verringern des Hardware Volume Registers bestimmt wird, unterscheidet die sich grunds\"{a}tzlich von den  Software emulierten Attack, Decay, Sustain und Release des Sampled Instrument.
 
 Ein Beispiel hierf\"{u}r w\"{a}hre wenn Volume auf 6 ist, wird ein Attack von "`3"' doppelt so schnell ausgef\"{u}hrt wie der Attack von "`3"' wenn Volume 12 ist. Dies geschieht, weil Volume unabh\"{a}ngig vom Volume Wert, in der gleichen Rate ansteigt.
 
 Zus\"{a}tzlich kommt zu diesem Problem hinzu, dass bei jeder \"{A}nderung von Volume in den Tracks sich Attack, Decay, Sustain und Release zur\"{u}cksetzen. Dies wiederum setzt den Sound zur\"{u}ck, welches in ein "`klick"' Sound resultiert. Das kann auch in Spiele, welche Musik Volume ein und aus blenden, geh\"{o}hrt werden. Aus diesem Grund sollten Volume-\"{A}nderungen vermieden werden und stattdessen falls m\"{o}glich Attack, Decay, Sustain und Release verwendet werden.
 
-Programmierbarer Waveform Channel:\newline
+\textbf{Programmierbarer Waveform Channel:}\newline
 Die H\"{u}llkurve wird mit den vier Level welche f\"{u}r Volume zuverf\"{u}gung steht (25\%, 50\%, 75\% and 100\%) von der Software simuliert. Deswegen kann die H\"{u}llkurve sehr abgehackt und grob klingen, da nur sowenig Level zuverf\"{u}gung stehen. Jedoch leidet dieser Channel nicht unter dem Problem des Klickens bei Volume-\"{A}nderung, wie bei den Square \& Noise Channels.
 
 
@@ -743,20 +743,22 @@ Die H\"{u}llkurve wird mit den vier Level welche f\"{u}r Volume zuverf\"{u}gung 
 \end{table}
 
 
-Key-Split:\newline
+\textbf{Key-Split:}\newline
 Die Key-Split Tabelle hat eine L\"{a}nge von 128 Bytes und gibt Informationen dar\"{u}ber welches Sub-Instrument bei welchem MIDI-Key (1 Byte) genutzt wird. 
 Die Position des benutzten Sub-Instrumentes ist:\newline 12 * KeySplitTable[MidiKey] + Zeiger auf ersten Sub-Instrument
 
-Every Key-Split:\newline
+\textbf{Every Key-Split:}\newline
 Die Position des benutzten Sub-Instrumentes ist:\newline 12 * MidiKey + Zeiger auf Percussion Tabelle.\newline
 Der MIDI-Key und das Panning des spezifizierten Instruments wird nur hier benutzt.
 
 \vspace{15pt}
 \textbf{{\large Ungenutztes Instrumente}}
 
-HEX-Folge von einem ungenutzten Instrument
+HEX-Folge von einem ungenutzten Instrument:
 
 0x01, 0x3C, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0F, 0x00
+
+Aus irgendeinem Grund werden nicht genutzte Instrumente in der Sappy Sound Engine immer gleich definiert. W\"{u}rde diese mutwillig Abgespielt werden, w\"{u}rde es sich um ein PSG Square 1 ohne richtig aktivierten Sweep handeln (tiefe Oktaven werden nciht abgespielt).
 		
 \vspace{15pt}
 \textbf{{\large 16-Byte programmaierbare Waveform Format}}
@@ -767,9 +769,9 @@ Zum Beispiel:
 
 0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF, 0xFE, 0xDC, 0xBA, 0x98, 0x76, 0x54, 0x32, 0x10
 
-Also konstante Erh\"{o}hung bis 0xFE und dann konstanter Fall des wertes, produziert ein Triangle Wave.
+Die konstante Erh\"{o}hung bis 0xFE und dann konstanter Fall des Wertes,wird eine Triangle Wave produzieren.
 
-Der Game Boy Advance hat ein 64 Sample-Modus, jedoch keine m\"{o}glichkeit diesen auszul\"{o}sen.
+Der Game Boy Advance besitzt auch ein 64 Sample-Modus, jedoch keine bekannte M\"{o}glichkeit diesen Modus auszul\"{o}sen.
 
 \newpage
 \textbf{{\large Track-Gruppen RAM Zeiger Format}}
@@ -1129,10 +1131,12 @@ Danach wird \textbf{REG\_DMA1SAD}, welches die Source Adresse angibt, die Sound 
 \newpage
 % ========== Chapter 2.3.2 ==========
 
-\subsubsection{Untersuchung des Assemblercodes} \label{Assemblercode}
+\subsubsection{Untersuchung des Assemblercodes mit IDA-Pro} \label{Assemblercode}
 \AutorNgoc
 
-Untersuchung des Assemblercodes von der Sappy Sound Engine anhand von Pok\'{e}mon Blattgr\"{u}n:
+Untersuchung des Assemblercodes der Sappy Sound Engine anhand von Pok\'{e}mon Blattgr\"{u}n mit Hilfe des Disassembler IDA-Pro:
+
+\vspace{15pt}
 
 \begin{wrapfigure}{r}{0.5\textwidth}
 	\vspace{-10pt}
@@ -1241,7 +1245,8 @@ Sappy ist ein Programm um Musik von Game Boy Advance Spielen, falls sie die Sapp
 
 Zu anderen Anwendungen geh\"{o}ren das Abspielen von den gefundenen Songs, Bearbeitung, Entfernen und Hinzuf\"{u}gen von Tracks und Instrumente oder das Konvertieren in MIDI-Dateien.
 
-So sieht man in der Abbildung \ref{fig:Sappy}, dass man relativ Leicht \"{A}nderungen in der Voice-Table vornehmen kann. 
+So sieht man in der Abbildung \ref{fig:Sappy}, dass man im Vergleich zu IDA Pro viel einfacher die Gesuchten Daten findet. Diese werden unter anderem auch kompakter Angezeigt, welches man zum Beispiel an der Voice-Table merkt. So sieht man nicht nur alles auf einem Blick, sondern kann auch durch ein Drop-Down-Liste leicht zwischen Instrumente wechseln, oder die Werte \"{A}ndern.
+
 
 \newpage
 
