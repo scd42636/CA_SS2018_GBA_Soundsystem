@@ -52,7 +52,7 @@
 \usepackage[ansinew]{inputenc}
 \usepackage[ngerman]{babel}
 \addto\captionsngerman{ 
-    \renewcommand{\figurename}{Abbildung} 
+    \renewcommand{\figurename}{Abb.} 
     \renewcommand{\tablename}{Tabelle}
     \renewcommand{\abstractname}{Kurzfassung}
     %\renewcommand{\nomname}{Abkürzungen}
@@ -154,9 +154,11 @@
 
 \renewcommand{\cftsecfont}{\sffamily\Large\mdseries}
 \renewcommand{\cftsubsecfont}{\sffamily\normalsize\mdseries}
+\renewcommand{\cftsubsubsecfont}{\sffamily\normalsize\mdseries}
 
 \renewcommand{\cftsecpagefont}{\sffamily\Large\mdseries}
 \renewcommand{\cftsubsecpagefont}{\sffamily\normalsize\mdseries}
+\renewcommand{\cftsubsubsecpagefont}{\sffamily\normalsize\mdseries}
 
 %% Space between rows in tables
 \renewcommand{\arraystretch}{1.5}
@@ -171,6 +173,20 @@
 % ========== Title Page ==========
 \maketitle
 \thispagestyle{empty}
+
+\vspace{5cm}
+\begin{table}[h]
+    \centering
+    \begin{tabular}{ p{4cm} p{5cm}|p{5cm} p{2cm} }
+        & \textbf{Autor} & \textbf{Matrikelnummer} & \\
+        \hline
+        & Dominik Scharnagl & 30 54 54 1 & \\
+        & Florian Boemmel & 00 00 00 0 & \\
+        & Ngoc Luu Tran & 30 32 96 3 &
+    \end{tabular}
+\end{table}
+
+
 \clearpage
 
 \setcounter{page}{1}
@@ -1260,14 +1276,14 @@ Diese kann man leicht finden, indem man nach Folgender HEX-Reihenfolge sucht:
 0x01, 0x68, 0x10, 0x1C, 0x00, 0xF0}
 
 \newpage
-% ========== Chapter 2.3.4 ==========
+% ========== Chapter 2.3.3 ==========
 
 \subsubsection{Sappy - \enquote{Audio-Reflektor}}
 \AutorNgoc
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.5\textwidth]{Sappy}
+    \includegraphics[width=\textwidth]{Sappy}
     \caption{Sappy Audio-Reflektor}
     \label{fig:Sappy}
 \end{figure}
@@ -1775,16 +1791,19 @@ Am Ende der Studienarbeit angekommen, kann man den vollst\"andigen Ablauf der Em
 
 
 % ========== Chapter 4.2 ==========
-\subsection{Fazit zur Studienarbeit}
-Startschwierigkeiten gibt es in jedem Projekt, insbesondere bei unbekannten Softwareprojekten. Diese Studienarbeit machte dabei auch in keiner Hinsicht eine Ausnahme. Dank diverser Quellen und kurzer Vorf\"uhrung des Debuggers IDA Pro durch Enrico Pozzobon war es f\"ur uns kein g\"anzlicher Sprung ins kalte Wasser. Leider lie{\ss} sich auch dadurch der gro{\ss}e Sprung - zum Einstieg in die Studienarbeit - nicht ohne Weiteres schnell bew\"altigen.
 
+\subsection{Fazit zur Studienarbeit}
+Startschwierigkeiten gibt es in jedem Projekt, insbesondere bei unbekannten Softwareprojekten. Diese Studienarbeit machte dabei auch keine Ausnahme. Dank diverser Quellen und kurzer Vorf\"uhrung des Debuggers IDA Pro durch Enrico Pozzobon war es f\"ur uns kein g\"anzlicher Sprung ins kalte Wasser.
+
+\vspace{-2mm}
 \paratitle{Dominik Scharnagl}
 Der gr\"o{\ss}te Anreiz f\"ur mich war weniger zu verstehen, wie ein Game Boy Advance Spiel emuliert wird, sondern viel mehr, wie man einen Emulator - am praktischen Beispiel mGBA - umsetzen und implementieren kann. Das zeigt sich auch in der Wahl der von mir ausformulierten Themen und Abschnitte wieder.
 
+\vspace{-2mm}
 \paratitle{Florian Boemmel}
 F\"ur mich pers\"onlich war es sehr interessant einen Blick hinter die Kulissen der Audioverarbeitung des mGBA zu werfen. Ich hatte bereits einige male mit grafischen Oberfl\"achen zu tun. Jedoch kam dabei das Thema Audio nicht zum Einsatz, da dieses Thema recht komplex ist. Eine praktische Umsetzung, in diesem Fall der mGBA, zu analysieren brachte mir die Audio-Verarbeitung ein gutes St\"uck n\"aher. 
 
-\newpage
+\vspace{-2mm}
 \paratitle{Ngoc Luu Tran}
 Als Jemand der noch nie richtige Ber\"uhrungspunkte mit Reverse Engineering hatte, fand ich das Thema der Studienarbeit sehr Interessant. So war f\"ur mich das Arbeiten mit IDA Pro v\"ollig neu und mit viel Trial und Error verbunden. Am Ende konnte ich dann doch trotz fehlendem Wissen \"uber MIDI Dateien vieles \"uber die Verarbeitung und Speicherung von Musik in Game Boy Advance Spielen lernen.
 
