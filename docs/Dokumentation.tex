@@ -248,8 +248,8 @@ Die Untersuchung wird in vier Unterthemen gegliedert:
 
 \begin{itemize}
     \item Erstellung eines Beispielprogramms (siehe Abschnitt \ref{Plattformen} und Abschnitt \ref{Softwareentwicklung})
-    \item Untersuchung der Fragestellung mit Hilfe eines Beispielprogrammes (siehe Abschnitt \ref{Assemblercode})
-    \item Untersuchung der Interaktion des Beispielprogrammes mit dem Emulator (siehe Abschnitt \ref{EmulationGameBoyAdvance})
+    \item Untersuchung der Fragestellung mit Hilfe eines Programmes (siehe Abschnitt \ref{Assemblercode})
+    \item Untersuchung der Interaktion eines Programmes mit dem Emulator (siehe Abschnitt \ref{EmulationGameBoyAdvance})
     \item Untersuchung der Interaktion von Emulator und Betriebssystem (siehe Abschnitt \ref{EmulationSoundsystem})
 \end{itemize}
 
@@ -259,7 +259,7 @@ Die Untersuchung wird in vier Unterthemen gegliedert:
 \begin{itemize}
     \item \textbf{Betriebssysteme}: Ubuntu 16.0 x64, Windows 10 x64, macOS 10.13.4
     \item \textbf{Disassembler}: IDA Pro, Sappy
-    \item \textbf{Emualtor}: mGBA
+    \item \textbf{Emulator}: mGBA
     \item \textbf{SDK}: devkitPro
     \item \textbf{IDE's}: Programmer's Notepad, Visual Studio Code, Eclipse, Qt Creator
 \end{itemize}
@@ -488,7 +488,7 @@ Wenn DMA f\"ur Direct Sound verwendet wird, dann wird DMA den FIFO-Puffer zur\"u
 
 \newpage	
 \paratitle{Master Sound Output Control / Status} \label{mastersoundoutputcontrol}
-Aus diesem Register kann zu einem der Status der einzelnen DMG Kan\"ale ausgelesen werden und zum Anderen die generelle Soundausgabe aktiviert werden. Dazu muss das Bit 7 gesetzt werden.
+Aus diesem Register kann zum einen der Status der einzelnen DMG Kan\"ale ausgelesen werden und zum Anderen die generelle Soundausgabe aktiviert werden. Dazu muss das Bit 7 gesetzt werden.
 
 \begin{table}[h]
 	\centering
@@ -514,7 +514,7 @@ Aus diesem Register kann zu einem der Status der einzelnen DMG Kan\"ale ausgeles
 	\label{table:MasterSoundOutputControlStatusRegister}
 \end{table}
 
-Die Bits 0-3 geben ausschlie{\ss}lich dar\"uber Auskunft, welcher Kanal aktuelle bespielt wird und nicht ob dieser eingeschaltet ist. Zum Ein- und Ausschalten eines Kanals dient das DMG Master Control Register (siehe Abschnitt \ref{dmgmastercontrol}).
+Die Bits 0-3 geben ausschlie{\ss}lich dar\"uber Auskunft, welcher Kanal aktuell bespielt wird und nicht ob dieser eingeschaltet ist. Zum Ein- und Ausschalten eines Kanals dient das DMG Master Control Register (siehe Abschnitt \ref{dmgmastercontrol}).
 
 
 % ========== Chapter 2.2 ==========
@@ -532,18 +532,18 @@ DevkitPro ist eine Organisation welche sich auf Cross-Compiler f\"ur beliebte Vi
 
 Das Ziel dabei ist es Hobby und Amateur Videospielentwicklern eine Plattform zu bieten, in welcher sie wertvolle Erfahrungen im Programmieren f\"ur Ressourcen limitierte Ger\"ate sammeln k\"onnen. Im Idealfall k\"onnen sie die gesammelten Erfahrungen dann auf eine Karriere in der Videospielentwicklung \"ubertragen.
 
-Angefangen hat alles im Jahre 2003 mit dem Cross-Compiler namens devkitARM, welcher es erm\"oglichte Spiele f\"ur den Gambe Boy Advance zu entwickeln. Mittlerweile umfasst das Angebot nicht nur den Gambe Boy Advance, sondern auch den Nintendo GameCube, Nintendo Wii, GP32, Nintendo DS, GP2X und die Nintendo Switch. 
+Angefangen hat alles im Jahre 2003 mit dem Cross-Compiler namens devkitARM, welcher es erm\"oglichte Spiele f\"ur den Game Boy Advance zu entwickeln. Mittlerweile umfasst das Angebot nicht nur den Game Boy Advance, sondern auch den Nintendo GameCube, Nintendo Wii, GP32, Nintendo DS, GP2X und die Nintendo Switch. 
 
-DevkitARM ist dabei nicht nur die erste Toolchain f\"ur Videospielkonsolen, sondern sie ist bis dato auch die beliebteste unter den Toolchains. So kammen \"uber die Jahre immer weitere ARM basierende Konsolen hinzu und entwickelte sich somit allgemein zu einen der besten Windows basierenden Entwicklertools f\"ur ARM-Ger\"ate. 
+DevkitARM ist dabei nicht nur die erste Toolchain f\"ur Videospielkonsolen, sondern sie ist bis dato auch die beliebteste unter den Toolchains. So kamen \"uber die Jahre weitere ARM basierende Konsolen hinzu w\"ahrend sich die Entwicklertools zu einer der besten Windows-basierten Toolchains f\"ur ARM-Ger\"ate entwickelten. 
 
 % ========== Chapter 2.2.2 ==========
 
 \subsubsection{Belogic}
 \AutorNgoc
  
-Belogic ist eine Webseite welche einen Audio Development f\"ur Game Boy Advance Spiele n\"aher bringt. Die Seite ist insofern Hilfreich, da einen nicht nur die ganzen Sound Register erkl\"art werden, sondern auch jeder der 6 Channels. Zus\"atzlich wird zu jedem der 6 Channels auch ein Beispiel ROM mit entsprechendem Sourcecode zu Verf\"ugung gestellt.
+Belogic ist eine Webseite welche einem das Audio Development f\"ur Game Boy Advance Spiele n\"aher bringt. Die Seite ist insofern hilfreich, da sie nicht nur die notwendigen Sound Register erkl\"art, sondern auch jeden der 6 Channels beschreibt. Zus\"atzlich wird zu jedem der 6 Channels auch ein Beispiel ROM mit entsprechendem Sourcecode zu Verf\"ugung gestellt.
 
-Im Sourcecode gibt es auch ein entsprechenden Header, bei welchem schon alle Register und Sound Channels vordefiniert sind.
+Im Sourcecode gibt es auch eine entsprechende Header-Datei, in der bereits alle Register und Sound Channels vordefiniert sind.
 
 \vspace{5mm}
 \begin{lstlisting}[language=C++, caption={1. Ausschnitt aus Belogic gba.h}, label={list:gbaheader2}]
@@ -562,7 +562,7 @@ Im Sourcecode gibt es auch ein entsprechenden Header, bei welchem schon alle Reg
 	...
 \end{lstlisting}
 
-So erleichtert es einem das Programmieren auf Dauer doch sehr Erheblich, wenn man anstelle von "`*(vu16*)0x4000064 = 0x8000"', um den Sound Neustarten zulassen, "`REG\_SOUND1CNT\_X = SOUND1INIT"' schreiben kann.
+So erleichtert es einem das Programmieren auf Dauer doch sehr erheblich, wenn man anstelle von \enquote{*(vu16*)0x4000064 = 0x8000}, um den Sound Neustarten zu lassen, \enquote{REG\_SOUND1CNT\_X = SOUND1INIT} schreiben kann.
 \newpage
 \vspace{5mm}
 \begin{lstlisting}[language=C++, caption={2. Ausschnitt aus Belogic gba.h}, label={list:gbaheader1}]
@@ -582,98 +582,97 @@ So erleichtert es einem das Programmieren auf Dauer doch sehr Erheblich, wenn ma
 \subsubsection{\enquote{Sappy}}
 \AutorNgoc
 
-Die von Nintendo bereitgestellte Sound-Engine, welche von der Mehrheit der kommerziellen Game Boy Advance Spielen genutzt wird, wird in der Rom-Hacking-Szene Sappy genannt. 
+Die von Nintendo bereitgestellte Sound-Engine, welche von der Mehrheit der kommerziellen Game Boy Advance Spielen genutzt wird, wird in der ROM-Hacking-Szene Sappy genannt. 
 Der Name der Engine stammt von einem Programm namens Sappy, welches Musik aus den Game Boy Advance Spielen extrahiert und diese in MIDI-Dateien konvertiert.
 
 
 Videospielentwickler komponieren ihre Musik als Standard MIDI-Datei oder als Trackermodul und konvertieren diese dann mithilfe eines Programms in das \enquote{Sappy-Format}. Dieses Format ist sehr \"ahnlich zu der MIDI-Datei und besteht unter anderem aus Key-On, Key-Off und Delta-T Werten. Jedoch wird das Sappy-Format effizienter gespeichert und wurde speziell f\"ur Videospiele entwickelt um zus\"atzlich noch sowas wie Soundeffekte abzuspielen.
 
-Die Daten werden normalerweise in folgender Reihenfolge auf dem GBA-ROM gespeichert:
-\vspace{15pt}
+Die Daten werden normalerweise in folgender Reihenfolge im GBA-ROM gespeichert:
+
 \begin{itemize}
-\item Definitionen der Instrument Banks
-\begin{itemize}
-\item Sampled Instrument, Programmable-Sound-Generator (PSG) Instrument
+    \item Definitionen der Instrument Banks
+    \begin{itemize}
+        \item Sampled Instrument
+        \item Programmable-Sound-Generator (PSG) Instrument
+    \end{itemize}
+    
+    \item Key-Split Instrument Daten
+    \begin{itemize}
+        \item Key-Split
+        \item Every Key-Split
+    \end{itemize}
+    
+    \item Game Boy Channel 3 Waveform Daten
+    \item Track-Group RAM Zeiger
+    \item Musik / SFX Zeiger
+    \item Samples
+    \item Daten f\"ur jeden Track
+    \item Zeiger auf jeden Track
 \end{itemize}
-\item Key-split Instrument Daten
-\begin{itemize}
-\item Key Split, Every Key-Split
-\end{itemize}
-\item Gameboy Channel 3 Waveform Daten
-\item Track-Group RAM Zeiger
-\item Musik/SFX Zeiger
-\item Samples
-\item Daten f\"ur jeden Track
-\item Zeiger auf jeden Track
-\end{itemize}
-\vspace{15pt}
 
-Die Daten m\"ussen nicht Zwangsl\"aufig in dieser Reihenfolge in einer ROM gespeichert sein und es ist ebenso m\"oglich, dass andere Daten dazwischen verschachtelt sind.
+Die Daten m\"ussen nicht zwangsl\"aufig in dieser Reihenfolge in einer ROM gespeichert sein und es ist ebenso m\"oglich, dass andere Daten dazwischen verschachtelt abgelegt werden.
 
-\vspace{15pt}
-\textbf{{\large Voice Tabelle}}
-
-Eine Voice Tabelle ist eine Ansammlung Zeigern zu Instrumenten, welches der Song benutzten kann. Diese besteht f\"ur gew\"ohnlich aus 127 Instrumenten, obwohl manche davon ungenutzt sein k\"onnen. 
-
-So beinhaltet dieser unter anderen Sampled Instrument, PSG Instrument, Sub-Instrument, Key-Split Instrumente und Every-Key-Split Instrumente.
+\paratitle{Voice Tabelle}
+Eine Voice Tabelle ist eine Ansammlung von Zeigern auf Instrumenten, welche der Song benutzten kann. Diese besteht f\"ur gew\"ohnlich aus 127 Instrumenten, obwohl manche davon ungenutzt sein k\"onnen. So beinhaltet diese unter anderen die Instrumente: Sampled Instrument, PSG Instrument, Sub-Instrument, Key-Split Instrument und Every-Key-Split Instrument.
 
 \newpage
-\paratitle{Definition der Generischen Instrumenten Daten}
-Jede Definition von einem Instrument oder Sub-Instruments besteht aus 12 Bytes, dabei gibt das erste Byte an um welchen Typen von Instrument es sich handelt.
+\paratitle{Definition der generischen Instrument-Daten}
+Jede Definition eines Instruments oder Sub-Instruments besteht aus 12 Bytes, dabei gibt das erste Byte an um welchen Typen von Instrument es sich handelt.
 
 \begin{table}[h]
     \centering
     \begin{tabular}{ c | p{15cm} }
         \textbf{HEX-Zahl} & \textbf{Instrumenten-Typ} \\
         \hline
-        0x00 & Sample (GBA Direct Sound channel) \\
+        0x00 & Sample (GBA Direct Sound Channel) \\
         \hline
-        0x01 & Rechteckwellengenerator (Game Boy channel 1) \\
+        0x01 & Rechteckwellengenerator (Game Boy Channel 1) \\
         \hline
-        0x02 & Rechteckwellengenerator (Game Boy channel 2) \\
+        0x02 & Rechteckwellengenerator (Game Boy Channel 2) \\
         \hline
-        0x03 & PSG Programmable Waveform (Game Boy channel 3) \\
+        0x03 & PSG Programmable Waveform (Game Boy Channel 3) \\
         \hline
-        0x04 & Rauschgenerator (Game Boy channel 4) \\
+        0x04 & Rauschgenerator (Game Boy Channel 4) \\
         \hline
-        0x08 & Sample (GBA Direct Sound channel) that is never resampled (always playing at the engine's rate) \\
-				\hline
+        0x08 & Sample (GBA Direct Sound Channel) \\
+        \hline
         0x09-0x0C & selbige wie 0x01-0x04\\
-				\hline
-        0x40 & Key split instrument  : Points to different sub-instruments depending on MIDI key \\
-				\hline
-        0x80 & Every Key split instrument / percussion : Each MIDI key points to its own sub-instrument anything else = invalid (the engine crashes) \\
+        \hline
+        0x40 & Key-Split Instrument : Zeigt auf verschiedene Sub-Instrumente \\
+        \hline
+        0x80 & Every Key-Split Instrument / Percussion : Jeder MIDI-Schl\"ussel zeigt auf sein eigenes Sub-Instrument, jeder andere ist un\"ultig und f\"uhrt zum Absturz der Engine  \\
     \end{tabular}
-    \caption{\"ubersicht des Instrumententypes}
+    \caption{\"Ubersicht der Instrumententypen}
     \label{table:InstrumentenTyp}
 \end{table}
 
 \paratitle{Sampled Instrument / Sub-Instrument Format}
-Um ein Sampled Instrument unver\"andert, also ohne Anwendung von Attack, Decay, Sustain und Release abzuspielen, werden die Werte 0xFF, 0x00, 0xFF, 0x00 verwendet.
+Um ein Sampled Instrument unver\"andert, also ohne Anwendung von Attack, Decay, Sustain und Release abzuspielen, werden die Werte 0xFF, 0x00, 0xFF und 0x00 verwendet.
 
 \begin{table}[h]
     \centering
     \begin{tabular}{ c | p{15cm} }
         \textbf{Byte-Gr\"o{\ss}e} & \textbf{Definition} \\
         \hline
-				1 & 0x00 (normal) oder 0x08 (nicht resampled) \\
-				\hline
-        1 & MIDI key (only used as percussion sub-instrument) \\
-				\hline
+        1 & 0x00 (normal) oder 0x08 (nicht resampled) \\
+        \hline
+        1 & MIDI-Schl\"ussel (wird nur bei Percussion Sub-Instrumenten verwendet) \\
+        \hline
         1 & nicht genutzt (immer 0) \\
-				\hline
-        1 & panning (only used as percussion sub-instrument).
-         If bit 7 is set, the lower 7 bits forces the panning value for this key. Otherwise, the channel's panning is used \\
-				\hline
-        4 & Pointer zu Sample Dateien \\
-				\hline
-				1 & Attack-Wert (8-bit : 0x01 = l\"angster Attack, 0xFF = kein Attack) \\
         \hline
-        1 & Decay-Wert (8-bit : 0x00 = kein Decay, 0xFF = l\"angster Decay) \\ 
+        1 & Panning (wird nur bei Percussion Sub-Instrumenten verwendet)\newline
+        Wenn das 7te Bit gesetzt ist, dann erzwingen die niederwertigen Bits das Panning des Wertes f\"ur diesen Schl\"ussel. Andernfalls wird das Panning des Kanals verwendet. \\
         \hline
-				1 & Sustain-Level (8-bit : 0x00 = Sustain zu Stumm, 0xFF = Sustain zur vollen Lautstl\"arke) \\
+        4 & Pointer zu den Sample Daten \\
         \hline
-        1 & Release-Wert (8-bit : 0x00 = sofortiger Release, 0xFF = l\"angster Release) \\
+        1 & Attack-Wert (8-Bit : 0x01 = l\"angster Attack, 0xFF = kein Attack) \\
+        \hline
+        1 & Decay-Wert (8-Bit : 0x00 = kein Decay, 0xFF = l\"angster Decay) \\
+        \hline
+        1 & Sustain-Level (8-Bit : 0x00 = Sustain zu Stumm, 0xFF = Sustain zur vollen Lautst\"arke) \\
+        \hline
+        1 & Release-Wert (8-Bit : 0x00 = sofortiger Release, 0xFF = l\"angster Release) \\
     \end{tabular}
     \caption{Sampled Instrument / Sub-Instrument Format}
     \label{table:SampleInstrument}
@@ -682,150 +681,146 @@ Um ein Sampled Instrument unver\"andert, also ohne Anwendung von Attack, Decay, 
 
 \newpage
 \paratitle{PSG Instrument / Sub-Instrument Format}
-Um ein PSG Instrument unver\"andert, also ohne Anwendung von Attack, Decay, Sustain und Release abzuspielen, werden die Werte 0xFF, 0x00, 0xFF, 0x00 verwendet.
+Um ein PSG Instrument unver\"andert, also ohne Anwendung von Attack, Decay, Sustain und Release abzuspielen, werden die Werte 0xFF, 0x00, 0xFF und 0x00 verwendet.
 
 \begin{table}[h]
     \centering
     \begin{tabular}{ c | p{15cm} }
         \textbf{Byte-Gr\"o{\ss}e} & \textbf{Definition} \\
-				\hline
-				1 & PSG Channel (0x01 = square 1, 0x02 = square 2, 0x03 = Programmierbare Waveform, 0x04 = Noise) \\
-				\hline
+        \hline
+        1 & PSG Channel (0x01 = square 1, 0x02 = square 2, 0x03 = Programmierbare Waveform, 0x04 = Noise) \\
+        \hline
         1 & MIDI Key (wird nur als Percussion Sub-Instrument verwendet)\\
-				\hline
-        1 & Hardware Time length Control (0x00 um Time length zu deaktivieren)\\
-				\hline
+        \hline
+        1 & Hardware Time Length Control (0x00 um Time Length zu deaktivieren)\\
+        \hline
         1 & Sweep Control (nur Square 1 Channel, 0x08 um Sweep zu deaktivieren) \\
-				\hline
+        \hline
         4 & Square Channel:\newline
-					1 Byte = Duty Cycle (0=12,5\%, 1=25\%, 2=50\%, 3=75\%)\newline
-					3 Bytes = 0x0000\newline		
-					Noise Channel:\newline	
-					1 Byte = Steuert Noise's Periode (0 = Normal (32767 Samples), 1 = Metallic (127 Samples)) \newline
-					3 bytes = 0x0000
-					\newline
-					Programmierbarer Channel:\newline
-                4 bytes = Zeiger auf 16-Byte Waveform-Datei \\
-				\hline
-        1 & Attack-Wert (8-bit : 0x01 = l\"angster Attack, 0xFF = kein Attack)\\
-				\hline
-        1 & Decay-Wert (8-bit : 0x00 = kein Decay, 0xFF = l\"angster Decay) \\
-				\hline
-        1 & Sustain-Level (8-bit : 0x00 = Sustain zu Stumm, 0xFF = Sustain zur vollen Lautstl\"arke) \\
-				\hline
-        1 & Release-Wert (8-bit : 0x00 = sofortiger Release, 0xFF = l\"angster Release) \\
-				
+        1 Byte = Duty Cycle (0=12,5\%, 1=25\%, 2=50\%, 3=75\%)\newline
+        3 Bytes = 0x0000\newline
+        Noise Channel:\newline	
+        1 Byte = Steuert Noise's Periode (0 = Normal (32767 Samples), 1 = Metallic (127 Samples)) \newline
+        3 Bytes = 0x0000\newline
+        Programmierbarer Channel:\newline
+        4 Bytes = Zeiger auf 16-Byte Waveform-Datei \\
+        \hline
+        1 & Attack-Wert (8-Bit : 0x01 = l\"angster Attack, 0xFF = kein Attack)\\
+        \hline
+        1 & Decay-Wert (8-Bit : 0x00 = kein Decay, 0xFF = l\"angster Decay) \\
+        \hline
+        1 & Sustain-Level (8-Bit : 0x00 = Sustain zu Stumm, 0xFF = Sustain zur vollen Lautst\"arke) \\
+        \hline
+        1 & Release-Wert (8-Bit : 0x00 = sofortiger Release, 0xFF = l\"angster Release) \\
     \end{tabular}
-    \caption{PSG Instrument / Sub-instrument Format}
+    \caption{PSG Instrument / Sub-Instrument Format}
     \label{table:PSGInstrument}
 \end{table}
 \vspace{-5pt}
 
 \paratitle{Square \& Noise Channels}
-Da die H\"ullkurve durch das ansteigen bzw. verringern des Hardware Volume Registers bestimmt wird, unterscheidet die sich grunds\"atzlich von den  Software emulierten Attack, Decay, Sustain und Release des Sampled Instrument.
+Da die H\"ullkurve durch das Ansteigen bzw. das Verringern des Hardware Volume Registers bestimmt wird, unterscheidet sie sich grunds\"atzlich vom Software emulierten Attack, Decay, Sustain und Release des Sampled Instrument.
 
-Ein Beispiel hierf\"ur w\"ahre wenn Volume auf 6 ist, wird ein Attack von \enquote{3} doppelt so schnell ausgef\"uhrt wie der Attack von \enquote{3} wenn Volume 12 ist. Dies geschieht, weil Volume unabh\"angig vom Volume Wert, in der gleichen Rate ansteigt.
+Ein Beispiel hierf\"ur w\"ahre wenn das Volume auf dem Wert 6 steht, dass ein Attack von \enquote{3} doppelt so schnell ausgef\"uhrt wird, wie der Attack mit dem Wert \enquote{3} wenn das Volume auf dem Wert 12 steht. Dies geschieht, weil unabh\"angig vom Volume Wert, in der gleichen Rate der Volume ansteigt.
 
-Zus\"atzlich kommt zu diesem Problem hinzu, dass bei jeder \"anderung von Volume in den Tracks sich Attack, Decay, Sustain und Release zur\"ucksetzen. Dies wiederum setzt den Sound zur\"uck, welches in ein \enquote{klick} Sound resultiert. Das kann auch in Spiele, welche Musik Volume ein und aus blenden, geh\"ohrt werden. Aus diesem Grund sollten Volume-\"anderungen vermieden werden und stattdessen falls m\"oglich Attack, Decay, Sustain und Release verwendet werden.
+Zus\"atzlich kommt zu diesem Problem hinzu, dass bei jeder \"Anderung der Volume in den Tracks sich Attack, Decay, Sustain und Release zur\"ucksetzen. Dies wiederum setzt den Sound zur\"uck, welches in einem \enquote{klick}-Sound resultiert. Das kann auch in Spielen, welche Musik Volume ein- und ausblenden, geh\"ohrt werden. Aus diesem Grund sollten Volume\"anderungen vermieden werden und stattdessen falls m\"oglich Attack, Decay, Sustain und Release verwendet werden.
 
 \paratitle{Programmierbarer Waveform Channel}
-Die H\"ullkurve wird mit den vier Level welche f\"ur Volume zuverf\"ugung steht (25\%, 50\%, 75\% and 100\%) von der Software simuliert. Deswegen kann die H\"ullkurve sehr abgehackt und grob klingen, da nur sowenig Level zuverf\"ugung stehen. Jedoch leidet dieser Channel nicht unter dem Problem des Klickens bei Volume-\"anderung, wie bei den Square \& Noise Channels.
+Die H\"ullkurve wird mit einen der vier Level welche f\"ur Volume zur Verf\"ugung stehen (25\%, 50\%, 75\% and 100\%) von der Software simuliert. Deswegen kann die H\"ullkurve sehr abgehackt und grob klingen, da nur so wenig Level zur Verf\"ugung stehen. Jedoch leidet dieser Channel nicht unter dem Problem des Klickens bei Volume\"anderung, wie bei den Square \& Noise Channels.
 
 
 \newpage
-\paratitle{Key-Split/Every Key-Split Instrumente}
+\paratitle{Key-Split / Every Key-Split Instrumente}
 
 \begin{table}[h]
     \centering
     \begin{tabular}{ c | p{7,5cm} | p{7,5cm}}
         \textbf{Byte-Gr\"o{\ss}e} & \textbf{Key Split Definition} & \textbf{Every Key-Split Definition}\\
         \hline
-        1 & 0x40 & 0x80\\
-				\hline
-        3 & 0x00 & 0x00\\
-				\hline
-        4 & Zeiger auf ersten Sub-Instrument & Zeiger auf Percussion Tabelle \\
-				\hline
-        4 & Zeiger auf Key Split Tabelle & 0x00\\
+        1 & 0x40 & 0x80 \\
+        \hline
+        3 & 0x00 & 0x00 \\
+        \hline
+        4 & Zeiger auf erstes Sub-Instrument & Zeiger auf Percussion Tabelle \\
+        \hline
+        4 & Zeiger auf Key-Split Tabelle & 0x00\\
     \end{tabular}
-    \caption{Key-Split/Every Key-Split Instrumente}
+    \caption{Key-Split / Every Key-Split Instrumente}
     \label{table:EveryKey-SplitInstrument}
 \end{table}
 
 
 \paratitle{Key-Split}
-Die Key-Split Tabelle hat eine L\"ange von 128 Bytes und gibt Informationen dar\"uber welches Sub-Instrument bei welchem MIDI-Key (1 Byte) genutzt wird. 
-Die Position des benutzten Sub-Instrumentes ist:\newline 12 * KeySplitTable[MidiKey] + Zeiger auf ersten Sub-Instrument
+Die Key-Split Tabelle hat eine L\"ange von 128 Bytes und gibt Informationen dar\"uber welches Sub-Instrument bei welchem MIDI-Key (1 Byte) genutzt wird. Die Position des benutzten Sub-Instrumentes ist:\newline
+12 * KeySplitTable[MidiKey] + Zeiger auf erstes Sub-Instrument
 
 \paratitle{Every Key-Split}
-Die Position des benutzten Sub-Instrumentes ist:\newline 12 * MidiKey + Zeiger auf Percussion Tabelle.\newline
+Die Position des benutzten Sub-Instrumentes ist:\newline
+12 * MidiKey + Zeiger auf Percussion Tabelle.\newline
 Der MIDI-Key und das Panning des spezifizierten Instruments wird nur hier benutzt.
 
 
-\paratitle{Ungenutztes Instrumente}
+\paratitle{Ungenutztes Instrument}
 HEX-Folge von einem ungenutzten Instrument:
 
 0x01, 0x3C, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0F, 0x00
 
-Aus irgendeinem Grund werden nicht genutzte Instrumente in der Sappy Sound Engine immer gleich definiert. W\"urde diese mutwillig Abgespielt werden, w\"urde es sich um ein PSG Square 1 ohne richtig aktivierten Sweep handeln (tiefe Oktaven werden nciht abgespielt).
+Aus irgendeinem Grund werden nicht genutzte Instrumente in der Sappy Sound Engine immer gleich definiert. W\"urde diese mutwillig abgespielt werden, w\"urde es sich um ein PSG Square 1 ohne richtig aktivierten Sweep handeln (tiefe Oktaven werden nicht abgespielt).
 		
-\paratitle{\large 16-Byte programmaierbare Waveform Format}
-Die Waveform besteht aus 32 4-Bit Puls-Code-Modulation (PCM) Samples, Big Endian, Unsigned (0 = niedriges Level, F = H\"oheres Level) f\"ur Insgesamt 16-bytes pro Waveform.
+\paratitle{16-Byte programmierbares Waveform Format}
+Die Waveform besteht aus 32 4-Bit Puls-Code-Modulation (PCM) Samples, Big Endian, Unsigned (0 = niedriges Level, F = h\"oheres Level) f\"ur insgesamt 16-Bytes pro Waveform.
 
 Zum Beispiel:
 
 0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF, 0xFE, 0xDC, 0xBA, 0x98, 0x76, 0x54, 0x32, 0x10
 
-Die konstante Erh\"ohung bis 0xFE und dann konstanter Fall des Wertes,wird eine Triangle Wave produzieren.
+Die konstante Erh\"ohung bis 0xFE und dann konstanter Fall des Wertes, wird eine Triangle Wave produzieren.
 
-Der Game Boy Advance besitzt auch ein 64 Sample-Modus, jedoch keine bekannte M\"oglichkeit diesen Modus auszul\"osen.
+Der Game Boy Advance besitzt auch einen 64 Sample-Modus, jedoch keine bekannte M\"oglichkeit diesen Modus auszul\"osen.
 
 \newpage
 \paratitle{Track-Gruppen RAM Zeiger Format}
-Die Sappy Sound Engine kann mehrere \enquote{Gruppen von Tracks} gleichzeitig wiedergeben, so k\"onnen Sound-Effekte abgespielt werden w\"ahrend Hintergrundmusik l\"auft. Verschiedene Spiele handhaben die Gruppen auf verschiedene Wegen.
+Die Sappy Sound Engine kann mehrere \enquote{Gruppen von Tracks} gleichzeitig wiedergeben, so k\"onnen Sound-Effekte abgespielt werden w\"ahrend Hintergrundmusik l\"auft. Verschiedene Spiele handhaben die Gruppen auf verschiedene Weisen.
 
 \begin{table}[h]
     \centering
     \begin{tabular}{ c | p{15cm} }
-        \textbf{Byte-Gr\"o{\ss}e} & \textbf{Definition}\\
+        \textbf{Byte-Gr\"o{\ss}e} & \textbf{Definition} \\
         \hline
-        4 & Zeiger auf Track-Gruppen Variablen, besteht aus 0x40 Bytes\\
-				\hline
-        4 & Zeiger auf Track Variablen, jeder Track besteht aus 0x50 Bytes\\
-				\hline
-        1 & Maximale Anzahl von Tracks f\"ur diese Gruppe. Falls versucht wird ein Song mit mehr Tracks abzuspielen, werden die \"uberschrittenen Tracks ignoriert und nciht abgespielt\\
-				\hline
+        4 & Zeiger auf Track-Gruppen Variablen, besteht aus 0x40 Bytes \\
+        \hline
+        4 & Zeiger auf Track Variablen, jeder Track besteht aus 0x50 Bytes \\
+        \hline
+        1 & Maximale Anzahl von Tracks f\"ur diese Gruppe. Falls versucht wird ein Song mit mehr Tracks abzuspielen, werden die \"uberschrittenen Tracks ignoriert und nicht abgespielt \\
+        \hline
         3 & 0x00, 0x00, 0x00\\
     \end{tabular}
     \caption{Track-Gruppen RAM Zeiger Format}
     \label{table:RAMZeiger}
 \end{table}
 
-Die Sappy Sound Engine kann mehrere "Gruppen von Tracks" gleichzeitig wiedergeben, so k\"onnen Sound-Effekte abgespielt werden w\"ahrend Hintergrundmusik l\"auft. Verschiedene Spiele handhaben die Gruppen auf verschiedene Wegen.
+Allem Anschein nach weis das Spiel beim Start eines Songs nicht in welcher Gruppe es anf\"angt, dies wird von der Song Zeiger Struktur entschieden. Danach k\"onnen aber Volume, Panning und andere Einstellungen durch Referenzen zur Gruppe, in welcher die Songs spielen, ver\"andert werden.
 
-Allen Anschein nach wei{\ss} das Spiel beim Start eines Songs nicht in welcher Gruppe es Anf\"angt, dies wird von der Song Zeiger Struktur entschieden. Danach kann aber Volume, Panning und andere Einstellungen durch Referenzen zur Gruppe, in welcher die Songs spielen, ver\"andert werden.
-
-Jeder Track in jeder Gruppe hat sein eigenen Satz an Zeigern und Z\"ahler welche von der Sound Engine genutzt werden und sich im RAM befinden. Je mehr Tracks und Track Gruppen f\"ur ein Spiel ben\"otigt werden, desto mehr RAM wird beansprucht.\newline
-Die Track Gruppe beansprucht dabei im IWRAM, welches im Game Boy Advance auf 0x3000000 abgebildet ist, 12 Bytes an Zeiger. 
+Jeder Track in jeder Gruppe hat sein eigenen Satz an Zeigern und Z\"ahler welche von der Sound Engine genutzt werden und sich im RAM befinden. Je mehr Tracks und Track Gruppen f\"ur ein Spiel ben\"otigt werden, desto mehr RAM wird beansprucht. Die Track Gruppe beansprucht dabei im IWRAM, welcher im Game Boy Advance auf 0x3000000 abgebildet ist, 12 Bytes f\"ur Zeiger.
 
 
 \paratitle{Song Zeiger Format}
-Obwohl die Track Gruppe zweimal vorkommt scheint diese immer Gleich zu sein. \"andert man diese so ab, dass sie sich von einander Unterscheiden, scheint nur die erste Track Gruppe einen Effekt zuhaben.
+Obwohl die Track Gruppe zweimal vorkommt scheint diese immer gleich zu sein. \"Andert man diese so ab, dass sie sich von einander unterscheiden, scheint nur die erste Track Gruppe einen Effekt zu haben.
 
 \begin{table}[h]
     \centering
     \begin{tabular}{ c | p{8cm} }
-        \textbf{Byte-Gr\"o{\ss}e} & \textbf{Definition}\\
+        \textbf{Byte-Gr\"o{\ss}e} & \textbf{Definition} \\
         \hline
-        4 & Zeiger auf Song-Header\\
-				\hline
-        1 & Track Gruppe\\
-				\hline
-        1 & 0x00\\
-				\hline
-        1 & Track Gruppe\\
-				\hline
-        1 & 0x00\\
+        4 & Zeiger auf Song-Header \\
+        \hline
+        1 & Track Gruppe \\
+        \hline
+        1 & 0x00 \\
+        \hline
+        1 & Track Gruppe \\
+        \hline
+        1 & 0x00 \\
     \end{tabular}
     \caption{Song Zeiger Format}
     \label{table:SongZeiger}
@@ -838,29 +833,29 @@ Jedes Sample kommt mit einem 16-Byte Header gefolgt von einer variablen Datenl\"
 
 \begin{table}[h]
     \centering
-    \begin{tabular}{ c | p{15cm} }
-        \textbf{Byte} & \textbf{Definition}\\
-				\hline
-        3 & 0x00, 0x00, 0x00\\
-				\hline
-        1 & 0x00 f\"ur nicht geloopte Sample, 0x40 f\"ur geloopte Sample\\
-				\hline
-        4 & Pitch anpassung\\
-				\hline
-        4 & Loop relativ zum Startpunkt\\
-				\hline
-        4 & Gr\"o{\ss}e der Sample\\
+    \begin{tabular}{ c | p{15cm}}
+        \textbf{Byte} & \textbf{Definition} \\
+        \hline
+        3 & 0x00, 0x00, 0x00 \\
+        \hline
+        1 & 0x00 f\"ur nicht geloopte Sample, 0x40 f\"ur geloopte Sample \\
+        \hline
+        4 & Pitch anpassung \\
+        \hline
+        4 & Loop relativ zum Startpunkt \\
+        \hline
+        4 & Gr\"o{\ss}e der Sample \\
     \end{tabular}
     \caption{Sample Format}
     \label{table:SampleFormat}
 \end{table}
 
-Die 8-Bit signed PCM Sample Datei folgt umgehend.
+Die 8-Bit signed PCM Sample Daten folgt umgehend.
 
 Der Pitch Adjustement Wert wird mit folgender Formel berechnet:\newline
-Pitch Adjustement = 1024 * Sample-rate f\"ur Mid-C (Mid-C entspricht dem MIDI-Key \#60)
+Pitch Adjustement = 1024 * Sample-Rate f\"ur Mid-C (Mid-C entspricht dem MIDI-Key \#60)
 
-Das \"aquivalent von Pitch Adjustement zu verf\"ugbare Engine Sampling Rate (f\"ur mid-C Note) sind wie folgt:
+Die Definition der Engine Sampling Rate (f\"ur mid-C Noten) ist \"aquivalent zum Pitch Adjustement wie folgt definiert:
 
 \begin{tabbing}
     Links p{10cm} \= Links p{10cm} \=p{10cm} \= Links p{10cm}\= Links \kill
@@ -871,73 +866,72 @@ Das \"aquivalent von Pitch Adjustement zu verf\"ugbare Engine Sampling Rate (f\"
 		0xF66000  \>(15768 Hz)  \>\>0x2732400 \>(40137 Hz)\\
 		0x11BB400 \>(18157 Hz)  \>\>0x2910000 \>(42048 Hz)\\
 \end{tabbing}
-\vspace{-15pt}
+
 Diese Werte werden oft f\"ur Percussion Sounds und Soundeffekte genutzt, welche normalerweise bei Engine Sample Rate abgespielt werden.
 
 Wenn der Loop genau die Gr\"o{\ss}e von einer Schwingung einer geschleiften Waveform hat, kann der richtige Pitch auch wie folgt berechnet werden:\newline
 Pitch = 267905 * (Loop\_Ende - Loop\_Start)
 
 \paratitle{Track Format}
-Das Track Format ist das einzige Format welches nicht in 4-Byte Gruppiert wird.
+Das Track Format ist das einzige Format welches nicht in 4-Byte gruppiert wird.
 
 Im Gegensatz zu den meisten anderen Sound-Formaten in Spielen ist Polyphonie, also mehrere Noten gleichzeitig, im selben Track m\"oglich.
 
-Bytes zwischen 0x81-0xB0 sind Delta-T Werte, Bytes zwischen 0xB1-0xFF sind Befehle und Bytes zwischen 0x00-0x7F sind Argumente f\"ur Befehle.
-\enquote{Negative} Argumente 0x80-0xFF sind m\"oglich, jedoch f\"ur Gew\"ohnlich \enquote{verboten}.
+Bytes zwischen 0x81-0xB0 sind Delta-T Werte, Bytes zwischen 0xB1-0xFF sind Befehle und Bytes zwischen 0x00-0x7F sind Argumente f\"ur Befehle. \enquote{Negative} Argumente 0x80-0xFF sind m\"oglich, jedoch f\"ur gew\"ohnlich \enquote{verboten}.
 
 \newpage
 \begin{table}[!h]
     \centering
     \begin{tabular}{ c | p{11cm}| c | c}
-        \textbf{HEX-Zahl} & \textbf{Definition} & \textbf{Bytes} & \textbf{Wiederholbar}\\
+        \textbf{HEX-Zahl} & \textbf{Definition} & \textbf{Bytes} & \textbf{Wiederholbar} \\
         \hline
-        0x80 & Wait Tero Time & 1 & nein\\
+        0x80 & Wait Zero Time & 1 & nein \\
         \hline
-        0x81-0xB0 & Delta-T, je H\"oher desto L\"anger wird gewartet. Siehe Tabelle \ref{table:Timeout} unten & 1 & nein\\
+        0x81-0xB0 & Delta-T, je h\"oher desto l\"anger wird gewartet. Siehe Tabelle \ref{table:Timeout} unten & 1 & nein \\
         \hline
-        0xB1 & Ende des Tracks& 1 & nein\\
-				\hline
-        0xB2 & Sprungbefehl auf eine Adresse& 4 & nein\\
-				\hline
-        0xB3 & Ruft Subsection auf & 4 & nein\\
-				\hline
-        0xB4 & Ende der Subsection & 1 & nein\\
-				\hline
-        0xB5 & Ruft und Wiederholt Subsection & 5 & nein\\
-				\hline
-				0xB9 & Speicherinhalt bedingter Breakpoint & 3 & nein\\
-				\hline
-        0xBA & Bestimmt Track-Priorit\"at. H\"oherer Wert entspricht h\"ohere Priorit\"at & 1 & nein\\
-				\hline
-        0xBB & Tempo entspricht Beats per Minute geteilt durch zwei & 1 & nein\\
-				\hline
-        0xBC & Transponiert. Einziger Befehl, welches ein negatives Argument zul\"asst & 1 & nein\\
-				\hline
-        0xBD & Stellt Instrument ein & 1 & ja\\
-				\hline
-        0xBE & Stellt Lautst\"arke ein & 1 & ja\\
-				\hline
-        0xBF & Stellt Panning ein & 1 & ja\\
-				\hline
-        0xC0 & Tonh\"ohen\"anderungs-Wert. 0x41-0x7F und h\"oher \"andert es nach oben, 0x00-0x3F \"andert es nach unten, 0x40 ist der Original-Ton& 1 & ja\\
-				\hline
-        0xC1 & Tonh\"ohen\"anderungs-Reichweite. Argument ist die Anzahl von Halbt\"onen entfernt vom Oringal-Ton bei \"anderung zum Maximum bzw. Minimum& 1 & ja\\
-				\hline
-        0xC2 & Low Frequency Oscillator (LFO) Geschwindigkeit. Je H"{o}her desto Schneller & 1 & nein\\
-				\hline
-        0xC3 & LFO-Verz\"ogerung. Anzahl der Ticks welche runter gez\"ahlt werden bevor LFO startet & 1 & nein\\
-				\hline
-        0xC4 & LFO-Tiefe. Beeinflusst wie tief der LFO-Effekt ist & 1 & ja\\
-				\hline
-        0xC5 & LFO-Typ. W\"ahlt betroffene Variable, welche LFO modifiziert aus. 0 = Pitch (default), 1 = Lautst\"arke, 2 = Panning& 1 & nein\\
-				\hline
-        0xC8 & Verstimmt. 0x40 ist normaler Pitch, 0x00 ist ein Halbton tiefer und 0x7F ist ein Halbton h\"oher & 1 & ja\\
-				\hline
-        0xCE & Note aus & 1-2 & ja\\
-				\hline
-        0xCF & Note an & 1-2 & ja\\
-				\hline
-        0xD0-0xFF & Note an mit automatischem Time-out. Siehe Tabelle \ref{table:Timeout} unten & 1-3 & ja\\
+        0xB1 & Ende des Tracks & 1 & nein \\
+        \hline
+        0xB2 & Sprungbefehl auf eine Adresse & 4 & nein \\
+        \hline
+        0xB3 & Ruft Subsection auf & 4 & nein \\
+        \hline
+        0xB4 & Ende der Subsection & 1 & nein \\
+        \hline
+        0xB5 & Ruft und wiederholt Subsection & 5 & nein \\
+        \hline
+        0xB9 & Speicherinhalt bedingter Breakpoint & 3 & nein \\
+        \hline
+        0xBA & Bestimmt Track-Priorit\"at. H\"oherer Wert entspricht h\"ohere Priorit\"at & 1 & nein \\
+        \hline
+        0xBB & Tempo entspricht Beats je Minute geteilt durch zwei & 1 & nein \\
+        \hline
+        0xBC & Transponiert. Einziger Befehl, welches ein negatives Argument zul\"asst & 1 & nein \\
+        \hline
+        0xBD & Stellt Instrument ein & 1 & ja \\
+        \hline
+        0xBE & Stellt Lautst\"arke ein & 1 & ja \\
+        \hline
+        0xBF & Stellt Panning ein & 1 & ja \\
+        \hline
+        0xC0 & Tonh\"ohen\"anderungs-Wert. Ein Wert von 0x41-0x7F und gr\"o{\ss}er \"andert den Wert nach oben, 0x00-0x3F \"andert den Wert nach unten, 0x40 ist der Original-Ton & 1 & ja \\
+        \hline
+        0xC1 & Tonh\"ohen\"anderungs-Reichweite. Argument ist die Anzahl von Halbt\"onen entfernt vom Oringal-Ton bei \"Anderung zum Maximum bzw. Minimum& 1 & ja \\
+        \hline
+        0xC2 & Low Frequency Oscillator (LFO) Geschwindigkeit. Je h\"oher desto schneller & 1 & nein \\
+        \hline
+        0xC3 & LFO-Verz\"ogerung. Anzahl der Ticks welche runtergez\"ahlt werden, bevor LFO startet & 1 & nein \\
+        \hline
+        0xC4 & LFO-Tiefe. Beeinflusst wie tief der LFO-Effekt ist & 1 & ja \\
+        \hline
+        0xC5 & LFO-Typ. W\"ahlt betroffene Variable, welche LFO modifiziert wird aus. 0 = Pitch (default), 1 = Lautst\"arke, 2 = Panning& 1 & nein \\
+        \hline
+        0xC8 & Verstimmt. 0x40 ist normaler Pitch, 0x00 ist ein Halbton tiefer und 0x7F ist ein Halbton h\"oher & 1 & ja \\
+        \hline
+        0xCE & Note aus & 1-2 & ja \\
+        \hline
+        0xCF & Note an & 1-2 & ja \\
+        \hline
+        0xD0-0xFF & Note an mit automatischem Timeout. Siehe Tabelle \ref{table:Timeout} unten & 1-3 & ja \\
     \end{tabular}
     \caption{Track Format}
     \label{table:TrackFormat}
@@ -949,105 +943,100 @@ Die L\"angen-Tabelle f\"ur Note-On und Delta-T Befehle sind wie folgt:
 \begin{table}[h]
     \centering
     \begin{tabular}{ c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c }
-        \textbf{Note} & \textbf{D0} & \textbf{D1} & \textbf{D2} & \textbf{...} & \textbf{E6} & \textbf{E7} & \textbf{E8} & \textbf{E9} & \textbf{EA} & \textbf{EB} & \textbf{EC} & \textbf{ED} & \textbf{EE} & \textbf{EF} & \textbf{F0}\\
+        \textbf{Note} & \textbf{D0} & \textbf{D1} & \textbf{D2} & \textbf{...} & \textbf{E6} & \textbf{E7} & \textbf{E8} & \textbf{E9} & \textbf{EA} & \textbf{EB} & \textbf{EC} & \textbf{ED} & \textbf{EE} & \textbf{EF} & \textbf{F0} \\
         \hline
-        Delta-t & 81 & 82 & 83 & ... & 97 & 98 & 99 & 9A & 9B & 9C & 9D & 9E & 9F & A0 & A1\\
+        Delta-t & 81 & 82 & 83 & ... & 97 & 98 & 99 & 9A & 9B & 9C & 9D & 9E & 9F & A0 & A1 \\
         \hline
-        L\"ange & 1 & 2 & 3 & ... & 23 & 24 & 28 & 30 & 32 & 36 & 40 & 42 & 44 & 48 & 52\\
+        L\"ange & 1 & 2 & 3 & ... & 23 & 24 & 28 & 30 & 32 & 36 & 40 & 42 & 44 & 48 & 52 \\
+        \hline
+        \hline
+        \textbf{Note} & \textbf{F1} & \textbf{F2} & \textbf{F3} & \textbf{F4} & \textbf{F5} & \textbf{F6} & \textbf{F7} & \textbf{F8} & \textbf{F9} & \textbf{FA} & \textbf{FB} & \textbf{FC} & \textbf{FD} & \textbf{FE} & \textbf{FF} \\
+        \hline
+        Delta-t & A2 & A3 & A4 & A5 & A6 & A7 & A8 & A9 & AA & AB & AC & AD & AE & AF & B0 \\
+        \hline
+        L\"ange & 56 & 56 & 60 & 64 & 66 & 68 & 72 & 76 & 78 & 80 & 84 & 80 & 90 & 92 & 96 \\
     \end{tabular}
-		\begin{tabular}{ c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c }
-        \textbf{Note} & \textbf{F1} & \textbf{F2} & \textbf{F3} & \textbf{F4} & \textbf{F5} & \textbf{F6} & \textbf{F7} & \textbf{F8} & \textbf{F9} & \textbf{FA} & \textbf{FB} & \textbf{FC} & \textbf{FD} & \textbf{FE} & \textbf{FF}\\
-        \hline
-        Delta-t & A2 & A3 & A4 & A5 & A6 & A7 & A8 & A9 & AA & AB & AC & AD & AE & AF & B0\\
-        \hline
-        L\"ange & 56 & 56 & 60 & 64 & 66 & 68 & 72 & 76 & 78 & 80 & 84 & 80 & 90 & 92 & 96\\
-    \end{tabular}
-    \caption{Note an mit automatischem Time-out}
+    \caption{Note an mit automatischem Timeout}
     \label{table:Timeout}
 \end{table}
 
-F\"ur gew\"ohnlich wird der Song so erstellt, dass die L\"ange von 96 eine ganze Note ergibt. Demnach ist ein Tick ein drittel der Note und ist die feinere m\"ogliche L\"osung.
+F\"ur gew\"ohnlich wird der Song so erstellt, dass die L\"ange von 96 eine ganze Note ergibt. Demnach ist ein Tick ein Drittel der Note, der somit eine feinere Aufl\"osung der Note darstellt.
 
-Die Anzahl von Argumenten bei Befehlen kann zwischen 0 und 3 Variieren. Ein \enquote{negativ} Byte bedeutet, dass die Argumenten-Liste beendet wird und das deshalb der Key-On Befehl komplett dekodiert wurde.
+Die Anzahl von Argumenten bei Befehlen kann zwischen 0 und 3 variieren. Ein \enquote{negativ}-Byte bedeutet, dass die Argumenten-Liste beendet wird und das deshalb der Key-On Befehl komplett dekodiert wurde.
 
-Die \enquote{volle} Version von einem Note-On Befehls ben\"otigt zwei Argumente, Key und Geschwindigkeit. Im Falle vom auto Time-out Note-On Befehl, kann ein optionales drittes Argument vorkommen. 
+Die \enquote{volle} Version eines Note-On Befehls ben\"otigt zwei Argumente, Key und Geschwindigkeit. Im Falle vom automatischen Timeout Note-On Befehl, kann ein optionales drittes Argument vorkommen. 
 
-Da die L\"angen-Tabelle fehlende l\"angen Werte hat, kann ein extra drittes Argument genutzt werden um eine feinere Pr\"azision zu erreichen. 
-
-Ein Noten Befehl gefolgt von einem einzigen Argument spielt eine neue Note mit einem neuem Key ab, verwendet jedoch die zuletzt genutzte Geschwindigkeit.
+Da die L\"angen-Tabelle fehlende L\"angen-Werte hat, kann ein drittes Argument genutzt werden, um eine feinere Pr\"azision zu erreichen. Ein Notenbefehl gefolgt von einem einzigen Argument spielt eine neue Note mit einem neuem Key ab, verwendet jedoch die zuletzt genutzte Geschwindigkeit.
 
 Folgt nach dem Note-On Befehl kein Argument, verwendet die neue Note den zuletzt angewendeten Key und die zuletzt genutzte Geschwindigkeit.
 
-\vspace{-5pt}
 \paratitle{Song-Header Format}
-\vspace{-10pt}
+Die Priorit\"at wird wie folgt gehandhabt:
 \begin{table}[h]
     \centering
     \begin{tabular}{ c | p{8cm} }
-        \textbf{Byte} & \textbf{Definition}\\
+        \textbf{Byte} & \textbf{Definition} \\
         \hline
-        1 & Anzahl von Tracks\\
+        1 & Anzahl von Tracks \\
         \hline
-        1 & Unbekannt\\
+        1 & Unbekannt \\
         \hline
-        1 & Song Priorit\"at\\
-				\hline
-        1 & Echo feedback\\
-				\hline
-        4 & Zeiger auf Definition der Instrumente\\
-				\hline
-        n*4 & Zeiger auf Track-Daten\\
+        1 & Song Priorit\"at \\
+        \hline
+        1 & Echo Feedback \\
+        \hline
+        4 & Zeiger auf Definition der Instrumente \\
+        \hline
+        n*4 & Zeiger auf Track-Daten \\
     \end{tabular}
     \caption{Song-Header Format}
     \label{table:HeaderFormat}
 \end{table}
-\vspace{-5pt}
-Die Priorit\"at wird wie Folgt gehandhabt:
+
 \begin{itemize}
-\item Bei PSG Channel wird die Note mit der h\"ochsten Priorit\"at wiedergegeben
-\item Bei Direct Sound Channel wird falls kein freier Channel mehr zu Verf\"ugung steht, die Noten mit den h\"ochsten Priorit\"aten wiedergegeben und die mit niedrigeren Priorit\"aten werden ignoriert oder zum Schweigen gebracht um Platz f\"ur h\"oher priorisierte Noten zu schaffen.
+    \item Beim PSG Channel wird die Note mit der h\"ochsten Priorit\"at wiedergegeben
+    \item Beim Direct Sound Channel werden, falls kein freier Channel mehr zu Verf\"ugung steht, die Noten mit den h\"ochsten Priorit\"aten wiedergegeben und die mit niedrigeren Priorit\"aten ignoriert oder zum Schweigen gebracht um Platz f\"ur h\"oher priorisierte Noten zu schaffen.
 \end{itemize}
+
 Im Falle von gleicher Priorit\"at wird nach der Track Nummer entschieden. Die niedrigere Track Nummer hat h\"ohere Priorit\"at als die hohen Track Nummern.
 
 \newpage
 \paratitle{Sound Mixer}
+Die gesampelten Sounds werden in ein oder zwei Direct Sound Channels, je nach Mono oder Stereo Operation, gemixt. Dabei benutzen die verschiedenen Spiele verschiedene Mixer, so ist es m\"oglich seinen eigenen Mixer mit gew\"unschten Features im ARM Assembler zu schreiben. Der Mixer simuliert dabei einen Digital Signal Processor (DSP) mit Sound Channels und produziert dabei eine Serie an Nummern im RAM Buffer f\"ur die dazugeh\"origen Output Waveforms.
 
-Die gesampelte Sounds werden in ein oder zwei Direct Sound Channels, je nach Mono oder Stereo Operation, gemixt. Dabei benutzten verschiedene Spiele verschiedene Mixer, so ist es M\"oglich sein eigenen Mixer mit gew\"unschte Features in ARM Assembly zuschreiben.
-Der Mixer simuliert dabei ein Digital Signal Processor (DSP) mit Sound Channels und produziert dabei eine Serie an Nummern im RAM Buffer f\"ur die dazugeh\"origen Output Waveforms.
-
-Der Code f\"ur die meisten Sound Engine verwandten Routinen sind im ROM vor den Instrumenten und Sequenzen.
-So wird der Sound Mixer normalerweise von dort aus in den IWRAM (0x3000000-0x3007FFF) kopiert und dort Frame f\"ur Frame aufgerufen.
-Dies wird in den IWRAM kopiert, damit die CPU vom Game Boy Advance die Befehle schneller aufgerufen kann. Da die Sound Verarbeitung sehr komplex ist und zu jeden Frame passieren muss, beansprucht dieser die CPU stark. 
+Der Code f\"ur die verwendeten Routinen ist in den meisten Sound Engines im ROM noch vor den Instrumenten und Sequenzen. So wird der Sound Mixer normalerweise von dort aus in den IWRAM (0x3000000-0x3007FFF) kopiert und dort Frame f\"ur Frame abgearbeitet. Da die Sound Verarbeitung sehr komplex ist, beansprucht diese die CPU stark. 
 
 Es gibt mehrere Variationen des Sound Mixers, darunter sind die drei \"ublichsten Mixer die folgende Versionen:
 
 \begin{itemize}
-\item Die Stereo Version ist 256 Words lang und nutzt 2 Buffers f\"ur Stereo Output
-\item Die Mono Version ist 224 Words lang und nutzt 1 Buffer f\"ur Mono Output (ist auch schneller)
-\item Die "alte" Version ist 256 Words lang und ist \"ahnlich zur Stereo Version, aber ist langsamer. Nur alte Game Boy Advance Spiele (Ver\"offentlich im Jahr 2001) nutzen diese.
+    \item Die Stereo Version ist 256 Words lang und nutzt 2 Buffers f\"ur Stereo Output
+    \item Die Mono Version ist 224 Words lang und nutzt 1 Buffer f\"ur Mono Output (ist auch schneller)
+    \item Die \enquote{alte} Version ist 256 Words lang und ist \"ahnlich zur Stereo Version, aber ist langsamer. Nur alte Game Boy Advance Spiele (ver\"offentlich im Jahr 2001) nutzen diese.
 \end{itemize}
 
-Die Features des normalen Sound Mixer sind folgende:
+Die Features des normalen Sound Mixer sind Folgende:
 \begin{itemize}
-\item Relativ langsames Mischen
-\item Lineare Interpolation wird benutzt
-\item Kein Anti-Aliasing
-\item Jeder Sample wird direkt auf 8-Bit herunter skaliert und in den Output Buffer gemischt, welches in einen lauten Output resultiert
-\item Kein Saturation Output Control: Wenn der Output \"uber den maximalen Wert geht, produziert es ein unangenehmes "`Klick"' Ger\"ausch
+    \item Relativ langsames Mischen
+    \item Lineare Interpolation wird benutzt
+    \item Kein Anti-Aliasing
+    \item Jeder Sample wird direkt auf 8-Bit herunter skaliert und im Output Buffer gemischt, welches in einen lauten Output resultiert
+    \item Kein Saturation Output Control: Wenn der Output \"uber den maximalen Wert geht, produziert es ein unangenehmes \enquote{Klick}-Ger\"ausch
 \end{itemize}
 
 Verschiedene Features k\"onnen dem Mixer hinzugef\"ugt werden. Zum Beispiel:
 \begin{itemize}
-\item Komprimierte Samples (Pokemon)
-\item Synth Instruments (Camelot)
-\item Schnelleres mischen mit selbst-modifizierbarer Code (Camelot, Final Fantasy Advance Sound Restoration Hacks)
-\item Mischen von Instruments in 16-Bit, bevor auf 8-Bit herunter skaliert wird, welches bessere Soundqualit\"at (Camelot, Final Fantasy Advance Sound Restoration Hacks)
-\item Besserer Nachhall (Camelot, Final Fantasy Advance Sound Restoration Hacks)
-\item Schutz gegen S\"attigung vom Output (Camelot, Final Fantasy Advance Sound Restoration Hacks)
-\item Bessere Attack, Decay, Sustain und Release Envelope mit 16-Bit anstelle von 8-Bit (Camelot, Final Fantasy Advance Sound Restoration Hacks)
-\item Samples umgekehrt abspielen
-\item Ping-Pong und umgekehrtes Sample looping
-\item Bessere Interpolation / Anti-Aliasing
+    \item Komprimierte Samples (Pokemon)
+    \item Synth Instruments (Camelot)
+    \item Schnelleres Mischen mit selbst-modifizierbaren Code\newline
+    (Camelot, Final Fantasy Advance Sound Restoration Hacks)
+    \item Mischen von Instrumenten in 16-Bit, bevor auf 8-Bit herunter skaliert wird, was eine bessere Soundqualit\"at bringt (Camelot, Final Fantasy Advance Sound Restoration Hacks)
+    \item Besserer Nachhall (Camelot, Final Fantasy Advance Sound Restoration Hacks)
+    \item Schutz gegen S\"attigung des Outputs (Camelot, Final Fantasy Advance Sound Restoration Hacks)
+    \item Bessere Attack, Decay, Sustain und Release Envelope mit 16-Bit an Stelle von 8-Bit\newline
+    (Camelot, Final Fantasy Advance Sound Restoration Hacks)
+    \item Samples umgekehrt abspielen
+    \item Ping-Pong und umgekehrtes Sample Looping
+    \item Bessere Interpolation / Anti-Aliasing
 \end{itemize}
 
 Mit Camelot sind die Spieleentwickler gemeint, welche unter anderem die Golden Sun Serie f\"ur den Game Boy Advance entwickelt haben. 
@@ -1068,10 +1057,8 @@ Erstellung der Beispielprogramme anhand der Belogic Channel 1 Demo und Belogic D
 
 Belogic Channel 1 Demo:
 
-Die Demo zeigt alle Features von Sound Channel 1. So erlaubt die Demo die Bitweise-\"anderung von den REG\_SOUND1CNT\_L, REG\_SOUND1CNT\_H und REG\_SOUND1CNT\_X. Der H\"orbahre Unterschied ist bei Channel 1 jedoch sehr Subtil oder nicht bemerkbar.
+Die Demo zeigt alle Features von Sound Channel 1. So erlaubt die Demo die Bitweise-\"Anderung von den Registern REG\_SOUND1CNT\_L, REG\_SOUND1CNT\_H und REG\_SOUND1CNT\_X. Der h\"orbahre Unterschied ist bei Channel 1 jedoch sehr subtil oder nicht bemerkbar.\newline
 
-
-\vspace{5mm}
 \begin{lstlisting}[language=C++, caption={Belogic Channel 1 Demo}, label={list:channel1}]
 	...
 	u16 note;
@@ -1080,7 +1067,7 @@ Die Demo zeigt alle Features von Sound Channel 1. So erlaubt die Demo die Bitwei
 	u16 loopmode=0,sfreq=0x400,resamp=1;
 
     ...
-	if(~REG_KEYPAD&BUTTON_A) //play the sound
+	if (~REG_KEYPAD&BUTTON_A) //play the sound
 	{ 
 	REG_SOUND1CNT_L=(sweeptime<<4)+(sweepdir<<3)+sweepshifts;
 	REG_SOUND1CNT_H=(envinit<<12)+(envdir<<11)+(envsteptime<<8)+(waveduty<<6)+soundlength;
@@ -1091,20 +1078,16 @@ Die Demo zeigt alle Features von Sound Channel 1. So erlaubt die Demo die Bitwei
 
 Der Sound Channel 1 produziert eine Square Wave mit Envelope und Frequenzdurchlaufs-Funktion. 
 
-Im Belogic Channel 1 Demo ROM \"ubergeben wir am Anfang dem \textbf{REG\_SOUND1CNT\_L}, welcher f\"ur den Frequenzdurchlauf zust\"andig ist, die 0x7A. Das Bedeutet f\"ur den REG\_SOUND1CNT\_L ein Sweep Shift von 2, Sweep decrease und Sweep Time von 54.7 ms.
+Im Belogic Channel 1 Demo ROM belegen wir am Anfang \textbf{REG\_SOUND1CNT\_L} mit dem Wert 0x7A, welcher f\"ur den Frequenzdurchlauf zust\"andig ist. Das bedeutet f\"ur REG\_SOUND1CNT\_L ein Sweep Shift von 2, Sweep Decrease und Sweep Time von 54.7 ms.
 
+Dann wird \textbf{REG\_SOUND1CNT\_H} mit dem Wert 0xF781 belegt, welcher f\"ur den Duty Cycle, die L\"ange und den Envelope zust\"andig ist. Bei unserem Beispiel bedeutet das eine Soundl\"ange von 1, Wave Duty Cycle von 50\%, Envelope Step Time von 3, Envelope Decrement und Initial Envelope Value von 0xF (f\"ur die maximale Lautst\"arke) konfiguriert werden.
 
-\textbf{REG\_SOUND1CNT\_H}, welches die 0xF781 zugewiesen wird, ist f\"ur den Duty Cycle, die L\"ange und den Envelope zust\"andig. Bei unserem Beispiel bedeutet das eine Sound L\"ange von 1, Wave Duty Cycle von 50\%,Envelope Step Time von 3, Envelope decrement und Initial Envelope Value von 0xF, welches maximale Lautst\"arke bedeutet.
+\textbf{REG\_SOUND1CNT\_X} beinhaltet die Frequenz und die Kontrolle f\"ur den Looped oder Timed Modus. Im Beispiel wird der Wert 0x8400 verwendet, welcher eine Frequenz von 32,8 kHz, Loop und Sound Reset zur Folge hat.
 
-\textbf{REG\_SOUND1CNT\_X} beinhaltet die Frequenz und die Kontrolle f\"ur Looped oder Timed Modus. Im Beispiel von 0x8400 bedeutet das eine Frequenz von 32,8 Khz, Loop und Sound Reset an. 
+Belogic Direct Sound Demo:\newline
+Das folgende Programm gibt bei Knopfdruck (A, B, L, R, Start und Select) ein Sample \"uber den Direct Memory Access Sound Channel wieder.
 
 \newpage
-
-Belogic Direct Sound Demo:
-
-Das Programm gibt bei Knopfdruck (A,B,L,R,Start und Select) ein Sample \"uber den Direct Memory Access Sound Channel wieder.
-
-\vspace{5mm}
 \begin{lstlisting}[language=C++, caption={Belogic Direct Sound Demo}, label={list:directsound1}]
     ...
 	int AgbMain(void){
@@ -1128,154 +1111,121 @@ Das Programm gibt bei Knopfdruck (A,B,L,R,Start und Select) ein Sample \"uber de
 	...
 \end{lstlisting}
 
-Das Spiel startet und Landet in einer Schleife, welche auf einen Tastendruck wartet. Wird eine Taste gedr\"uckt, ruft diese dann die DmaPlaySound() Funktion auf.
+Das Spiel startet und landet in einer Schleife, welche auf einen Tastendruck wartet. Wird eine Taste gedr\"uckt, ruft diese dann die DmaPlaySound() Funktion auf.\newline
 
-\vspace{5mm}
 \begin{lstlisting}[language=C++, caption={Belogic DmaPlaySound()}, label={list:directsound2}]
     ...
-	void DmaPlaySound (void){
-	//Play a mono sound at 16khz in DMA mode Direct Sound
-	//uses timer 0 as sampling rate source
-	//uses timer 1 to count the samples played in order to stop the sound 
-	REG_SOUNDCNT_L=0;
-	REG_SOUNDCNT_H=0x0b0F;  //DS A&B + fifo reset + timer0 + max volume to L and R
-	REG_SOUNDCNT_X=0x0080;  //turn sound chip on
-	
-	REG_DMA1SAD=(unsigned long)_binary_lo1234_pcm_start;	//dma1 source
-	REG_DMA1DAD=0x040000a0; //write to FIFO A address
-	REG_DMA1CNT_H=0xb600;	//dma control: DMA enabled+ start on FIFO+32bit+repeat
-	
-	REG_TM1CNT_L=0x7098;	//0xffff-the number of samples to play
-	REG_TM1CNT_H=0xC4;		//enable timer1 + irq and cascade from timer 0
+    void DmaPlaySound (void){
+        //Play a mono sound at 16khz in DMA mode Direct Sound
+	    //uses timer 0 as sampling rate source
+	    //uses timer 1 to count the samples played in order to stop the sound 
+	    REG_SOUNDCNT_L = 0;
+	    REG_SOUNDCNT_H = 0x0b0F;  //DS A&B + fifo reset + timer0 + max volume to L and R
+	    REG_SOUNDCNT_X = 0x0080;  //turn sound chip on
 
-	REG_IE=0x10;	  	//enable irq for timer 1 overflow
-	REG_IME=1;				//enable interrupt
+	    REG_DMA1SAD = (unsigned long)_binary_lo1234_pcm_start;
+	   
+	    //dma1 source
+	    REG_DMA1DAD = 0x040000a0; //write to FIFO A address
+	    REG_DMA1CNT_H = 0xb600;	//dma control: DMA enabled+ start on FIFO+32bit+repeat
+
+	    REG_TM1CNT_L = 0x7098;	//0xffff-the number of samples to play
+	    REG_TM1CNT_H = 0xC4;	//enable timer1 + irq and cascade from timer 0
+
+	    REG_IE = 0x10;	  	//enable irq for timer 1 overflow
+	    REG_IME = 1;		//enable interrupt
 	
-	//Formula for playback frequency is: 0xFFFF-round(cpuFreq/playbackFreq)
-	REG_TM0CNT_L=0xFBE8;	//16khz playback freq
-	REG_TM0CNT_H=0x0080; 	//enable timer at CPU freq 
-	}
-	...
+	    //Formula for playback frequency is: 0xFFFF-round(cpuFreq/playbackFreq)
+	    REG_TM0CNT_L = 0xFBE8;	//16khz playback freq
+	    REG_TM0CNT_H = 0x0080; 	//enable timer at CPU freq 
+    }
+    ...
 \end{lstlisting}
-\newpage
 
-Das Register \textbf{REG\_SOUNDCNT\_L} kontrolliert nur den Dot Matrix Game (DMG) Output Verst\"arker und hat sonst keinen Einfluss auf die Verarbeitung der Sound Channels oder der Direct Sound Lautst\"arke. So beinhaltet dieses Register auch Bits f\"ur Vin Rechts und Links, welches Spielkassetten vom Game Boy Classic berechtigten ihre eigenen Sound Quellen zu verwenden. Jedoch ist es nicht Bekannt, ob diese Funktion noch vom Game Boy Advance unterst\"utzt wird oder noch funktioniert.
+Das Register \textbf{REG\_SOUNDCNT\_L} kontrolliert nur den Dot Matrix Game (DMG) Output Verst\"arker und hat sonst keinen Einfluss auf die Verarbeitung der Sound Channels oder der Direct Sound Lautst\"arke. So beinhaltet dieses Register auch Bits f\"ur Vin Rechts und Links, welches Spielkassetten vom Game Boy Classic berechtigten ihre eigenen Soundquellen zu verwenden. Jedoch ist es nicht bekannt, ob diese Funktion noch vom Game Boy Advance unterst\"utzt wird oder noch funktioniert.
 
+\textbf{REG\_SOUNDCNT\_H} bekommt im Sourcecode den Wert 0x0B0F. Dies bedeutet ein Output Soundverh\"altnis f\"ur Channel 1 bis 4 von 100\%, ein Direct Sound A\&B Verh\"altnis von 100\% und f\"ur Direct Sound A eine Ausgabe f\"ur Links und Rechts mit FIFO Reset und Timer 0.
 
-\textbf{REG\_SOUNDCNT\_H} bekommt im Sourcecode den Wert 0x0B0F. Dies bedeutet ein Output Sound Verh\"altnis f\"ur Channel 1 bis 4 von 100\%, ein Direct Sound A\&B Verh\"altnis von 100\% und f\"ur Direct Sound A eine Ausgabe f\"ur Links und Rechts mit FIFO Reset und Timer 0.
+Dabei kontrolliert Output Ratio die ausgegebene Lautst\"arke, wenn die DMG oder Direct Sound Channels im Verh\"altnis zueinander zu laut sind.
 
-Dabei kontrolliert Output Ratio die ausgegebene Lautst\"arke, wenn die DMG oder Direct Sound Channels im Verh\"altnis zueinander zu Laut sind.
+Der Direct Sound ist ein dual 8-Bit Digital-to-Analog Converter (DAC), welche die Daten von zwei FIFO's bekommt. Die FIFO's k\"onnen manuell oder automatisch in DMA Modus geladen werden, dabei verwendet der DMA Modus die Timer als Abtastfrequenzbezug.
 
-Der Direct Sound ist ein dual 8-bit Digital-To-Analog Converter (DAC), welche die Daten von zwei FIFO's bekommt. Die FIFO's k\"onnen manuell oder automatisch in DMA Modus geladen werden, dabei verwendet der DMA Modus die Timer als Abtastfrequenzbezug.
+\textbf{REG\_SOUNDCNT\_X} schaltet den Sound Chip (DMG und Direct Sound) an oder aus. Dieser sollte so oft wie nur m\"oglich aus sein um Batterieleistung zu sparen, dies erm\"oglicht es Batterien bis zu 10\% l\"anger zu halten. 
 
-
-\textbf{REG\_SOUNDCNT\_X} schaltet den Sound Chip (DMG und Direct Sound) an oder aus. Dieser sollte so oft wie nur m\"oglich aus sein um Batterieleistung zu sparen, dies erm\"oglicht es Batterien bis zu 10\% l\"anger zuhalten. 
-
-
-Danach wird \textbf{REG\_DMA1SAD}, welches die Source Adresse angibt, die Sound Datei zugewiesen und dann man mit dem \textbf{REG\_DMA1DAD} Register die Ziel Adresse (In unserem Fall Channel A FIFO Register) bestimmt. Dann muss noch durch \textbf{REG\_DMA1CNT\_H} der DMA aktiviert und das Start Timing auf Sound FIFO gesetzt werden. Zuallerletzt m\"ussen noch die ben\"otigten Timer gesetzt und aktiviert werden.
+Danach werden \textbf{REG\_DMA1SAD}, welches die Source Adresse angibt, die Sounddaten zugewiesen und man mit dem \textbf{REG\_DMA1DAD} Register die Ziel Adresse (in unserem Fall das Channel A FIFO Register) festgelegt. Dann muss noch durch \textbf{REG\_DMA1CNT\_H} der DMA aktiviert und das Start Timing auf Sound FIFO gesetzt werden. Zuallerletzt m\"ussen noch die ben\"otigten Timer gesetzt und aktiviert werden.
 
 
-\newpage
 % ========== Chapter 2.3.2 ==========
 
 \subsubsection{Untersuchung des Assemblercodes mit IDA-Pro} \label{Assemblercode}
 \AutorNgoc
 
-Untersuchung des Assemblercodes der Sappy Sound Engine anhand von Pok\'{e}mon Blattgr\"un mit Hilfe des Disassembler IDA-Pro:
+Untersuchung des Assemblercodes der Sappy Sound Engine anhand von Pok\'{e}mon Blattgr\"un mit Hilfe des Disassembler IDA-Pro. Um in IDA Pro die einzelnen Songs zu finden, wird zun\"achst nach der Songtabelle gesucht. Diese findet man, indem man nach der Hex-Reihenfolge von ungenutzten Instrumenten sucht.
 
-\vspace{15pt}
-
-\begin{wrapfigure}{r}{0.5\textwidth}
-	\vspace{-10pt}
-	\begin{center}
-		\includegraphics[width=0.5\textwidth]{Songtabelle}
-	\end{center}
-	\vspace{-10pt}
-	\caption{Anfang der Songtabelle in Hex-Ansicht}
-	\label{fig:hex-view}
-	\vspace{-30pt}
-\end{wrapfigure}
-
-Um in IDA Pro die einzelnen Songs zu finden, wird zun\"achst nach der Songtabelle gesucht.
-
-Diese findet man, indem man nach der HEX-Reihenfolge von ungenutzten Instrumenten sucht. Dabei handelt es sich um folgende Reihenfolge: 
-
+Dabei handelt es sich um folgende Reihenfolge:\newline
 \textbf{0x01, 0x3c, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0f, 0x00} (1.)
 
-Wird die Sappy Sound Engine, wie bei Pok\'{e}mon Blattgr\"un, vom Spiel genutzt, sollten mehrere dieser Hex-Strings gefunden werden.
-Scrollt man jetzt von der letzten \"ubereinstimmung der HEX-Reihenfolge aus weiter nach unten, sollten wir Spalten mit 0x00 und 0x08 auffinden. (2.)
+\begin{wrapfigure}[10]{r}{0.5\textwidth}
+    \centering
+    \vspace{-5mm}
+	\includegraphics[width=0.5\textwidth]{Songtabelle}
+	\caption{Anfang der Songtabelle in Hex-Ansicht}
+	\label{fig:hex-view}
+\end{wrapfigure}
 
-Bei den ersten 4 Bytes welche mit 0x08 enden, handelt es sich um ein Zeiger auf den ersten Song im Spiel. (3.) Dieser befindet sich auf der ersten Position der Songtabelle. 
-In der Abbildung \ref{fig:hex-view} handelt es sich dabei um den Zeiger auf die Adresse "`0x086B4F1C"'.
+Wird die Sappy Sound Engine, wie bei Pok\'{e}mon Blattgr\"un, vom Spiel genutzt, sollten mehrere dieser Hex-Strings gefunden werden. Scrollt man jetzt von der letzten \"Ubereinstimmung der Hex-Reihenfolge aus weiter nach unten, sollten wir Spalten mit 0x00 und 0x08 auffinden. (2.)
 
-\vspace{15pt}
+Bei den ersten 4 Bytes welche mit 0x08 enden, handelt es sich um ein Zeiger auf den ersten Song im Spiel. (3.) Dieser befindet sich auf der ersten Position der Songtabelle. In der Abbildung \ref{fig:hex-view} handelt es sich dabei um den Zeiger auf die Adresse \enquote{0x086B4F1C}.
 
-\begin{wrapfigure}{r}{0.5\textwidth}
-	\vspace{-10pt}
-	\begin{center}
-		\includegraphics[width=0.5\textwidth]{SongtabellenHeader}
-	\end{center}
-	\vspace{-10pt}
+\newpage
+\begin{wrapfigure}[17]{l}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.5\textwidth]{SongtabellenHeader}
 	\caption{IDA-View der Songtabelle und erstem Song}
 	\label{fig:IDA-view}
-	\vspace{-40pt}
 \end{wrapfigure}
 
+Wird jetzt von der HEX-Ansicht auf die IDA-Ansicht gewechselt, k\"onnen die einzelnen Zeiger auf die Songs erkannt werden. (4.) Folgt man nun einen dieser Zeiger landet man bei 0xB2, welcher f\"ur eine Sprung-Anweisung steht, gefolgt von der Adresse des Instruments. (5.)
 
-Wird jetzt von der HEX-Ansicht auf die IDA-Ansicht gewechselt, k\"onnen die einzelnen Zeiger auf die Songs erkannt werden. (4.)
-Folgt man nun einer dieser Zeiger landet man bei 0xB2, welches f\"ur eine Sprung-Anweisung steht, gefolgt von der Adresse des Instruments. (5.)
+Nach der Adresse des Instruments folgt der Song-Header. (6.) Dieser f\"uhrt zum Trackformat, welcher immer mit der \enquote{Tempo}-Anweisung 0xBB anf\"angt und mit der \enquote{Ende des Songs}-Anweisung 0xB1 endet. 
 
-Nach der Adresse des Instruments folgt der Song-Header. (6.) Dieser f\"uhrt zum Trackformat, welcher immer mit der \enquote{Tempo}-Anweisung 0xBB Anf\"angt und mit der \enquote{Ende des Songs}-Anweisung 0xB1 endet. 
+So wird in Abbildung \ref{fig:IDA-view} zun\"achst das Tempo (0xBB) auf 33 gesetzt und das 91. Instrument (0xBD) ausgew\"ahlt. Danach wird die Lautst\"arke (0xBE) auf 100 gesetzt und die Tonh\"ohe (0xC0) auf 58 variiert. Anschlie{\ss}end folgt eine Note mit automatischem Timeout mit 60, 112 und 132, dann ein Instrumentenwechsel und endet mit der \enquote{Ende des Songs}-Anweisung (0xB1). 
 
-So wird in Abbildung \ref{fig:IDA-view} zun\"achst das Tempo (0xBB) auf 33 gesetzt und das 91. Instrument (0xBD) ausgew\"ahlt. Danach wird die Lautst\"arke (0xBE) auf 100 gesetzt und die Tonh\"ohe (0xC0) auf 58 variiert. Anschlie{\ss}end folgt eine Note mit automatischem Time-Out mit 60 112 132, dann ein Instrumenten Wechsel und endet mit der Ende des Songs Anweisung (0xB1). 
+F\"ur die genauere Bedeutung der Anweisungen, siehe \enquote{Sappy Track Format}-Tabelle \ref{table:TrackFormat}.
 
-F\"ur genauere Bedeutung der Anweisungen, siehe \enquote{Sappy Track Format}-Tabelle \ref{table:TrackFormat}.
-
-\newpage 
-
-\begin{wrapfigure}{r}{0.5\textwidth}
-	\vspace{-10pt}
-	\begin{center}
-		\includegraphics[width=0.5\textwidth]{Sampleformat}
-	\end{center}
-	\vspace{-10pt}
-	\caption{IDA-View von Voice-Table und Sample-Format}
+\begin{wrapfigure}[19]{r}{0.5\textwidth}
+    \centering
+    \vspace{-5mm}
+    \includegraphics[width=0.5\textwidth]{Sampleformat}
+	\caption{IDA-View der Voice-Tabelle / Sample-Formats}
 	\label{fig:Sampleformat}
-	\vspace{-30pt}
 \end{wrapfigure}
 
-Folgt man der Adresse des Instrumentes, landet man bei der Voice-Tabelle. (8.) Dieser besteht typischerweise aus 127 Instrumenten, welche jeweils 12 Bytes pro Eintrag beanspruchen.
+Folgt man der Adresse des Instrumentes, landet man bei der Voice-Tabelle. (8.) Diese besteht typischerweise aus 127 Instrumenten, welche jeweils 12 Bytes pro Eintrag beanspruchen.
 
-In der Abbildung \ref{fig:Sampleformat} erkennt man das es sich in diesem Beispiel um ein Sample handelt, dieser hat einen Zeiger auf die Sample Datei (0x084ED548). Weiterhin hat es einen Attack-Wert von 255 (0xFF), einen Decay-Wert von 249 (0xF9), einen Sustain-Level von 103 (0x67) und Release-Wert von 165 (0xA5) hat. Daraufhin Folgen zwei nicht genutzte Instrumente, welche man an der bereits Bekannten HEX-Reihenfolge erkennen kann.
-F\"ur genauere Informationen, siehe "`Sappy Sample Instrument"'-Tabelle \ref{table:SampleInstrument}.
+In der Abbildung \ref{fig:Sampleformat} erkennt man das es sich in diesem Beispiel um ein Sample handelt, dieses hat einen Zeiger auf die Sampledaten (0x084ED548). Weiterhin hat es einen Attack-Wert von 255 (0xFF), einen Decay-Wert von 249 (0xF9), einen Sustain-Level von 103 (0x67) und Release-Wert von 165 (0xA5). Daraufhin folgen zwei nicht genutzte Instrumente, welche man an der bereits bekannten Hex-Reihenfolge erkennen kann.
+F\"ur genauere Informationen, siehe \enquote{Sappy Sample Instrument}-Tabelle \ref{table:SampleInstrument}.
 
-Die Sample Datei kommt mit einem 16-Byte Header (9.), gefolgt von einer variablen Datenl\"ange. So Handelt es sich in der Abbildung \ref{fig:Sampleformat} um ein geschleiftes Sample mit Pitch Adjustement
-von 0xAC4400 (11025 Hz).
+Die Sampledaten kommen mit einem 16-Byte Header (9.), gefolgt von einer variablen Datenl\"ange im Speicher vor. So handelt es sich in der Abbildung \ref{fig:Sampleformat} um ein geschleiftes Sample mit Pitch Adjustement von 0xAC4400 (11025 Hz). F\"ur weitere Informationen, siehe \enquote{Sappy Sample Instrument}-Tabelle \ref{table:SampleFormat}.
 
-F\"ur genauere Informationen, siehe "`Sappy Sample Instrument"'-Tabelle \ref{table:SampleFormat}.
-
-\vspace{15pt}
-\begin{wrapfigure}{r}{0.5\textwidth}
-	\vspace{-10pt}
-	\centering
-		\includegraphics[width=0.75\linewidth]{SelectSong}
-	\vspace{-10pt}
+\newpage
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{SelectSong}
 	\caption{IDA-Graph-View und Proximity-Browser-View f\"ur SelectSong Funktion}
 	\label{fig:SelectSong}
-\end{wrapfigure}
+\end{figure}
 
-Die Song-Ausw\"ahl-Funktion f\"ur Sappy-Sound-Engine schaut in IDA aus wie in der Abbildung \ref{fig:SelectSong}. 
+Die Song-Ausw\"ahl-Funktion f\"ur die Sappy-Sound-Engine sieht in IDA aus wie in der Abbildung \ref{fig:SelectSong}. In der Proximity-Browser-View wird es klarer als in der Graph-View, dass es sich um die Song-Ausw\"ahl-Funktion handelt.
 
-In der Proximity-Browser-View wird klarer, dass es sich um die Song-Ausw\"ahl-Funktion handelt, als in der Graph-View.
-
-Diese kann man leicht finden, indem man nach Folgender HEX-Reihenfolge sucht:
+Die Funktion kann man leicht finden, indem man nach folgender Hex-Reihenfolge sucht:
 
 \textbf{0x00, 0xB5, 0x00, 0x04, 0x07, 0x4A, 0x08, 0x49,
 0x40, 0x0B, 0x40, 0x18, 0x83, 0x88, 0x59, 0x00,
 0xC9, 0x18, 0x89, 0x00, 0x89, 0x18, 0x0A, 0x68,
 0x01, 0x68, 0x10, 0x1C, 0x00, 0xF0}
 
-\newpage
+
 % ========== Chapter 2.3.3 ==========
 
 \subsubsection{Sappy - \enquote{Audio-Reflektor}}
@@ -1283,22 +1233,21 @@ Diese kann man leicht finden, indem man nach Folgender HEX-Reihenfolge sucht:
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=\textwidth]{Sappy}
+    \includegraphics[width=0.7\textwidth]{Sappy}
     \caption{Sappy Audio-Reflektor}
     \label{fig:Sappy}
 \end{figure}
 
 Sappy ist ein Programm um Musik von Game Boy Advance Spielen, falls sie die Sappy Sound Engine nutzen, zu extrahieren. Nach ausw\"ahlen eines Spieles werden die Songs und deren Instrumente automatisch gefunden.
 
-Zu anderen Anwendungen geh\"oren das Abspielen von den gefundenen Songs, Bearbeitung, Entfernen und Hinzuf\"ugen von Tracks und Instrumente oder das Konvertieren in MIDI-Dateien.
+Zu anderen Anwendungen geh\"oren das Abspielen von den gefundenen Songs, die Bearbeitung, das Entfernen und das Hinzuf\"ugen von Tracks und Instrumenten oder das Konvertieren in MIDI-Dateien.
 
-So sieht man in der Abbildung \ref{fig:Sappy}, dass man im Vergleich zu IDA Pro viel einfacher die Gesuchten Daten findet. Diese werden unter anderem auch kompakter Angezeigt, welches man zum Beispiel an der Voice-Table merkt. So sieht man nicht nur alles auf einem Blick, sondern kann auch durch ein Drop-Down-Liste leicht zwischen Instrumente wechseln, oder die Werte \"andern.
+Man sieht in Abbildung \ref{fig:Sappy} die Anwendung Sappy in der es viel einfacher f\"allt, im Vergleich zu IDA Pro, die gesuchten Audiodaten zu finden. Diese werden unter anderem auch kompakter angezeigt, was man auch zum Beispiel an der Voice-Tabelle merkt. So sieht man nicht nur alles auf einem Blick, sondern kann auch durch eine Drop-Down-Liste leicht zwischen Instrumenten wechseln oder Werte \"andern.
 
-
-\newpage
 
 % ========== Chapter 3 ==========
 
+\newpage
 \section{Emulation mittels mGBA} \label{EmulationMittelsMGBA}
 \AutorDominikFlorian
 
@@ -1324,7 +1273,7 @@ mGBA ist unter der Mozilla Public License 2.0 lizenziert und [...] kann auf GitH
 \subsection{Emulation des Game Boy Advance} \label{EmulationGameBoyAdvance}
 \AutorDominikFlorian
 
-Die Anwendung \enquote{mGBA} wurde von den Entwicklern mit dem GUI-Toolkit Qt realisiert. Qt erm\"oglicht die plattformunabh\"angige Entwicklung von Anwendungen mit grafischer Benutzeroberfl\"ache und basiert auf der Sprachen C und C++. Damit ist es Entwicklern auch m\"oglich, bereits realisierte Basis-Software problemlos zu integrieren.
+Die Anwendung \enquote{mGBA} wurde von den Entwicklern mit dem GUI-Toolkit Qt realisiert. Qt erm\"oglicht die plattformunabh\"angige Entwicklung von Anwendungen mit grafischer Benutzeroberfl\"ache und basiert auf den Sprachen C und C++. Damit ist es Entwicklern auch m\"oglich, bereits realisierte Basis-Software problemlos zu integrieren.
 
 % ========== Chapter 3.2.1 ==========
 
@@ -1377,7 +1326,7 @@ Als letzte Anweisung des Konstruktors wird die lokale \verb|setupMenu()|-Methode
 
 
 \paratitlecode{VideoView}{/src/platform/qt/VideoView.h \& .cpp}
-Bei der Instanziierung der \textbf{VideoView}-Klasse verwendet der Konstruktor die globale Methode \textbf{FFmpegEncoderInit} (\$/src/feature/ffmpeg/ffmpeg-encoder.c) zur Initialisierung der Membervariablen \verb|m_encoder|. Die f\"ur die Audio-/Videoausgabe verwendete Struktur vom Typen \textbf{FFmpegEncoder} (\$/src/feature/ffmpeg/ffmpeg-encoder.c) wird beim Aufruf der Instanzmethode \verb|startRecording()| der \textbf{VideoView}-Klasse mttels globaler \textbf{FFmpegEncoderOpen}-Methode so final konfiguriert, dass der Encoder die bei der Emulation anfallenden Audio-/Videodaten aufzeichnet. Zum Abschluss der \textbf{startRecording()}-Methode wird das Qt Signal \verb|recordingStarted| mit dem Feld \verb|d| vom Typen der Struktur \textbf{mAVStream} der \verb|m_encoder| Membervariablen als Parameter gesendet. Dieses Signal endet schlie{\ss}lich in einen Aufruf der \verb|setAVStream|-Methode der \textbf{GameController}-Instanz \verb|m_controller| der \textbf{Window}-Klasse.
+Bei der Instanziierung der \textbf{VideoView}-Klasse verwendet der Konstruktor die globale Methode \textbf{FFmpegEncoderInit} (\$/src/feature/ffmpeg/ffmpeg-encoder.c) zur Initialisierung der Membervariablen \verb|m_encoder|. Die f\"ur die Audio-/Videoausgabe verwendete Struktur vom Typen \textbf{FFmpegEncoder} (\$/src/feature/ffmpeg/ffmpeg-encoder.c) wird beim Aufruf der Instanzmethode \verb|startRecording()| der \textbf{VideoView}-Klasse mittels globaler \textbf{FFmpegEncoderOpen}-Methode so final konfiguriert, dass der Encoder die bei der Emulation anfallenden Audio-/Videodaten aufzeichnet. Zum Abschluss der \textbf{startRecording()}-Methode wird das Qt Signal \verb|recordingStarted| mit dem Feld \verb|d| vom Typen der Struktur \textbf{mAVStream} der \verb|m_encoder| Membervariablen als Parameter gesendet. Dieses Signal endet schlie{\ss}lich in einen Aufruf der \verb|setAVStream|-Methode der \textbf{GameController}-Instanz \verb|m_controller| der \textbf{Window}-Klasse.
 
 
 \paratitlecode{GameController}{/src/platform/qt/GameController.h \& .cpp}
@@ -1409,7 +1358,7 @@ Der erste der zuvor festgelegten Funktionszeiger der daraufhin verwendet wird is
 
 \newpage
 \paratitlecode{GBAInit}{/src/gba/gba.c}
-In dieser Low-Level Init-Routine werden alle virtuellen Hardwarekomponenten des \textbf{mCore} initialisiert und mit weiteren globalen Methoden verlinkt. Dazu geh\"ohrt unter anderen das Setup des Interrupt-Handlers, welcher \"uber das Feld \verb|irqh| des \verb|cpu|-Feldes der \textbf{GBA}-Instanz an die globale Methode \textbf{GBAInterruptHandlerInit} \"ubergeben wird. Nach der Initialisierung des Interrupt-Handlers folgt die Initialisierung des Speichers des \textbf{GBA} mittels globaler \textbf{GBAMemoryInit}-Methode. Darauf folgt das Setup der \enquote{Audio}-Peripherie des \textbf{GBA} mit Hilfe der globalen Methode \textbf{GBAAudioInit}.
+In dieser Low-Level Init-Routine werden alle virtuellen Hardwarekomponenten des \textbf{mCore} initialisiert und diese mit weiteren globalen Methoden verlinkt. Dazu geh\"ohrt unter anderen das Setup des Interrupt-Handlers, welcher \"uber das Feld \verb|irqh| des \verb|cpu|-Feldes der \textbf{GBA}-Instanz an die globale Methode \textbf{GBAInterruptHandlerInit} \"ubergeben wird. Nach der Initialisierung des Interrupt-Handlers folgt die Initialisierung des Speichers des \textbf{GBA} mittels globaler \textbf{GBAMemoryInit}-Methode. Darauf folgt das Setup der \enquote{Audio}-Peripherie des \textbf{GBA} mit Hilfe der globalen Methode \textbf{GBAAudioInit}.
 
 \paratitlecode{GBAInterruptHandlerInit}{/src/gba/gba.c}
 Die einzige Aufgabe dieser Methode ist es die \textbf{ARMInterruptHandler}-Struktur (\textit{\$/include/mgba/internal/arm/arm.h}) des \textbf{GBA} zu initialisieren. Hierzu legt die Methode entsprechende Funktionszeiger f\"ur die einzelnen Service-Routinen der Interrupt-Handler-Struktur fest.
@@ -1425,7 +1374,7 @@ Die einzige Aufgabe dieser Methode ist es die \textbf{ARMInterruptHandler}-Struk
 
 
 \paratitlecode{GBAMemoryInit}{/src/gba/memory.c}
-Neben den diversen Initialisierungsoperationen und Aufrufen weiterer Subroutinen zur Initialisierung des \verb|memory|-Feldes der \enquote{CPU} \"uber das \verb|cpu|-Feld des \textbf{GBA} legt auch diese Methode entsprechende Funktionszeiger f\"ur die einzelnen Speicherzugriffe auf der \textbf{ARMMemory}-Struktur (\textit{\$/include/mgba/internal/arm/arm.h}) fest. Die im folgenden Snippet gezeigten Zeilen sind f\"ur die Untersuchtung der Emulation des Soundsystems relevant.
+Neben den diversen Initialisierungsoperationen und Aufrufen weiterer Subroutinen zur Initialisierung des \verb|memory|-Feldes der \enquote{CPU} \"uber das \verb|cpu|-Feld des \textbf{GBA} legt auch diese Methode entsprechende Funktionszeiger f\"ur die einzelnen Speicherzugriffe auf der \textbf{ARMMemory}-Struktur (\textit{\$/include/mgba/internal/arm/arm.h}) fest. Die im folgenden Snippet gezeigten Zeilen sind f\"ur die Untersuchung der Emulation des Soundsystems relevant.
 
 \vspace{5mm}
 \begin{lstlisting}[language=C++, caption={Ausschnitt aus der \textbf{GBAMemoryInit}-Methode}, label={list:GBAMemoryInit}]
@@ -1491,13 +1440,13 @@ Wurde die Initialisierung des gesamten \textbf{mCore} abgeschlossen und die f\"u
 Anschlie{\ss}end wird mit Hilfe der globalen Methode \textbf{mCoreLoadForeignConfig} (\textit{\$/src/core/core.c}) die Konfiguration der \textbf{ConfigController}-Instanz, die durch die \textbf{Window}-Klasse an den \textbf{GameController} \"ubertragen wurde, auf den \textbf{mCore} des \verb|core|-Feldes der Membervariablen \verb|m_threadContext| angewendet. Hierbei wird unter anderen die Funktion auf die im Feld \verb|setAudioBufferSize| verwiesen wird aufgerufen. Nach Durchlaufen der globalen \textbf{GBACoreCreate}-Methode ist das die globale Methode \textbf{{\_}GBACoreSetAudioBufferSize}. Sie leitet den Aufruf direkt weiter an die globale Methode \textbf{GBAAudioResizeBuffer} unter Verwendung des \verb|audio|-Feldes der \textbf{GBAAudio}-Struktur des \verb|board|-Felds der \textbf{mCore}-Struktur.
 
 \paratitlecode{{\_}GBACoreLoadConfig}{/src/gba/core.c}
-Nachdem die Funktion auf die im Feld \verb|setAudioBufferSize| verwiesen wird aufgerufen wurde, wird von der globalen Methode \textbf{mCoreLoadForeignConfig} die allgemeine Funktion auf die im Feld \verb|loadConfig| verwiesen wird aufgerufen. Nach Durchlaufen der globalen \textbf{GBACoreCreate}-Methode ist das die globale Methode \textbf{{\_}GBACoreLoadConfig}. Sie \"ubernimmt im Wesentlichen die Konfiguration f\"ur das Mastervolume des \verb|audio|-Feldes der \textbf{GBAAudio}-Struktur des \verb|board|-Felds der \textbf{mCore}-Struktur.
+Nachdem die Funktion auf die im Feld \verb|setAudioBufferSize| verwiesen wird ausgef\"uhrt wurde, wird von der globalen Methode \textbf{mCoreLoadForeignConfig} die allgemeine Funktion auf die im Feld \verb|loadConfig| verwiesen wird aufgerufen. Nach Durchlaufen der globalen \textbf{GBACoreCreate}-Methode ist das die globale Methode \textbf{{\_}GBACoreLoadConfig}. Sie \"ubernimmt im Wesentlichen die Konfiguration f\"ur das Mastervolume des \verb|audio|-Feldes der \textbf{GBAAudio}-Struktur des \verb|board|-Felds der \textbf{mCore}-Struktur.
 
 \paratitlecode{{\_}GBACoreLoadROM}{/src/gba/core.c}
 Auf die vorangegangene Konfiguration des \textbf{mCore} wird schlie{\ss}lich der ROM in den \enquote{Core} geladen. Hierzu verwendet die \textbf{GameController}-Instanz die Funktion auf die im Feld \verb|loadROM| verwiesen wird. Nach Durchlaufen der globalen \textbf{GBACoreCreate}-Methode ist das die globale Methode \textbf{{\_}GBACoreLoadROM}. Sie dient dem finalen Setup der virtuellen Hardwarekonfiguration des \textbf{mCore} sowie der Initialisierung des virtuellen Prozessspeichers im \verb|memory|-Feld des \verb|board|-Feldes der \textbf{mCore}-Instanz.
 
 \paratitlecode{{\_}GBACoreSetAVStream}{/src/gba/core.c}
-Bevor mit der eigentlichen Emulation begonnen wird, wird nun noch der Audio-/Videostream in Form der \textbf{mAVStream}-Struktur als \verb|m_stream|-Membervariable der \textbf{GameController}-Instanz an den \textbf{mCore} \"ubergeben. Diese geschieht durch Aufruf der Funktion auf die im Feld \verb|setAVStream| verwiesen wird. Nach Durchlaufen der globalen \textbf{GBACoreCreate}-Methode ist das die globale Methode \textbf{{\_}GBACoreSetAVStream}. Diese Methode geht hierbei lediglich dazu \"uber den \textbf{mAVStream}-Verweis im \verb|stream|-Feld des \verb|board|-Feldes der \textbf{mCore}-Instanz zu speichern.
+Bevor mit der eigentlichen Emulation begonnen wird, wird nun noch der Audio-/Videostream in Form der \textbf{mAVStream}-Struktur als \verb|m_stream|-Membervariable der \textbf{GameController}-Instanz an den \textbf{mCore} \"ubergeben. Dies geschieht durch Aufruf der Funktion auf die im Feld \verb|setAVStream| verwiesen wird. Nach Durchlaufen der globalen \textbf{GBACoreCreate}-Methode ist das die globale Methode \textbf{{\_}GBACoreSetAVStream}. Diese Methode geht hierbei lediglich dazu \"uber den \textbf{mAVStream}-Verweis im \verb|stream|-Feld des \verb|board|-Feldes der \textbf{mCore}-Instanz zu speichern.
 
 \paratitlecode{{\_}GBACoreEnableAudioChannel}{/src/gba/core.c}
 Aufgabe dieser globalen Methode ist es dem \verb|board|-Feld des \textbf{mCore} mittels gegebener Parameter zu konfigurieren. Das hierbei vorgenommene Setup bezieht sich auschlie{\ss}lich auf das \verb|audio|-Feld des \verb|board|-Felds vom Typen der \textbf{GBA}-Struktur. Die dabei vorgenommenen \"Anderungen beziehen sich somit nur auf Felder der \textbf{GBAAudio}-Struktur.
@@ -1567,7 +1516,7 @@ Die zur Ausf\"uhrung per Makro definierten Routinen vollziehen dabei nicht ausch
 
 Die Signatur einer \textbf{ARMInstruction} ist dabei so einfach wie m\"oglich gehalten. So erwartet jede Funktion des Instruction-Sets einen Verweis auf die \enquote{CPU}, auf der die Anweisung ausgef\"uhrt werden soll, sowie den zur \textbf{ARMInstruction} gef\"uhrten \textbf{OpCode}.
 
-Ein Beispiel f\"ur so eine Makrodefinition kann im folgenden betrachtet werden. Die eigentliche Verarbeitung mittels globaler Callback-Routine findet in Zeile 5 des Snippets \ref{list:ARMInstruction_STRT} statt.
+Ein Beispiel f\"ur so eine Makrodefinition kann im Folgenden betrachtet werden. Die eigentliche Verarbeitung mittels globaler Callback-Routine findet in Zeile 5 des Snippets \ref{list:ARMInstruction_STRT} statt.
 
 \vspace{5mm}
 \begin{lstlisting}[language=C++, caption={ARM Instruction Makro f\"ur \textbf{STRT}}, label={list:ARMInstruction_STRT}]
@@ -1595,7 +1544,7 @@ Der Aufruf der gloablen \textbf{GBAStore32} (\textit{\$/src/gba/memory.c}) Metho
 \subsection{Emulation des Soundsystems} \label{EmulationSoundsystem}
 \AutorDominik
 
-Damit die vom ROM liegenden beziehungsweise vom Prozess generierten Audiodaten auch mittels \textbf{mAVStream} in der \textbf{VideoView} sowie durch das \textbf{AudioDevice} verarbeitet werden bedient sich mGBA verschiedener Methoden. Zur Ausgabe \"uber den \textbf{mAVStream} greift der Callback des \enquote{GB(A) Audio Sample}-Events (die globale \textbf{{\_}sample} Methode) direkt auf das \verb|stream|-Feld \"uber den \textbf{GBA}-Verweis des Feldes \verb|p| in der \textbf{GBAAudio}-Struktur zu. Hierbei bedient sich die \textbf{{\_}sample} Methode des dort eingetragenen Callbacks im Feld \verb|postAudioBuffer| und ruft somit eine Methode der vom mGBA verwendeten \textbf{FFmpeg}-Library auf um die Audiodaten im Stream abzulegen.
+Damit die im ROM liegenden beziehungsweise vom Prozess generierten Audiodaten auch mittels \textbf{mAVStream} in der \textbf{VideoView} sowie durch das \textbf{AudioDevice} verarbeitet werden bedient sich mGBA verschiedener Methoden. Zur Ausgabe \"uber den \textbf{mAVStream} greift der Callback des \enquote{GB(A) Audio Sample}-Events (die globale \textbf{{\_}sample} Methode) direkt auf das \verb|stream|-Feld \"uber den \textbf{GBA}-Verweis des Feldes \verb|p| in der \textbf{GBAAudio}-Struktur zu. Hierbei bedient sich die \textbf{{\_}sample} Methode des dort eingetragenen Callbacks im Feld \verb|postAudioBuffer| und ruft somit eine Methode der vom mGBA verwendeten \textbf{FFmpeg}-Library auf um die Audiodaten im Stream abzulegen.
 
 
 % ========== Chapter 3.3.1 ==========
@@ -1615,9 +1564,9 @@ Die f\"ur die Verarbeitung notwendigen Register wurden bereits im Abschnitt \ref
 \subsubsection{Weiterverarbeitung im Emulator}
 \AutorDominik
 
-Im Kontext der von der \textbf{VideoView} unabh\"angigen Abl\"aufe der Audiodatenverarbeitung stellt man fest, dass die Verarbeitung direkt \"uber den Speicher des \textbf{mCore} stattfindet. Da aber der Speicher vom Emulations-Thread verwendet wird, kann der Main-Thread nicht ohne weiteres auf diesen zugreifen. An dieser Stelle kommen die in der \textbf{mCoreThreadStart} initialisierte Condition \verb|audioRequiredCond| sowie der Mutex \verb|audioBufferMutex| ins Spiel. W\"ahrend der Callback des \enquote{GB(A) Audio Sample}-Events (die globale \textbf{{\_}sample} Methode) die globale Methode \textbf{mCoreSyncProduceAudio} verwendet, nutzt im Main-Thread die \textbf{AudioDevice}-Instanz des verwendeten \textbf{AudioProcessor}'s die globale Methode \textbf{mCoreSyncConsumeAudio}.
+Im Kontext der von der \textbf{VideoView} unabh\"angigen Abl\"aufe der Audiodatenverarbeitung stellt man fest, dass die Verarbeitung direkt \"uber den Speicher des \textbf{mCore} stattfindet. Da aber der Speicher vom Emulations-Thread verwendet wird, kann der Main-Thread nicht ohne Weiteres auf diesen zugreifen. An dieser Stelle kommen die in der \textbf{mCoreThreadStart} initialisierte Condition \verb|audioRequiredCond| sowie der Mutex \verb|audioBufferMutex| ins Spiel. W\"ahrend der Callback des \enquote{GB(A) Audio Sample}-Events (die globale \textbf{{\_}sample} Methode) die globale Methode \textbf{mCoreSyncProduceAudio} verwendet, nutzt im Main-Thread die \textbf{AudioDevice}-Instanz des verwendeten \textbf{AudioProcessor}'s die globale Methode \textbf{mCoreSyncConsumeAudio}.
 
-Letztere verwendet die \textbf{mCoreSyncConsumeAudio} Methode \underline{nach} dem Zugriff auf die Audiodaten im Speicher, w\"ahrend \underline{vor} dem Zugriff weitere Zugriffe durch den Prozess mittels Aufruf der globalen \textbf{mCoreSyncLockAudio} Methode blockiert werden. Erst der Aufruf der \textbf{mCoreSyncConsumeAudio} Methode gibt den Zugriff auf den Audiodaten-Speicher wieder frei. Der grobe Ablauf des Synchronisation im \textbf{AudioDevice} kann in Snippet \ref{list:AudioDevice_LockConsume} betrachtet werden.
+Letztere verwendet die \textbf{mCoreSyncConsumeAudio} Methode \underline{nach} dem Zugriff auf die Audiodaten im Speicher, w\"ahrend \underline{vor} dem Zugriff weitere Zugriffe durch den Prozess mittels Aufruf der globalen \textbf{mCoreSyncLockAudio} Methode blockiert werden. Erst der Aufruf der \textbf{mCoreSyncConsumeAudio} Methode gibt den Zugriff auf den Audiodaten-Speicher wieder frei. Der grobe Ablauf der Synchronisation im \textbf{AudioDevice} kann in Snippet \ref{list:AudioDevice_LockConsume} betrachtet werden.
 
 \vspace{5mm}
 \begin{lstlisting}[language=C++, caption={AudioDevice - \enquote{Lock / Consume}}, label={list:AudioDevice_LockConsume}]
@@ -1654,10 +1603,10 @@ Ebenso wie das \textbf{AudioDevice} den Zugriff auf die Audiodaten blockiert, w\
 \subsubsection{Start des Emulators}
 \AutorFlorian
 
-Im Kapitel \ref{Emulator_Start} wurde bereits der Ablauf bis zur Erstellung der AudioProcessor-Klasse, sowie das Setzten des Treibers beschrieben. Auf diesen Ablauf wird im Folgenden nun aufgesetzt. In dieser Arbeit
+Im Kapitel \ref{Emulator_Start} wurde bereits der Ablauf bis zur Erstellung der AudioProcessor-Klasse, sowie das Setzen des Treibers beschrieben. Auf diesen Ablauf wird im Folgenden nun aufgesetzt. In dieser Arbeit
 wird der \enquote{Qt Multimedia} Treiber untersucht und schlie{\ss}t somit die Betrachtung des SDL-Treibers aus.
 
-Startet der Benutzer den mGBA, wird unter Verwendung des zuvor gesetzten Treibers, eine neue Instanz von AudioProcessor erstellt. In diesem Fall wird die AudioProcessor::create() Methode aufgerufen und w\"ahlt \"uber ein Switch Statement den Konstruktor von AudioProcessorQt aus und liefert eine neue Instanz zur\"uck. Dieser verf\"ugt \"uber keine Logik und ist demnach leer. F\"ur die weitere Untersuchung folgt ein Klassendiagramm der wesentlichen Klassen auf Seitens der Qt-Anwendung.
+Startet der Benutzer den mGBA, wird unter Verwendung des zuvor gesetzten Treibers, eine neue Instanz der Klasse AudioProcessor erstellt. In diesem Fall wird die AudioProcessor::create()-Methode aufgerufen und w\"ahlt \"uber ein Switch-Statement den Konstruktor der AudioProcessorQt-Klasse aus und liefert eine neue Instanz zur\"uck. Dieser verf\"ugt \"uber keine Logik und ist demnach leer. F\"ur die weitere Untersuchung folgt ein Klassendiagramm der wesentlichen Klassen auf Seitens der Qt-Anwendung.
 
 \begin{figure}[h!]
     \centering
@@ -1672,18 +1621,18 @@ Startet der Benutzer den mGBA, wird unter Verwendung des zuvor gesetzten Treiber
 Die Klasse AudioProcessor erbt von QObject, ist eine abstrakte Klasse und definiert ein Interface f\"ur die Klassen AudioProcessorQt und AudioProcessorSDL. QObject ist die Basisklasse aller Qt Objekte und im Bezug auf
 die Objektmodellierung somit das Herzst\"uck von Qt. 
 
-\textbf{AudiProcessor::getBufferSamples} liefert die Anzahl der, intern in der Variablen m\_samples gespeicherten, Samples zur\"uck. Diese wird initial auf den Wert 2048 gesetzt. m\_samples kann mit dem Aufruf von \textbf{AudiProcessor::setBufferSamples} ge\"andert werden. Es folgen abstrakte Methoden und Slots. Diese werden in der Klasse \textbf{AudioProcessorQt} \"uberschrieben.
+\textbf{AudiProcessor::getBufferSamples} liefert die Anzahl der Samples zur\"uck, die intern in der Variablen m\_samples gespeichert ist. Diese wird initial auf den Wert 2048 gesetzt. m\_samples kann mit dem Aufruf von \textbf{AudiProcessor::setBufferSamples} ge\"andert werden. Es folgen abstrakte Methoden und Slots. Diese werden in der Klasse \textbf{AudioProcessorQt} \"uberschrieben.
 
 Weiterhin beinhaltet die Klasse eine Variable m\_context. Diese stellt einen Zeiger auf den mCoreThread dar und kann mit der Methode \textbf{AudioProcessor::setInput(mCoreThread* input)} gesetzt werden. 
 
 Unter Verwendung einer selbst kompilierten Version von mGBA, mit Log-Ausgaben, konnte nach dem Erstellen der AudioProcessorQt-Klasse festgestellt werden, dass 
-die \textbf{AudioProcessorQt::inputParameterChanged} Methode f\"unfmal aufgerufen wird. Gefolgt von einem Aufruf der \textbf{AudioProcessorQt::requestSampleRate} und dreimal der \textbf{AudioProcessorQt::inputParameterChanged} Methode. Ein weiterer Aufruf der \textbf{AudioProcessorQt::requestSampleRate} Methode folgt. Interessant an dieser Stelle ist, dass jeder Aufruf der zuvor aufgef\"uhrten Methoden bereits bei der \"Uberpr\"ufung ob ein \textbf{AudioDevice} vorhanden ist, scheitert. 
-Daraus folgt, dass an dieser Stelle keine \"Anderungen vorgenommen werden. %Eine genauere Betrachtung der aufger\"uhrten Methoden folgt im folgenden Kapitel.
+die \textbf{AudioProcessorQt::inputParameterChanged}-Methode f\"unfmal aufgerufen wird. Gefolgt von einem Aufruf der \textbf{AudioProcessorQt::requestSampleRate} und dreimal der \textbf{AudioProcessorQt::inputParameterChanged}-Methode. Ein weiterer Aufruf der \textbf{AudioProcessorQt::requestSampleRate}-Methode folgt. Interessant an dieser Stelle ist, dass jeder Aufruf der zuvor aufgef\"uhrten Methoden bereits bei der \"Uberpr\"ufung ob ein \textbf{AudioDevice} vorhanden ist, scheitert. 
+Daraus folgt, dass an dieser Stelle keine \"Anderungen vorgenommen werden.
 
 \subsubsection{Einstellungen \"uber die mGBA GUI} \label{kapitelEinstellungenMGBA}
 \AutorFlorian
 
-Der mGBA ist gestartet und die\textbf{AudioProcessorQt} wurde erstellt. Der Benutzer kann nun \"uber die Men\"uleiste Werkzeuge$\rightarrow$Einstellungen$\rightarrow$Audio/Video auf die Audio und Video Einstellungen zugreifen.
+Der mGBA ist gestartet und die \textbf{AudioProcessorQt}-Klasse wurde erstellt. Der Benutzer kann nun \"uber die Men\"uleiste Werkzeuge$\rightarrow$Einstellungen$\rightarrow$Audio/Video auf die Audio und Video Einstellungen zugreifen.
 
 \begin{figure}[h!]
     \centering
@@ -1692,28 +1641,25 @@ Der mGBA ist gestartet und die\textbf{AudioProcessorQt} wurde erstellt. Der Benu
     \label{fig:audioeinstellungen}
 \end{figure}
 
-In Abbildung \ref{fig:audioeinstellungen} sind die f\"ur dem Benutzer m\"oglichen Einstellungen im Bezug auf das Audiosystem dargestellt. Der Audio-Treiber kann entweder auf Qt Multimedia oder SDL eingestellt werden.
-Der Audio-Puffer bietet die g\"angisten Anzahl an Samples von 512 bis 4096. Kann aber auch benutzerspezifische eingestellt werden. Weiterhin kann die Abtastrate gesetzt werden. Auch hier sind die g\"angigsten Raten vorgeschlagen, k\"onnen
-aber auch frei gesetzt werden. Schlie{ss}lich folgt die Lautst\"arkeneinstellung.
+In Abbildung \ref{fig:audioeinstellungen} sind die f\"ur den Benutzer m\"oglichen Einstellungen im Bezug auf das Audiosystem dargestellt. Der Audio-Treiber kann entweder auf Qt Multimedia oder SDL eingestellt werden. Der Audio-Puffer bietet die g\"angiste Anzahl an Samples von 512 bis 4096. Kann aber auch benutzerspezifisch eingestellt werden. Weiterhin kann die Abtastrate gesetzt werden. Auch hier sind die g\"angigsten Raten vorgeschlagen, k\"onnen aber auch frei gew\"ahlt werden. Schlie{\ss}lich folgt die Lautst\"arkeneinstellung.
 
-Wie schon zu erahnen ist, wird nach einer Ver\"anderung des Audio-Treibers der Destruktor der zuvor gew\"ahlten Klasse aufgerufen und ein erneuter Aufruf der \textbf{AudioProcessor::create} Methode erzeugt eine neue AudioProcessor Instanz.
-Anlie{\ss}end wird die Methode \textbf{AudioProcessor::setBufferSamples} aufgerufen. Als \"Ubergabeparameter erh\"ahlt diese den Wert aus dem Feld Audio-Puffer und setzt diesen in die interne Variable m\_samples.
+Wie schon zu erahnen ist, wird nach einer Ver\"anderung des Audio-Treibers der Destruktor der zuvor gew\"ahlten Klasse aufgerufen und ein erneuter Aufruf der \textbf{AudioProcessor::create}-Methode erzeugt eine neue AudioProcessor Instanz.
+Anschlie{\ss}end wird die Methode \textbf{AudioProcessor::setBufferSamples} aufgerufen. Als \"Ubergabeparameter erh\"ahlt diese den Wert aus dem Feld Audio-Puffer und setzt diesen in die interne Variable m\_samples.
+
 \newpage
-
-
 \subsubsection{Starten des ROM}
 \AutorFlorian
 
-W\"ahlt der Benutzer eine neue ROM aus und startet diese, wird zun\"achst die \textbf{AudioProcessor::setInput} Methode aufgerufen. Diese setzt den Zeiger auf den m\_coreThread zur internen Variablen m\_context. Es folgt der Aufruf der
-\textbf{AudioProcessorQt::start} Methode.
+W\"ahlt der Benutzer einen neuen ROM aus und startet diesen, wird zun\"achst die \textbf{AudioProcessor::setInput}-Methode aufgerufen. Diese setzt den Zeiger auf den m\_coreThread zur internen Variable m\_context. Es folgt der Aufruf der
+\textbf{AudioProcessorQt::start}-Methode.
 
 \paratitlecode{AudioProcessorQt::start()}{/src/platform/qt/AudioProcessorQt.cpp}
-Im ersten Schritt wird \"uberpr\"uft, ob der m\_coreThread bereits gesetzt wurde. Im n\"achsten Schritt wird der internen Variablen \textbf{m\_device} ein neue Instanz von \textbf{AudioDevice} zugewiesen.
+Im ersten Schritt wird \"uberpr\"uft, ob der m\_coreThread bereits gesetzt wurde. Im n\"achsten Schritt wird der internen Variable \textbf{m\_device} ein neue Instanz der Klasse \textbf{AudioDevice} zugewiesen.
 
 Die Klasse \textbf{AudioDevice} stellt das Bindeglied zwischen AudioProcessorQt und dem mCoreThread dar. \textbf{AudioDevice} erbt von QIODevice. QIODevice ist ein Interface f\"ur alle I/O Ger\"ate und kann deshalb nicht direkt instanziiert werden.
 Wird von dieser Basisklasse abgeleitet, m\"ussen die Methoden \textbf{readData} und \textbf{writeData} \"uberschrieben werden. Zus\"atzlich muss die Methode \textbf{setOpenMode} mit dem gew\"unschten Modus im Konstruktor aufgerufen werden. In diesem Fall wird der Parameter \enquote{ReadOnly} \"ubergeben. Daraus resultiert ein nur lesbares QIODevice. Weiterhin wird auch hier der mCoreThread \"ubergeben und gesetzt. Die bereits erw\"ahnte Methode \textbf{writeData} spielt hier keine Rolle, da nicht auf das Ger\"at geschrieben werden darf. Sie muss jedoch \"uberschrieben werden aber beinhaltet nur eine Warnung. Eine genauere Betrachtung der Funktionsweise der Klasse folgt.
 
-Es folgt das Erzeugen einer neuen Instanz von QAudioFormat. Die Klasse \textbf{QAudioFormat} speichert Informationen \"uber Audio-Stream Parameter.
+Es folgt das Erzeugen einer neuen Instanz der QAudioFormat-Klasse. Die Klasse \textbf{QAudioFormat} speichert Informationen \"uber Audio-Stream Parameter.
 
 \vspace{5mm}
 \begin{lstlisting}[language=C++, caption={Ausschnitt aus AudioProcessorQt::start()}, label={list:FormatAudioProcessorQt}]
@@ -1732,39 +1678,32 @@ Es folgt das Erzeugen einer neuen Instanz von QAudioFormat. Die Klasse \textbf{Q
     m_audioOutput->setCategory("game");
 \end{lstlisting}
   
-Wie bereits am Ende von Snippet \ref{list:FormatAudioProcessorQt} zu sehen, wird eine neue Instanz der Klasse \textbf{QAudioOutput} erzeugt und in die interne Variable \textbf{m\_audioOutput} geschrieben. 
-Dem Konstruktor der Klasse \textbf{QAudioOutput} wird das zuvor erstellte Format \"ubergeben.
+Wie bereits am Ende von Snippet \ref{list:FormatAudioProcessorQt} zu sehen ist, wird eine neue Instanz der Klasse \textbf{QAudioOutput} erzeugt und in die interne Variable \textbf{m\_audioOutput} geschrieben. Dem Konstruktor der Klasse \textbf{QAudioOutput} wird das zuvor erstellte Format \"ubergeben.
 
-\textbf{QAudioOutput} stellt ein Interface zur Verf\"ugung mit dem Audiodaten zu einem Audio-Ger\"at
-gesendet werden k\"onnen(z.B. Lautsprecher, Kopfh\"orher usw.) Die \textbf{setCatecory} Methode setzt den Modus auf \enquote{game}. Einige Plattfomren k\"onnen Audio-Streams in Kategorien gruppieren.
-N\"utzlich ist dieser Methodenaufruf, da unter Windows der mGBA nun im Lautst\"arken Mixer angezeigt wird.
+\textbf{QAudioOutput} stellt ein Interface zur Verf\"ugung mit dem Audiodaten zu einem Audio-Ger\"at gesendet werden k\"onnen (z.B. Lautsprecher, Kopfh\"orer usw.). Die \textbf{setCategory}-Methode setzt den Modus auf \enquote{game}. Einige Plattformen k\"onnen Audio-Streams in Kategorien gruppieren. N\"utzlich ist dieser Methodenaufruf, da unter Windows der mGBA nun im Lautst\"arken Mixer angezeigt wird.
 
-Durch den Methodenaufruf \textbf{m\_device$\rightarrow$setInput} wird der Klasse \textbf{AudioDevice} der \textbf{mCoreThread} \"ubergeben. Daraufhin wird die \textbf{m\_device$\rightarrow$setFormat} Methode, mit einer Referenz auf
+Durch den Methodenaufruf \textbf{m\_device$\rightarrow$setInput} wird der Klasse \textbf{AudioDevice} der \textbf{mCoreThread} \"ubergeben. Daraufhin wird die \textbf{m\_device$\rightarrow$setFormat}-Methode, mit einer Referenz auf
 das Format von \textbf{m\_audioOutput} als \"Ubergabeparameter, aufgerufen.
 
 \newpage
-\paratitlecode{AudioDevice::setFormat(const QAudioFormat\& format)}{/src/platform/qt/AudioDevice.cpp} 
-Wie gewohnt wird zun\"achst \"uberpr\"uft, ob der \textbf{mCoreThread} vorhanden ist. Im n\"achsten Schritt wird ein Multiplikator errechnet. Dieser wird abh\"angig von der eingestellten FPS berechnet. Bei 60 FPS betr\"agt dieser
-0,995458. Anschli{\ss}end werden die im \textbf{mCoreThread} befindlichen Audio-Speicherbereiche gesperrt. Nun werden die Frequenzen der beiden Audiokan\"ale im \textbf{mCoreThread} mit den Frequenzen, multipliziert mit dem zuvor errechneten
-Multiplikator, des \textbf{m\_audioOutput} synchronisiert. Mit dem entsperren der Speicherbereiche endet die Methode.
+\paratitlecode{AudioDevice::setFormat(const QAudioFormat\& format)}{/src/platform/qt/AudioDevice.cpp}
+Wie gewohnt wird zun\"achst \"uberpr\"uft, ob der \textbf{mCoreThread} vorhanden ist. Im n\"achsten Schritt wird ein Multiplikator errechnet. Dieser wird abh\"angig von der eingestellten FPS berechnet. Bei 60 FPS betr\"agt dieser 0,995458. Anschlie{\ss}end werden die im \textbf{mCoreThread} befindlichen Audio-Speicherbereiche gesperrt. Nun werden die Frequenzen der beiden Audiokan\"ale im \textbf{mCoreThread} mit den Frequenzen, multipliziert mit dem zuvor errechneten Multiplikator, des \textbf{m\_audioOutput} synchronisiert. Mit dem Entsperren der Speicherbereiche endet die Methode.
 
-Zur\"uck in der \textbf{AudioProcessorQt::start} Methode wird mit dem Aufruf von \textbf{m\_audioOutput$\rightarrow$start(m\_device)} die Audioausgabe gestartet. Schlie{\ss}lich wird der Status des \textbf{m\_audioOutput} auf aktive gesetzt.
-Konnte der Status erfolgreich auf aktiv gesetzt werden, liefert \textbf{AudioProcessorQt::start} \enquote{true} zur\"uck.
+Zur\"uck in der \textbf{AudioProcessorQt::start}-Methode wird mit dem Aufruf von \textbf{m\_audioOutput$\rightarrow$start(m\_device)} die Audioausgabe gestartet. Schlie{\ss}lich wird der Status des \textbf{m\_audioOutput} auf aktiv gesetzt. Konnte der Status erfolgreich auf aktiv gesetzt werden, liefert \textbf{AudioProcessorQt::start} \enquote{true} zur\"uck.
  
 \subsubsection{Transferirrung der Audiodaten}
 \AutorFlorian
 
-Wie bereits im vorangegangenen Kapitel erw\"ahnt, wird der \textbf{m\_audioOutput$\rightarrow$start} Methode das \textbf{AudioDevice} \"ubergeben. Dies bewirkt, dass die Klasse \textbf{QAudioOutput} jetzt von der Klasse \textbf{AudioDevice} 
-Daten f\"ur die Audioausgabe liest und diese an die Systemausgabe weiterleitet. Einmal gestartet, l\"auft die Audioausgabe kontinuierlich weiter. Nur ein Aufruf der Methode \textbf{AudioProcessorQt::pause} stoppt die Ausgabe.
+Wie bereits im vorangegangenem Kapitel erw\"ahnt, wird der \textbf{m\_audioOutput$\rightarrow$start}-Methode das \textbf{AudioDevice} \"ubergeben. Dies bewirkt, dass die Klasse \textbf{QAudioOutput} jetzt von der Klasse \textbf{AudioDevice} Daten f\"ur die Audioausgabe liest und diese an die Systemausgabe weiterleitet. Einmal gestartet, l\"auft die Audioausgabe kontinuierlich weiter. Nur ein Aufruf der Methode \textbf{AudioProcessorQt::pause} stoppt die Ausgabe.
 
-Die Klasse \textbf{QAudioOutput} ruft nun selbstst\"andig  in gewissen Zeitabst\"anden die \textbf{AudioDevice::readData} Methode auf und \"ubergibt einen Zeiger in dem die Daten zur Ausgabe eingelesen werden sollen und dessen Gr\"o{\ss}e.
+Die Klasse \textbf{QAudioOutput} ruft nun selbstst\"andig  in gewissen Zeitabst\"anden die \textbf{AudioDevice::readData} Methode auf und \"ubergibt einen Zeiger \"uber dem die Daten zur Ausgabe eingelesen werden sollen und dessen Gr\"o{\ss}e.
 
 
 \paratitlecode{AudioDevice::readData(char* data, qint64 maxSize)}{/src/platform/qt/AudioDevice.cpp}
-Wie bereits erw\"ahnt, muss diese Methode \"uberschrieben werden. Zu Beginn wird \"uberpr\"uft ob die maximal zul\"assige Gr\"o{\ss}e des \"ubergebenen Puffers nicht \"uberschritten ist und der \textbf{m\_coreThread} vorhanden ist.
-Nun wird, wie auch in der \textbf{AudioDevice::setFormat} Methode, der Speicherbereich im \textbf{m\_coreThread} in dem die Audiodaten gespeichert sind gesperrt.
+Wie bereits erw\"ahnt, muss diese Methode \"uberschrieben werden. Zu Beginn wird \"uberpr\"uft ob die maximal zul\"assige Gr\"o{\ss}e des \"ubergebenen Puffers nicht \"uberschritten und der \textbf{m\_coreThread} vorhanden ist.
+Nun wird, wie auch in der \textbf{AudioDevice::setFormat}-Methode, der Speicherbereich im \textbf{m\_coreThread} in dem die Audiodaten gespeichert sind gesperrt.
 Mit dem Methodenaufruf \textbf{blip\_samples\_avail} wird die Anzahl der verf\"ugbahren Samples im \textbf{m\_coreThread} abgefragt. \"Uberschreitet die Anzahl der Samples die Gr\"o{\ss}e des Puffers, geteilt durch die 
-Strukturgr\"o{\ss}e \textbf{GBAStereoSample}, wird die Anzahl der verf\"ugbahren Samples auf die Puffergr\"o{\ss}e, geteilt durch die Strukturgr\"o{\ss}e \textbf{GBAStereoSample}, reduziert.
+Strukturgr\"o{\ss}e \textbf{GBAStereoSample}, wird die Anzahl der verf\"ugbaren Samples auf die Puffergr\"o{\ss}e, geteilt durch die Strukturgr\"o{\ss}e \textbf{GBAStereoSample}, reduziert.
 
 Jetzt k\"onnen die Samples aus dem \textbf{m\_coreThread} gelesen werden. Dies geschieht durch den Methodenaufruf von \textbf{blip\_read\_samples} f\"ur den linken und den rechten Kanal. 
 Dazu wird der \"ubergebene Puffer auf die Struktur \textbf{GBAStereoSample} gecastet und \"ubergeben. Ein Entsperren des zuvor gesperrten Speicherbereichs und das Zur\"uckgeben der Anzahl gelesener Daten beendet die Methode
@@ -1783,7 +1722,7 @@ Dazu wird der \"ubergebene Puffer auf die Struktur \textbf{GBAStereoSample} geca
 
 Entsprechend der Aufgabenstellung zur Studienarbeit f\"ur die Vorlesung Computer Architektur haben die drei Studenten Ngoc Luu Tran, Florian Boemmel und Dominik Scharnagl in kooperativer Arbeit die Aufgabenstellung bearbeitet. Im Rahmen dieser Arbeit war es Ziel die Emulation des Soundsystems eines Game Boy Advance Emulators zu untersuchen. Die dabei durchgef\"uhrte Untersuchung nahm das Open-Source Projekt mGBA als Ausgangspunkt zur Beschreibung aller notwenigen Abl\"aufe der Emulation.
 
-Eingangs werden die Hardwareanforderungen an den Emulator grob umrissen. W\"ahrend darauf die verf\"ugbaren Plattformen zur Entwicklung eines Game Boy Advance Spiels erl\"autert werden,  folgte jeweils ein kurzer Einblick in diese. Ziel des darauf anschlie{\ss}enden Kaptiels Softwareentwicklung ist es einen tieferen Einblick in die technischen Anforderungen zur Entwicklung einer Game Boy Advance Software zu geben, welche Soundausgaben durchf\"uhrt.
+Eingangs werden die Hardwareanforderungen an den Emulator grob umrissen. W\"ahrend darauf die verf\"ugbaren Plattformen zur Entwicklung eines Game Boy Advance Spiels erl\"autert werden,  folgte jeweils ein kurzer Einblick in diese. Ziel des darauf anschlie{\ss}enden Kapitels Softwareentwicklung ist es einen tieferen Einblick in die technischen Anforderungen zur Entwicklung einer Game Boy Advance Software zu geben, welche Soundausgaben durchf\"uhrt.
 
 Im Gegensatz zum Kapitel \enquote{Game Boy Advance}, indem ausschlie{\ss}lich die Plattform hardware- als auch softwaretechnisch durchl\"auchtet wird (bis in den Assembler-Code), steht das Kaptiel \enquote{Emulation mittels mGBA}. Ziel dieses Kapitels ist es eine logische Trennung der notwendigen Softwarekomponenten zur Emulation zu bekommen. Zugleich wird am Beispiel des mGBA-Projektes veranschaulicht, welche Aufw\"ande bei der Interpretation von OpCodes \"uber die Ausf\"uhrung ihrer Anweisungen bis hin zur Audioausgabe anfallen.
 
@@ -1805,7 +1744,7 @@ F\"ur mich pers\"onlich war es sehr interessant einen Blick hinter die Kulissen 
 
 \vspace{-2mm}
 \paratitle{Ngoc Luu Tran}
-Als Jemand der noch nie richtige Ber\"uhrungspunkte mit Reverse Engineering hatte, fand ich das Thema der Studienarbeit sehr Interessant. So war f\"ur mich das Arbeiten mit IDA Pro v\"ollig neu und mit viel Trial und Error verbunden. Am Ende konnte ich dann doch trotz fehlendem Wissen \"uber MIDI Dateien vieles \"uber die Verarbeitung und Speicherung von Musik in Game Boy Advance Spielen lernen.
+Als Jemand der noch nie richtige Ber\"uhrungspunkte mit Reverse Engineering hatte, fand ich das Thema der Studienarbeit sehr interessant. So war f\"ur mich das Arbeiten mit IDA Pro v\"ollig neu und mit viel Trial und Error verbunden. Am Ende konnte ich dann doch trotz fehlendem Wissen \"uber MIDI Dateien vieles \"uber die Verarbeitung und Speicherung von Musik in Game Boy Advance Spielen lernen.
 
 
 \newpage
