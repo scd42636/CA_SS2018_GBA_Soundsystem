@@ -19,3 +19,4 @@ docs/Dokumentation.blg
 docs/Dokumentation.bbl
 docs/Dokumentation.aux
 .DS_Store
+*.gz
